@@ -70,7 +70,7 @@ public class Project1Test extends InvokeMainTestCase {
             PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is(equalTo("Caller's phone number is not valid!")));
+            assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
         }
     }
 
@@ -82,7 +82,7 @@ public class Project1Test extends InvokeMainTestCase {
             PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is(equalTo("Caller's phone number is not valid!")));
+            assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
         }
     }
 

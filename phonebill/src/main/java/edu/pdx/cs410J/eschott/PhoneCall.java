@@ -18,18 +18,12 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public PhoneCall(String caller, String callee){
-        if(caller.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+        if(validatePhoneNumber(caller)) {
             callerNumber = caller;
-        } else {
-            throw new IllegalArgumentException("Caller's phone number is not valid!");
         }
-
-        if(callee.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+        if(validatePhoneNumber(callee)) {
             calleeNumber = callee;
-        } else {
-            throw new IllegalArgumentException("Caller's phone number is not valid!");
         }
-
     }
 
     public String getCaller() {
@@ -46,6 +40,13 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     public String getEndTimeString() {
         throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    protected boolean validatePhoneNumber(String phoneNumber){
+        if(phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$"))
+            return true;
+        else
+            throw new IllegalArgumentException("Phone number is not valid!");
     }
 
 }
