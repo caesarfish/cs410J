@@ -43,7 +43,7 @@ public class Project1Test extends InvokeMainTestCase {
 
     @Test
     public void testCreateNewPhoneCallObject() {
-        Phonecall call = new PhoneCall();
+        PhoneCall call = new PhoneCall();
     }
 
 }
