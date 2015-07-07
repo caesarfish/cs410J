@@ -12,9 +12,11 @@ public class Project1 {
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
     }
+
     for (String arg : args) {
       System.out.println(arg);
     }
+    
     System.exit(1);
   }
 

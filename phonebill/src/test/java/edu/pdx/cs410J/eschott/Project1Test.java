@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.StringContains.containsString;
 import edu.pdx.cs410J.InvokeMainTestCase;
 import static junit.framework.Assert.assertEquals;
 
@@ -31,7 +35,7 @@ public class Project1Test extends InvokeMainTestCase {
     }
 
     /**
-     * Tests that main method accepts arguments
+     * Tests that main method accepts one arguments
      */
     @Test
     public void testOneCommandLineArgument() {
@@ -40,10 +44,13 @@ public class Project1Test extends InvokeMainTestCase {
         assertFalse(result.getErr().contains("Missing command line arguments"));
     }
 
-
     @Test
-    public void testCreateNewPhoneCallObject() {
-        PhoneCall call = new PhoneCall();
+    public void testGetCallerReturnsCallerName() {
+        final String c = "Bob Smith";
+        PhoneCall call = new PhoneCall(c);
+        assertThat(call.getCaller(), equalTo(c));
     }
+
+
 
 }

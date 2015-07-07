@@ -6,9 +6,20 @@ import edu.pdx.cs410J.AbstractPhoneCall;
  * Public class PhoneCall extends AbstractPhoneCall
  */
 public class PhoneCall extends AbstractPhoneCall  {
+    private String caller;
+
+    /**
+     * Default constructor
+     */
+    public PhoneCall(){
+    }
+
+    public PhoneCall(String c){
+        caller = c;
+    }
 
     public String getCaller() {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return this.caller;
     }
 
     public String getCallee() {
