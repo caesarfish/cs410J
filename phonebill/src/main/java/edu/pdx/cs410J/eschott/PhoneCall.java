@@ -6,7 +6,10 @@ import edu.pdx.cs410J.AbstractPhoneCall;
  * Public class PhoneCall extends AbstractPhoneCall
  */
 public class PhoneCall extends AbstractPhoneCall  {
-    private String caller;
+    private String callerNumber;
+    private String calleeNumber;
+
+
 
     /**
      * Default constructor
@@ -15,11 +18,15 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public PhoneCall(String c){
-        caller = c;
+        if(c.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+            callerNumber = c;
+        } else {
+            throw new IllegalArgumentException("Caller's phone number is not valid!");
+        }
     }
 
     public String getCaller() {
-        return this.caller;
+        return this.callerNumber;
     }
 
     public String getCallee() {

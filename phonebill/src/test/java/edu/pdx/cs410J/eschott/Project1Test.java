@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
@@ -46,9 +48,20 @@ public class Project1Test extends InvokeMainTestCase {
 
     @Test
     public void testGetCallerReturnsCallerName() {
-        final String c = "Bob Smith";
-        PhoneCall call = new PhoneCall(c);
-        assertThat(call.getCaller(), equalTo(c));
+        final String callerNumber = "111-111-1111";
+        PhoneCall call = new PhoneCall(callerNumber);
+        assertThat(call.getCaller(), equalTo(callerNumber));
+    }
+
+    @Test
+    public void testIsCallerNumberValid() {
+        final String callerNumber = "1";
+        try {
+            PhoneCall call = new PhoneCall(callerNumber);
+            fail("Expected exception");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(equalTo("Caller's phone number is not valid!")));
+        }
     }
 
 
