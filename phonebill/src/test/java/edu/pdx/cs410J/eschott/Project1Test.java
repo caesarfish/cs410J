@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.eschott;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
@@ -36,9 +37,13 @@ public class Project1Test extends InvokeMainTestCase {
     public void testOneCommandLineArgument() {
         MainMethodResult result = invokeMain("Argument First");
         assertEquals(new Integer(1), result.getExitCode());
-        assertFalse(result.getErr().contains( "Missing command line arguments" ));
+        assertFalse(result.getErr().contains("Missing command line arguments"));
     }
 
 
+    @Test
+    public void testCreateNewPhoneCallObject() {
+        Phonecall call = new PhoneCall();
+    }
 
 }
