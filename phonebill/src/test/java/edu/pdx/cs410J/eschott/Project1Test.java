@@ -47,17 +47,39 @@ public class Project1Test extends InvokeMainTestCase {
     }
 
     @Test
-    public void testGetCallerReturnsCallerName() {
+    public void testGetCallerReturnsCallerNumber() {
         final String callerNumber = "111-111-1111";
-        PhoneCall call = new PhoneCall(callerNumber);
+        final String calleeNumber = "999-999-9999";
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
         assertThat(call.getCaller(), equalTo(callerNumber));
     }
 
     @Test
+    public void testGetCalleeReturnsCalleeNumber() {
+        final String callerNumber = "111-111-1111";
+        final String calleeNumber = "999-999-9999";
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+        assertThat(call.getCallee(), equalTo(calleeNumber));
+    }
+
+    @Test
     public void testIsCallerNumberValid() {
-        final String callerNumber = "1";
+        final String callerNumber = "9999";
+        final String calleeNumber = "999-999-9999";
         try {
-            PhoneCall call = new PhoneCall(callerNumber);
+            PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+            fail("Expected exception");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(equalTo("Caller's phone number is not valid!")));
+        }
+    }
+
+    @Test
+    public void testIsCalleeNumberValid() {
+        final String callerNumber = "111-111-1111";
+        final String calleeNumber = "1111";
+        try {
+            PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is(equalTo("Caller's phone number is not valid!")));

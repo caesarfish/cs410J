@@ -17,12 +17,19 @@ public class PhoneCall extends AbstractPhoneCall  {
     public PhoneCall(){
     }
 
-    public PhoneCall(String c){
-        if(c.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-            callerNumber = c;
+    public PhoneCall(String caller, String callee){
+        if(caller.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+            callerNumber = caller;
         } else {
             throw new IllegalArgumentException("Caller's phone number is not valid!");
         }
+
+        if(callee.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
+            calleeNumber = callee;
+        } else {
+            throw new IllegalArgumentException("Caller's phone number is not valid!");
+        }
+
     }
 
     public String getCaller() {
@@ -30,7 +37,7 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public String getCallee() {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return this.calleeNumber;
     }
 
     public String getStartTimeString () {
