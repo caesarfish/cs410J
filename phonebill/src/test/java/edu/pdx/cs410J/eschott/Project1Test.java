@@ -23,8 +23,8 @@ public class Project1Test extends InvokeMainTestCase {
      */
     private String callerNumber = "111-111-1111";
     private String calleeNumber = "999-999-9999";
-    private final String startTime = "1/1/2000 11:59";
-    private final String endTime = "1/1/2000 12:01";
+    private String startTime = "1/1/2000 11:59";
+    private String endTime = "1/1/2000 12:01";
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
@@ -115,6 +115,19 @@ public class Project1Test extends InvokeMainTestCase {
     public void testGetEndTimeStringReturnsEndTime() {
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
         assertThat(call.getEndTimeString(), equalTo(endTime));
+    }
+
+    @Test
+    public void testIsStartTimeValid() {
+        startTime = "1234";
+        try {
+            PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
+            fail("Expected exception");
+
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(equalTo("Invalid date-time format!")));
+        }
+
     }
 
     @Test
