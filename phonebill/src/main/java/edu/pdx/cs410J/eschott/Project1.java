@@ -26,6 +26,7 @@ public class Project1 {
       for (String arg : args) {
         if (arg.contains("-README")) {
           System.out.println("print README");
+          System.exit(1);
         } else if (arg.contains("-print")) {
           optPrint = true;
         } else {
@@ -42,7 +43,7 @@ public class Project1 {
     for (int i = 1; i <= argsList.size(); i++) {
       switch (i) {
         case 0:
-          callerName = argsList.get(i);
+          //callerName = argsList.get(i);
           break;
         case 1:
           callerNumber = argsList.get(i);
