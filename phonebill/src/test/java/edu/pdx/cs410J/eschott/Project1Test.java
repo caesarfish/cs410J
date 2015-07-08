@@ -21,10 +21,10 @@ public class Project1Test extends InvokeMainTestCase {
     /**
      * Variables for invoking new class objects
      */
-    String callerNumber = "111-111-1111";
-    String calleeNumber = "999-999-9999";
-    String startTime = "1/1/2000 11:59";
-    String endTime = "1/1/2000 12:01";
+    private String callerNumber = "111-111-1111";
+    private String calleeNumber = "999-999-9999";
+    private final String startTime = "1/1/2000 11:59";
+    private final String endTime = "1/1/2000 12:01";
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
@@ -53,18 +53,27 @@ public class Project1Test extends InvokeMainTestCase {
         assertFalse(result.getErr().contains("Missing command line arguments"));
     }
 
+    /**
+     * Tests that the getCaller() method works
+     */
     @Test
     public void testGetCallerReturnsCallerNumber() {
         PhoneCall call = logPhoneCall(callerNumber);
         assertThat(call.getCaller(), equalTo(callerNumber));
     }
 
+    /**
+     * Tests that the getCallee() method works
+     */
     @Test
     public void testGetCalleeReturnsCalleeNumber() {
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
         assertThat(call.getCallee(), equalTo(calleeNumber));
     }
 
+    /**
+     * Tests that the callerNumber validation works
+     */
     @Test
     public void testIsCallerNumberValid() {
         callerNumber = "9999";
@@ -76,6 +85,9 @@ public class Project1Test extends InvokeMainTestCase {
         }
     }
 
+    /**
+     * Tests that the calleeNumber validation works
+     */
     @Test
     public void testIsCalleeNumberValid() {
         calleeNumber = "1111";
@@ -87,30 +99,62 @@ public class Project1Test extends InvokeMainTestCase {
         }
     }
 
+    /**
+     * Tests that getStartTimeString() method works
+     */
     @Test
     public void testGetStartTimeStringReturnsStartTime() {
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
         assertThat(call.getStartTimeString(), equalTo(startTime));
     }
 
+    /**
+     * Tests that getEndTimeString() method works
+     */
     @Test
     public void testGetEndTimeStringReturnsEndTime() {
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
         assertThat(call.getEndTimeString(), equalTo(endTime));
     }
 
+    /**
+     * Method for creating a PhoneCall object with 1 param
+     * @param caller
+     * @return
+     */
     private PhoneCall logPhoneCall(String caller) {
         return logPhoneCall(caller, "999-999-9999");
     }
 
+    /**
+     * Method for creating a PhoneCall object with 2 params
+     * @param caller
+     * @param callee
+     * @return
+     */
     private PhoneCall logPhoneCall(String caller, String callee) {
         return logPhoneCall(caller, callee, "1/1/2000 11:59");
     }
 
+    /**
+     * Method for creating a PhoneCall object with 3 params
+     * @param caller
+     * @param callee
+     * @param callStart
+     * @return
+     */
     private PhoneCall logPhoneCall(String caller, String callee, String callStart) {
         return logPhoneCall(caller, callee, callStart, "1/1/2000 12:01");
     }
 
+    /**
+     * Method for creating a PhoneCall object with all 4 params
+     * @param caller
+     * @param callee
+     * @param callStart
+     * @param callEnd
+     * @return
+     */
     private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
         return new PhoneCall(caller, callee, callStart, callEnd);
     }

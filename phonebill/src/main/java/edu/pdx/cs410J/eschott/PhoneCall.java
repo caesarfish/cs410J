@@ -19,6 +19,13 @@ public class PhoneCall extends AbstractPhoneCall  {
     public PhoneCall(){
     }
 
+    /**
+     * Primary constructor for PhoneCall object
+     * @param caller - the number of the person calling
+     * @param callee - the number being called
+     * @param callStart - datetime call begins
+     * @param callEnd - datetime call ends
+     */
     public PhoneCall(String caller, String callee, String callStart, String callEnd){
         if(validatePhoneNumber(caller)) {
             callerNumber = caller;
@@ -30,23 +37,45 @@ public class PhoneCall extends AbstractPhoneCall  {
         endTime = callEnd;
     }
 
+    /**
+     * Method for returning callerNumber
+     * @return
+     */
     public String getCaller() {
         return this.callerNumber;
     }
 
+    /**
+     * Method for returning calleeNumber
+     * @return
+     */
     public String getCallee() {
         return this.calleeNumber;
     }
 
+    /**
+     * Method for returning startTime
+     * @return
+     */
     public String getStartTimeString () {
         return this.startTime;
     }
 
+    /**
+     * Method for returning endTime
+     * @return
+     */
     public String getEndTimeString() {
         return this.endTime;
     }
 
-    protected boolean validatePhoneNumber(String phoneNumber){
+    /**
+     * Method uses a regex to validate phone number format
+     * @param phoneNumber should be in format ###-###-####
+     * @return true if phoneNumber matches regex
+     * @throws IllegalArgumentException
+     */
+    private boolean validatePhoneNumber(String phoneNumber){
         if(phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$"))
             return true;
         else
