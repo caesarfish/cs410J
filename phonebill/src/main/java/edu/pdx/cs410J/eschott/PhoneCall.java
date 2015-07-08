@@ -38,7 +38,7 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     /**
      * Method for returning callerNumber
-     * @return
+     * @return callerNumber
      */
     public String getCaller() {
         return this.callerNumber;
@@ -46,7 +46,7 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     /**
      * Method for returning calleeNumber
-     * @return
+     * @return calleeNumber
      */
     public String getCallee() {
         return this.calleeNumber;
@@ -54,7 +54,7 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     /**
      * Method for returning startTime
-     * @return
+     * @return startTime
      */
     public String getStartTimeString () {
         return this.startTime;
@@ -62,7 +62,7 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     /**
      * Method for returning endTime
-     * @return
+     * @return endTime
      */
     public String getEndTimeString() {
         return this.endTime;

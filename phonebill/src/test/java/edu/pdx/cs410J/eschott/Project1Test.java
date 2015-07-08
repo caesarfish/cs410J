@@ -119,8 +119,8 @@ public class Project1Test extends InvokeMainTestCase {
 
     /**
      * Method for creating a PhoneCall object with 1 param
-     * @param caller
-     * @return
+     * @param caller Number of the person calling
+     * @return calls logPhoneCall recursively
      */
     private PhoneCall logPhoneCall(String caller) {
         return logPhoneCall(caller, "999-999-9999");
@@ -128,9 +128,9 @@ public class Project1Test extends InvokeMainTestCase {
 
     /**
      * Method for creating a PhoneCall object with 2 params
-     * @param caller
-     * @param callee
-     * @return
+     * @param caller Number of the person calling
+     * @param callee Number of the person being called
+     * @return calls logPhoneCall recursively
      */
     private PhoneCall logPhoneCall(String caller, String callee) {
         return logPhoneCall(caller, callee, "1/1/2000 11:59");
@@ -138,10 +138,10 @@ public class Project1Test extends InvokeMainTestCase {
 
     /**
      * Method for creating a PhoneCall object with 3 params
-     * @param caller
-     * @param callee
-     * @param callStart
-     * @return
+     * @param caller Number of the person calling
+     * @param callee Number of the person being called
+     * @param callStart datetime of start time
+     * @return call logPhoneCall recursively
      */
     private PhoneCall logPhoneCall(String caller, String callee, String callStart) {
         return logPhoneCall(caller, callee, callStart, "1/1/2000 12:01");
@@ -149,11 +149,11 @@ public class Project1Test extends InvokeMainTestCase {
 
     /**
      * Method for creating a PhoneCall object with all 4 params
-     * @param caller
-     * @param callee
-     * @param callStart
-     * @param callEnd
-     * @return
+     * @param caller Number of the person calling
+     * @param callee Number of the person being called
+     * @param callStart datetime the call starts
+     * @param callEnd datetime the call ends
+     * @return call logPhoneCall recursively
      */
     private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
         return new PhoneCall(caller, callee, callStart, callEnd);
