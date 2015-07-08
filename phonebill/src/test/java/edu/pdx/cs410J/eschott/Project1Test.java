@@ -93,6 +93,12 @@ public class Project1Test extends InvokeMainTestCase {
         assertThat(call.getStartTimeString(), equalTo(startTime));
     }
 
+    @Test
+    public void testGetEndTimeStringReturnsEndTime() {
+        PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        assertThat(call.getEndTimeString(), equalTo(endTime));
+    }
+
     private PhoneCall logPhoneCall(String caller) {
         return logPhoneCall(caller, "999-999-9999");
     }

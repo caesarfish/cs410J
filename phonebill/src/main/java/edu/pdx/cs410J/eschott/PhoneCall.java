@@ -9,6 +9,7 @@ public class PhoneCall extends AbstractPhoneCall  {
     private String callerNumber;
     private String calleeNumber;
     private String startTime;
+    private String endTime;
 
 
 
@@ -26,6 +27,7 @@ public class PhoneCall extends AbstractPhoneCall  {
             calleeNumber = callee;
         }
         startTime = callStart;
+        endTime = callEnd;
     }
 
     public String getCaller() {
@@ -41,7 +43,7 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public String getEndTimeString() {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return this.endTime;
     }
 
     protected boolean validatePhoneNumber(String phoneNumber){
