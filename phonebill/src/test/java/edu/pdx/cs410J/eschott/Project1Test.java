@@ -18,6 +18,13 @@ import static junit.framework.Assert.assertEquals;
  * Tests the functionality in the {@link Project1} main class.
  */
 public class Project1Test extends InvokeMainTestCase {
+    /**
+     * Variables for invoking new class objects
+     */
+    String callerNumber = "111-111-1111";
+    String calleeNumber = "999-999-9999";
+    String startTime = "1/1/2000 11:59";
+    String endTime = "1/1/2000 12:01";
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
@@ -48,24 +55,19 @@ public class Project1Test extends InvokeMainTestCase {
 
     @Test
     public void testGetCallerReturnsCallerNumber() {
-        final String callerNumber = "111-111-1111";
-        final String calleeNumber = "999-999-9999";
-        PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
+        PhoneCall call = logPhoneCall(callerNumber);
         assertThat(call.getCaller(), equalTo(callerNumber));
     }
 
     @Test
     public void testGetCalleeReturnsCalleeNumber() {
-        final String callerNumber = "111-111-1111";
-        final String calleeNumber = "999-999-9999";
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
         assertThat(call.getCallee(), equalTo(calleeNumber));
     }
 
     @Test
     public void testIsCallerNumberValid() {
-        final String callerNumber = "9999";
-        final String calleeNumber = "999-999-9999";
+        callerNumber = "9999";
         try {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
@@ -76,8 +78,7 @@ public class Project1Test extends InvokeMainTestCase {
 
     @Test
     public void testIsCalleeNumberValid() {
-        final String callerNumber = "111-111-1111";
-        final String calleeNumber = "1111";
+        calleeNumber = "1111";
         try {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
