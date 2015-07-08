@@ -117,6 +117,15 @@ public class Project1Test extends InvokeMainTestCase {
         assertThat(call.getEndTimeString(), equalTo(endTime));
     }
 
+    @Test
+    public void testPrintsCallDescription() {
+        PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        String s = "Phone call from " + callerNumber + " to " +
+                calleeNumber + " from " + startTime +
+                " to " + endTime;
+        assertThat(call.toString(), equalTo(s));
+    }
+
     /**
      * Method for creating a PhoneCall object with 1 param
      * @param caller Number of the person calling
@@ -158,5 +167,6 @@ public class Project1Test extends InvokeMainTestCase {
     private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
         return new PhoneCall(caller, callee, callStart, callEnd);
     }
+
 
 }
