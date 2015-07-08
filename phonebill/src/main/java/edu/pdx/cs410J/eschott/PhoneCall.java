@@ -27,12 +27,11 @@ public class PhoneCall extends AbstractPhoneCall  {
      * @param callEnd - datetime call ends
      */
     public PhoneCall(String caller, String callee, String callStart, String callEnd){
-        if(validatePhoneNumber(caller)) {
-            callerNumber = caller;
-        }
-        if(validatePhoneNumber(callee)) {
-            calleeNumber = callee;
-        }
+        if(!validatePhoneNumber(caller) | !validatePhoneNumber(callee))
+            throw new IllegalArgumentException("Phone number is not valid!");
+
+        callerNumber = caller;
+        calleeNumber = callee;
         startTime = callStart;
         endTime = callEnd;
     }
@@ -76,10 +75,7 @@ public class PhoneCall extends AbstractPhoneCall  {
      * @throws IllegalArgumentException
      */
     private boolean validatePhoneNumber(String phoneNumber){
-        if(phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$"))
-            return true;
-        else
-            throw new IllegalArgumentException("Phone number is not valid!");
+        return phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
     }
 
 
