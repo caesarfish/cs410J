@@ -20,19 +20,11 @@ public class Project1 {
     String startTime = "";
     String endTime = "";
 
+
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
     } else {
-      for (String arg : args) {
-        if (arg.contains("-README")) {
-          System.out.println("print README");
-          System.exit(1);
-        } else if (arg.contains("-print")) {
-          optPrint = true;
-        } else {
-            argsList.add(arg);
-        }
-      }
+      optPrint = parseOptions(args, argsList);
     }
 
     if (argsList.size() != 7) {
@@ -73,6 +65,46 @@ public class Project1 {
 
 
     System.exit(1);
+  }
+
+  /**
+   * Parses the command line args for "-" options
+   * @param args array of command line ars
+   * @param argsList list to write args to
+   * @return returns print option boolean
+   */
+  private static boolean parseOptions(String[] args, List<String> argsList) {
+    boolean optPrint = false;
+    String readmeText = "PhoneBill v1.0 \n" +
+            "Evan Schott \n" +
+            "CS410J \n" +
+            "Summer 2015 \n" +
+            "Project 1 \n" +
+            "Project Description: \n" +
+            "   This project records phone call details entered on the command line. \n" +
+            "usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
+            "args are (in this order):\n" +
+            "   customer : Person whose phone bill we’re modeling\n" +
+            "   callerNumber : Phone number of caller\n" +
+            "   calleeNumber : Phone number of person who was called\n" +
+            "   startTime : Date and time call began (24-hour time)\n" +
+            "   endTime : Date and time call ended (24-hour time)\n" +
+            "options are (options may appear in any order):\n" +
+            "   -print : Prints a description of the new phone call\n" +
+            "   -README : Prints a README for this project and exits\n" +
+            "Date and time should be in the format: mm/dd/yyyy hh:mm";
+
+    for (String arg : args) {
+      if (arg.contains("-README")) {
+        System.out.println(readmeText);
+        System.exit(1);
+      } else if (arg.contains("-print")) {
+        optPrint = true;
+      } else {
+          argsList.add(arg);
+      }
+    }
+    return optPrint;
   }
 
 }
