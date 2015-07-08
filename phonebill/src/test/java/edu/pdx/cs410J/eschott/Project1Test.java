@@ -89,7 +89,8 @@ public class Project1Test extends InvokeMainTestCase {
 
     @Test
     public void testGetStartTimeStringReturnsStartTime() {
-
+        PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
+        assertThat(call.getStartTimeString(), equalTo(startTime));
     }
 
     private PhoneCall logPhoneCall(String caller) {

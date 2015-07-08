@@ -8,6 +8,7 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 public class PhoneCall extends AbstractPhoneCall  {
     private String callerNumber;
     private String calleeNumber;
+    private String startTime;
 
 
 
@@ -24,6 +25,7 @@ public class PhoneCall extends AbstractPhoneCall  {
         if(validatePhoneNumber(callee)) {
             calleeNumber = callee;
         }
+        startTime = callStart;
     }
 
     public String getCaller() {
@@ -35,7 +37,7 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public String getStartTimeString () {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return this.startTime;
     }
 
     public String getEndTimeString() {
