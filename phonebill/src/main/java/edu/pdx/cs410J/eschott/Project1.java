@@ -13,12 +13,11 @@ public class Project1 {
     Class c = AbstractPhoneBill.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     List<String> argsList = new ArrayList<>();
     boolean optPrint = false;
-    boolean optReadMe = false;
     String callerName = null;
     String callerNumber = null;
     String calleeNumber = null;
-    String startTime = "";
-    String endTime = "";
+    String startTime = null;
+    String endTime = null;
 
     /**
      * Parse Command line args
@@ -26,46 +25,36 @@ public class Project1 {
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
     } else {
-      if(parseReadme(args)){
+      if (parseReadme(args)) {
         System.exit(1);
       }
       optPrint = parsePrint(args);
     }
 
-
     /**
      * Process Command line args
      */
-    /*if (args.length != 7) {
+    boolean isArgCountRight = false;
+    if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
       System.out.println("Wrong number of arguments entered: Expected (5)");
       System.exit(1);
-    }*/
-
-    for (int i = optPrint? 0:1; i <= args.length; i++) {
-      switch (i) {
-        case 0:
-          //callerName = args[i];
-          break;
-        case 1:
-          callerNumber = args[i];
-          break;
-        case 2:
-          calleeNumber = args[i];
-          break;
-        case 3:
-          startTime = args[i];
-          break;
-        case 4:
-          startTime = startTime + " " + args[i];
-          break;
-        case 5:
-          endTime = args[i];
-          break;
-        case 6:
-          endTime = endTime + " " + args[i];
+    }
+    for (int i = optPrint?1:0; i <= args.length; i++) {
+      if (callerName == null) callerName = args[i];
+      else if (callerNumber == null) callerNumber = args[i];
+      else if (calleeNumber == null) calleeNumber = args[i];
+      else if (startTime == null) {
+        startTime = args[i] + " " + args[i+1];
+        i++;
+      }
+      else if (endTime == null) {
+          endTime = args[i] + " " + args[i+1];
       }
     }
 
+    /**
+     * Creates PhoneCall object and prints if requested
+     */
     PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
     if (optPrint) { System.out.println(call.toString()); }
 
