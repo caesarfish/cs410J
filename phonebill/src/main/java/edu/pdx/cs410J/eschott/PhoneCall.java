@@ -17,7 +17,7 @@ public class PhoneCall extends AbstractPhoneCall  {
     public PhoneCall(){
     }
 
-    public PhoneCall(String caller, String callee){
+    public PhoneCall(String caller, String callee, String callStart, String callEnd){
         if(validatePhoneNumber(caller)) {
             callerNumber = caller;
         }
@@ -48,5 +48,6 @@ public class PhoneCall extends AbstractPhoneCall  {
         else
             throw new IllegalArgumentException("Phone number is not valid!");
     }
+
 
 }

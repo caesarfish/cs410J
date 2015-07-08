@@ -50,7 +50,7 @@ public class Project1Test extends InvokeMainTestCase {
     public void testGetCallerReturnsCallerNumber() {
         final String callerNumber = "111-111-1111";
         final String calleeNumber = "999-999-9999";
-        PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+        PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
         assertThat(call.getCaller(), equalTo(callerNumber));
     }
 
@@ -58,7 +58,7 @@ public class Project1Test extends InvokeMainTestCase {
     public void testGetCalleeReturnsCalleeNumber() {
         final String callerNumber = "111-111-1111";
         final String calleeNumber = "999-999-9999";
-        PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+        PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
         assertThat(call.getCallee(), equalTo(calleeNumber));
     }
 
@@ -67,7 +67,7 @@ public class Project1Test extends InvokeMainTestCase {
         final String callerNumber = "9999";
         final String calleeNumber = "999-999-9999";
         try {
-            PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+            PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
@@ -79,13 +79,32 @@ public class Project1Test extends InvokeMainTestCase {
         final String callerNumber = "111-111-1111";
         final String calleeNumber = "1111";
         try {
-            PhoneCall call = new PhoneCall(callerNumber, calleeNumber);
+            PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
         }
     }
 
+    @Test
+    public void testGetStartTimeStringReturnsStartTime() {
 
+    }
+
+    private PhoneCall logPhoneCall(String caller) {
+        return logPhoneCall(caller, "999-999-9999");
+    }
+
+    private PhoneCall logPhoneCall(String caller, String callee) {
+        return logPhoneCall(caller, callee, "1/1/2000 11:59");
+    }
+
+    private PhoneCall logPhoneCall(String caller, String callee, String callStart) {
+        return logPhoneCall(caller, callee, callStart, "1/1/2000 12:01");
+    }
+
+    private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
+        return new PhoneCall(caller, callee, callStart, callEnd);
+    }
 
 }
