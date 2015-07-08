@@ -13,69 +13,73 @@ public class Project1 {
     Class c = AbstractPhoneBill.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     List<String> argsList = new ArrayList<>();
     boolean optPrint = false;
-    int argIndex = 0;
+    boolean optReadMe = false;
     String callerName = null;
     String callerNumber = null;
     String calleeNumber = null;
     String startTime = "";
     String endTime = "";
 
-
+    /**
+     * Parse Command line args
+     */
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
     } else {
-      optPrint = parseOptions(args, argsList);
+      if(parseReadme(args)){
+        System.exit(1);
+      }
+      optPrint = parsePrint(args);
     }
 
-    if (argsList.size() != 7) {
+
+    /**
+     * Process Command line args
+     */
+    /*if (args.length != 7) {
       System.out.println("Wrong number of arguments entered: Expected (5)");
       System.exit(1);
-    }
+    }*/
 
-    for (int i = 1; i <= argsList.size(); i++) {
+    for (int i = optPrint? 0:1; i <= args.length; i++) {
       switch (i) {
         case 0:
-          //callerName = argsList.get(i);
+          //callerName = args[i];
           break;
         case 1:
-          callerNumber = argsList.get(i);
+          callerNumber = args[i];
           break;
         case 2:
-          calleeNumber = argsList.get(i);
+          calleeNumber = args[i];
           break;
         case 3:
-          startTime = argsList.get(i);
+          startTime = args[i];
           break;
         case 4:
-          startTime = startTime + " " + argsList.get(i);
+          startTime = startTime + " " + args[i];
           break;
         case 5:
-          endTime = argsList.get(i);
+          endTime = args[i];
           break;
         case 6:
-          endTime = endTime + " " + argsList.get(i);
+          endTime = endTime + " " + args[i];
       }
     }
 
     PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
     if (optPrint) { System.out.println(call.toString()); }
 
-
-
-
-
     System.exit(1);
   }
 
   /**
-   * Parses the command line args for "-" options
-   * @param args array of command line ars
-   * @param argsList list to write args to
-   * @return returns print option boolean
+   * Parses command line args for readme flag
+   * Prints README if set
+   * @param args command line args
+   * @return true if readme flag set
    */
-  private static boolean parseOptions(String[] args, List<String> argsList) {
-    boolean optPrint = false;
-    String readmeText = "PhoneBill v1.0 \n" +
+  private static boolean parseReadme(String[] args) {
+    String readmeText = "README file for PhoneBill v1.0 \n" +
             "Evan Schott \n" +
             "CS410J \n" +
             "Summer 2015 \n" +
@@ -94,17 +98,28 @@ public class Project1 {
             "   -README : Prints a README for this project and exits\n" +
             "Date and time should be in the format: mm/dd/yyyy hh:mm";
 
-    for (String arg : args) {
+    for (String arg : args)
       if (arg.contains("-README")) {
         System.out.println(readmeText);
-        System.exit(1);
-      } else if (arg.contains("-print")) {
-        optPrint = true;
-      } else {
-          argsList.add(arg);
+        return true;
+      }
+
+    return false;
+  }
+
+  /**
+   * Parses the command line args for print option
+   * @param args array of command line args
+   * @return returns true if print flag set
+   */
+  private static boolean parsePrint(String[] args) {
+
+    for (String arg : args) {
+      if (arg.contains("-print")) {
+        return true;
       }
     }
-    return optPrint;
+    return false;
   }
 
 }
