@@ -36,7 +36,7 @@ public class Project1 {
      */
     boolean isArgCountRight = false;
     if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
-      System.out.println("Wrong number of arguments entered: Expected (5)");
+      System.err.println("Wrong number of arguments entered: Expected (5)");
       System.exit(1);
     }
     for (int i = optPrint?1:0; i <= args.length; i++) {

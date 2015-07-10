@@ -118,16 +118,24 @@ public class Project1Test extends InvokeMainTestCase {
     }
 
     @Test
-    public void testIsStartTimeValid() {
+    public void testInvalidStartTimeIsInvalid() {
         startTime = "1234";
         try {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
             fail("Expected exception");
-
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is(equalTo("Invalid date-time format!")));
         }
+    }
 
+    @Test
+    public void testValidEndTimeIsValid() {
+        endTime = "1/1/2000 1:01";
+        try {
+            PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        } catch (IllegalArgumentException e) {
+          fail("Date Time format is invalid");
+        }
     }
 
     @Test
