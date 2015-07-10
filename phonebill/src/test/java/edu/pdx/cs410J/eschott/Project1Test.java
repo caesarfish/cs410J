@@ -81,7 +81,7 @@ public class Project1Test extends InvokeMainTestCase {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
+            assertThat(e.getMessage(), is(equalTo("Phone number is not valid! Should be in format ###-###-####")));
         }
     }
 
@@ -95,7 +95,7 @@ public class Project1Test extends InvokeMainTestCase {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is(equalTo("Phone number is not valid!")));
+            assertThat(e.getMessage(), is(equalTo("Phone number is not valid! Should be in format ###-###-####")));
         }
     }
 
@@ -124,7 +124,7 @@ public class Project1Test extends InvokeMainTestCase {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
             fail("Expected exception");
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage(), is(equalTo("Invalid date-time format!")));
+            assertThat(e.getMessage(), is(equalTo("Invalid date-time format! Should be in format MM/DD/YYYY HH:MM")));
         }
     }
 

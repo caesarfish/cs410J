@@ -33,10 +33,10 @@ public class PhoneCall extends AbstractPhoneCall  {
      */
     public PhoneCall(String caller, String callee, String callStart, String callEnd){
         if(!validatePhoneNumber(caller) || !validatePhoneNumber(callee))
-            throw new IllegalArgumentException("Phone number is not valid!");
+            throw new IllegalArgumentException("Phone number is not valid! Should be in format ###-###-####");
 
         if(!validateDateTime(callStart) || !validateDateTime(callEnd))
-            throw new IllegalArgumentException("Invalid date-time format!");
+            throw new IllegalArgumentException("Invalid date-time format! Should be in format MM/DD/YYYY HH:MM");
 
         callerNumber = caller;
         calleeNumber = callee;
