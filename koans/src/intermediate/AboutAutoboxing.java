@@ -14,14 +14,14 @@ public class AboutAutoboxing {
 	public void addPrimitivesToCollection() {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(0, new Integer(42));
-		assertEquals(list.get(0), __);
+		assertEquals(list.get(0), 42);
 	}
 	
 	@Koan
 	public void addPrimitivesToCollectionWithAutoBoxing() {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(0, 42);
-		assertEquals(list.get(0), __);
+		assertEquals(list.get(0), 42);
 	}
 	
 	@Koan
