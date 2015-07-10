@@ -156,6 +156,37 @@ public class Project1Test extends InvokeMainTestCase {
         assertThat(call.toString(), equalTo(s));
     }
 
+    @Test
+    public void testGetCustomerReturnsCustomer() {
+        PhoneBill bill = new PhoneBill();
+        try {
+            bill.getCustomer();
+        } catch (UnsupportedOperationException e) {
+            assertThat(e.getMessage(), equalTo("Not yet implemented!"));
+        }
+    }
+
+    @Test
+    public void testAddPhoneCallAddsPhoneCall() {
+        PhoneBill bill = new PhoneBill();
+        PhoneCall call = new PhoneCall();
+        try {
+            bill.addPhoneCall(call);
+        } catch (UnsupportedOperationException e) {
+            assertThat(e.getMessage(), equalTo("Not yet implemented!"));
+        }
+    }
+
+    @Test
+    public void testGetPhoneCallsReturnsPhoneCalls() {
+        PhoneBill bill = new PhoneBill();
+        try {
+            bill.getPhoneCalls();
+        } catch (UnsupportedOperationException e) {
+            assertThat(e.getMessage(), equalTo("Not yet implemented!"));
+        }
+    }
+
     /**
      * Method for creating a PhoneCall object with 1 param
      * @param caller Number of the person calling
@@ -197,6 +228,8 @@ public class Project1Test extends InvokeMainTestCase {
     private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
         return new PhoneCall(caller, callee, callStart, callEnd);
     }
+
+
 
 
 }
