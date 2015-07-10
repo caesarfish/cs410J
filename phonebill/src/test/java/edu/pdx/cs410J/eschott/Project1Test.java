@@ -90,7 +90,7 @@ public class Project1Test extends InvokeMainTestCase {
      */
     @Test
     public void testIsCalleeNumberValid() {
-        calleeNumber = "1111";
+        calleeNumber = "111-x11-1111";
         try {
             PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
             fail("Expected exception");
@@ -117,6 +117,9 @@ public class Project1Test extends InvokeMainTestCase {
         assertThat(call.getEndTimeString(), equalTo(endTime));
     }
 
+    /**
+     * Tests date time validation
+     */
     @Test
     public void testInvalidStartTimeIsInvalid() {
         startTime = "1234";
@@ -128,6 +131,9 @@ public class Project1Test extends InvokeMainTestCase {
         }
     }
 
+    /**
+     * Tests date time validation for valid input
+     */
     @Test
     public void testValidEndTimeIsValid() {
         endTime = "1/1/2000 1:01";
@@ -138,8 +144,11 @@ public class Project1Test extends InvokeMainTestCase {
         }
     }
 
+    /**
+     * Tests toString() method
+     */
     @Test
-    public void testPrintsCallDescription() {
+    public void testPrintsCallDescriptionShouldPrintCallDescription() {
         PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
         String s = "Phone call from " + callerNumber + " to " +
                 calleeNumber + " from " + startTime +
