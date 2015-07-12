@@ -17,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
 /**
  * Tests the functionality in the {@link Project1} main class.
  */
-public class Project1Test extends InvokeMainTestCase {
+public class Project2Test extends InvokeMainTestCase {
     /**
      * Variables for invoking new class objects
      */
