@@ -86,14 +86,15 @@ public class PhoneCall extends AbstractPhoneCall  {
     }
 
     public boolean validateDateTime(String dateToValidate) {
-        SimpleDateFormat s = new SimpleDateFormat("mm/dd/yyyy hh:mm");
+        return dateToValidate.matches("^(1[0-2]|0?[1-9])/(3[01]|[12][0-9]|0?[1-9])/([0-9]{4}) ([01]?[0-9]|2[0-3]):([0-5][0-9])$");
+        /*SimpleDateFormat s = new SimpleDateFormat("mm/dd/yyyy hh:mm");
         s.setLenient(false);
         try {
-            Date date = s.parse(dateToValidate);
+            Date date = s.parse(dateToValidate); //Doesn't validate strict enough
         } catch (ParseException e) {
             return false;
-        }
-        return true;
+        }*/
+        //return true;
     }
 
 

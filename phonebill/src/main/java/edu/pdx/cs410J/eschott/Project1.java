@@ -55,8 +55,12 @@ public class Project1 {
     /**
      * Creates PhoneCall object and prints if requested
      */
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    if (optPrint) { System.out.println(call.toString()); }
+    try {
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        if (optPrint) { System.out.println(call.toString()); }
+    } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+    }
 
     System.exit(1);
   }
