@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The main class for the CS410J Phone Bill Project
  */
-public class Project1 {
+public class Project2 {
 
   public static void main(String[] args) {
     Class c = AbstractPhoneBill.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
@@ -76,10 +76,10 @@ public class Project1 {
             "Evan Schott \n" +
             "CS410J \n" +
             "Summer 2015 \n" +
-            "Project 1 \n" +
+            "Project 2 \n" +
             "Project Description: \n" +
             "   This project records phone call details entered on the command line. \n" +
-            "usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
+            "usage: java edu.pdx.cs410J.<login-id>.Project2 [options] <args>\n" +
             "args are (in this order):\n" +
             "   customer : Person whose phone bill we’re modeling\n" +
             "   callerNumber : Phone number of caller\n" +
