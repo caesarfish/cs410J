@@ -3,6 +3,7 @@ package edu.pdx.cs410J.eschott;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -12,11 +13,25 @@ import java.util.Collection;
  */
 public class PhoneBill extends AbstractPhoneBill {
 
+  private String customerName = null;
+  private ArrayList callList = new ArrayList();
+
+  /**
+   * Default Constructor
+   */
+  public PhoneBill() {
+
+  }
+
+  public PhoneBill(String customer){
+    customerName = customer;
+  }
+
   /**
    * Returns the name of the customer whose phone bill this is
    */
   public String getCustomer() {
-    throw new UnsupportedOperationException("Not yet implemented!");
+    return customerName;
   }
 
   /**
