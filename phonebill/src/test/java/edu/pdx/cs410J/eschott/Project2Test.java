@@ -164,19 +164,24 @@ public class Project2Test extends InvokeMainTestCase {
   }
 
   @Test
-  public void testAddPhoneCallAddsandReturnsPhoneCall() {
+  public void testAddPhoneCallAddsAndReturnsPhoneCall() { //only need 1 test for both functions
     PhoneBill bill = new PhoneBill(customer);
     PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
     bill.addPhoneCall(call);
+    assertThat(bill.getPhoneCalls().size(), equalTo(1));
   }
 
   @Test
-  public void testGetPhoneCallsReturnsPhoneCalls() {
+  public void testAddMultiplePhoneCallsAddsAndReturnsPhoneCalls() {
     PhoneBill bill = new PhoneBill(customer);
-    PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    bill.addPhoneCall(call);
-    assertThat(bill.getPhoneCalls().size(), equalTo(1));
+    PhoneCall callOne = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall callTwo = new PhoneCall("123-456-7890", "098-765-4321", "2/3/1968 12:34", "2/4/1969 15:56");
+    bill.addPhoneCall(callOne);
+    bill.addPhoneCall(callTwo);
+    assertThat(bill.getPhoneCalls().size(), equalTo(2));
   }
+
+
 
 
 
