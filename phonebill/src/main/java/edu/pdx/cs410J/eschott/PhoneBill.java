@@ -20,7 +20,6 @@ public class PhoneBill extends AbstractPhoneBill {
    * Default Constructor
    */
   public PhoneBill() {
-
   }
 
   public PhoneBill(String customer){

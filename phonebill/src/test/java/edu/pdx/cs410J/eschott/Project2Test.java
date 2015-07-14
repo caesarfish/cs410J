@@ -195,14 +195,15 @@ public class Project2Test extends InvokeMainTestCase {
     assertThat(td.fileExists("test.txt"), is(true));
   }
 
-  @Test //(expected = IOException.class)
+  @Test
   public void testDumpWritesToFile() {
     PhoneBill bill = getPhoneBill();
     TextDumper td = new TextDumper();
+    td.setFile("test.txt");
     try {
       td.dump(bill);
     } catch (IOException e) {
-      System.err.println(e.getMessage());
+      fail(e.getMessage());
     }
   }
 

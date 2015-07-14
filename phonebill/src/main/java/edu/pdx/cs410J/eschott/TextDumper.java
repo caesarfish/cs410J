@@ -14,6 +14,8 @@ import java.io.Writer;
  */
 public class TextDumper implements PhoneBillDumper {
 
+  public String fileName = null;
+
   public boolean fileExists(String fileName){
     File f = new File(fileName);
     if(f.exists() && !f.isDirectory()) {
@@ -23,6 +25,10 @@ public class TextDumper implements PhoneBillDumper {
     }
   }
 
+  public void setFile(String file) {
+    fileName = file;
+  }
+
   /**
    * Dumps a phone bill to some destination.
    *
@@ -30,13 +36,12 @@ public class TextDumper implements PhoneBillDumper {
    */
   @Override
   public void dump(AbstractPhoneBill bill) throws IOException {
-    try {
-      Writer writer = new FileWriter("test.txt");
-      writer.write(bill.toString());
-      writer.flush();
-      writer.close();
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
+    if (fileName == null) {
+      throw new IOException("File name is invalid");
     }
+    Writer writer = new FileWriter(fileName);
+    writer.write(bill.toString());
+    writer.flush();
+    writer.close();
   }
 }
