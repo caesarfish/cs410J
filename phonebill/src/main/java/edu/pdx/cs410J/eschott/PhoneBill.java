@@ -39,7 +39,6 @@ public class PhoneBill extends AbstractPhoneBill {
    */
   public void addPhoneCall(AbstractPhoneCall call) {
     callList.add((PhoneCall) call);
-
   }
 
   /**
@@ -47,11 +46,9 @@ public class PhoneBill extends AbstractPhoneBill {
    * AbstractPhoneCall}) in this phone bill
    */
   public Collection getPhoneCalls() {
-    throw new UnsupportedOperationException("Not yet implemented!");
+    return callList;
 
   }
 
-  /**
-   * Returns a brief textual description of this phone bill
-   */
+
 }
