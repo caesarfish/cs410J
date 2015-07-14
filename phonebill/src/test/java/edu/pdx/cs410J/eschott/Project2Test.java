@@ -10,6 +10,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+
+import java.io.IOException;
+
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -165,9 +168,7 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testAddPhoneCallAddsAndReturnsPhoneCall() { //only need 1 test for both functions
-    PhoneBill bill = new PhoneBill(customer);
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    bill.addPhoneCall(call);
+    PhoneBill bill = getPhoneBill();
     assertThat(bill.getPhoneCalls().size(), equalTo(1));
   }
 
@@ -183,13 +184,27 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testPrintPhoneBillDescriptionShouldPrintPhoneBillDescription() {
-    PhoneBill bill = new PhoneBill(customer);
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    bill.addPhoneCall(call);
+    PhoneBill bill = getPhoneBill();
     String s = "Bob Smith's phone bill with 1 phone calls";
     assertThat(bill.toString(), equalTo(s));
   }
 
+  @Test
+  public void testCheckForFileExistsReturnsTrue(){
+    TextDumper td = new TextDumper();
+    assertThat(td.fileExists("test.txt"), is(true));
+  }
+
+  @Test //(expected = IOException.class)
+  public void testDumpWritesToFile() {
+    PhoneBill bill = getPhoneBill();
+    TextDumper td = new TextDumper();
+    try {
+      td.dump(bill);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
+  }
 
 
 
@@ -238,7 +253,16 @@ public class Project2Test extends InvokeMainTestCase {
       return new PhoneCall(caller, callee, callStart, callEnd);
   }
 
-
+  /**
+   * Method for created a PhoneBill for test calls
+   * @return returns a phone bill
+   */
+  private PhoneBill getPhoneBill() {
+    PhoneBill bill = new PhoneBill(customer);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    bill.addPhoneCall(call);
+    return bill;
+  }
 
 
 }
