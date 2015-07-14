@@ -19,6 +19,7 @@ public class Project2Test extends InvokeMainTestCase {
     /**
      * Variables for invoking new class objects
      */
+    private String customer = "Bob Smith";
     private String callerNumber = "111-111-1111";
     private String calleeNumber = "999-999-9999";
     private String startTime = "1/1/2000 11:59";
@@ -157,19 +158,17 @@ public class Project2Test extends InvokeMainTestCase {
 
     @Test
     public void testGetCustomerReturnsCustomer() {
-        String customer = "Bob Smith";
         //PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
         PhoneBill bill = new PhoneBill(customer);
         assertThat(bill.getCustomer(), equalTo("Bob Smith"));
     }
 
-    /*@Test
+    @Test
     public void testAddPhoneCallAddsPhoneCall() {
-        String customer = "Bob Smith";
         PhoneBill bill = new PhoneBill(customer);
         PhoneCall call = new PhoneCall();
         bill.addPhoneCall(call);
-    }*/
+    }
 
     @Test
     public void testGetPhoneCallsReturnsPhoneCalls() {

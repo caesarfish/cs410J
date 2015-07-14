@@ -14,7 +14,7 @@ import java.util.Collection;
 public class PhoneBill extends AbstractPhoneBill {
 
   private String customerName = null;
-  private ArrayList callList = new ArrayList();
+  private ArrayList<PhoneCall> callList = new ArrayList<>();
 
   /**
    * Default Constructor
@@ -38,7 +38,7 @@ public class PhoneBill extends AbstractPhoneBill {
    * Adds a phone call to this phone bill
    */
   public void addPhoneCall(AbstractPhoneCall call) {
-    throw new UnsupportedOperationException("Not yet implemented!");
+    callList.add((PhoneCall) call);
 
   }
 
