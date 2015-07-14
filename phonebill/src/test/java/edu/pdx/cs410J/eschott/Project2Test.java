@@ -181,6 +181,15 @@ public class Project2Test extends InvokeMainTestCase {
     assertThat(bill.getPhoneCalls().size(), equalTo(2));
   }
 
+  @Test
+  public void testPrintPhoneBillDescriptionShouldPrintPhoneBillDescription() {
+    PhoneBill bill = new PhoneBill(customer);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    bill.addPhoneCall(call);
+    String s = "Bob Smith's phone bill with 1 phone calls";
+    assertThat(bill.toString(), equalTo(s));
+  }
+
 
 
 
