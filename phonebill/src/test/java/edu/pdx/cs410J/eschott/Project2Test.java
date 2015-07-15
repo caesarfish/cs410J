@@ -18,7 +18,9 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -101,7 +103,7 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testParseReadMeReturnsTrueIfFlagSet() {
-    ArrayList argsList = new ArrayList();
+    ArrayList<String> argsList = new ArrayList<>();
     argsList.add("-README");
     CommandLineParser clp = new CommandLineParser(argsList);
     assertThat(clp.checkReadMeFlag(), equalTo(true));
@@ -114,6 +116,25 @@ public class Project2Test extends InvokeMainTestCase {
     CommandLineParser clp = new CommandLineParser(argsList);
     assertThat(clp.checkPrintFlag(), equalTo(true));
   }
+
+  @Test
+  public void testParseFileReturnsTrueIfFlagSet() {
+    ArrayList argsList = new ArrayList();
+    argsList.add("-textFile test.txt");
+    CommandLineParser clp = new CommandLineParser(argsList);
+    assertThat(clp.checkFileFlag(), equalTo(true));
+
+  }
+
+  @Test
+  public void testParserReturnsCorrectNumberOfArgs() {
+    ArrayList argsList = new ArrayList();
+    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 1/1/2000 11:12 1/1/2000 11/13";
+    Collections.addAll(argsList, args.split(" "));
+    CommandLineParser clp = new CommandLineParser(argsList);
+    assertThat(clp.getArgs().size(), equalTo(6));
+  }
+
 
   /**
    * Tests that the getCaller() method works
