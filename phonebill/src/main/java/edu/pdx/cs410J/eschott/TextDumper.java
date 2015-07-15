@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Iterator;
 
 /**
  * Created by Evan on 7/13/2015.
@@ -39,12 +40,16 @@ public class TextDumper implements PhoneBillDumper {
   @Override
   public void dump(AbstractPhoneBill bill) throws IOException {
     if (fileName == null) {
-      throw new IOException("File name not set");
+      throw new IOException("File name not set"); //should never be thrown
     }
     Writer writer = new FileWriter(fileName);
     StringBuilder s = new StringBuilder(bill.getCustomer());
     s.append("\n");
-    bill.getPhoneCalls().forEach(call -> s.append(call.toString()).append("\n"));
+    for (Object o : bill.getPhoneCalls()) {
+      PhoneCall call = (PhoneCall) o;
+      s.append(call.getCaller()).append(";").append(call.getCallee()).append(";").append(call.getStartTimeString()).append(";").append(call.getEndTimeString());
+      s.append("\n");
+    }
     writer.write(String.valueOf(s));
     writer.flush();
     writer.close();

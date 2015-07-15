@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.eschott;
 
+import edu.pdx.cs410J.AbstractPhoneBill;
+import edu.pdx.cs410J.ParserException;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
@@ -12,6 +14,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import edu.pdx.cs410J.InvokeMainTestCase;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -231,6 +234,17 @@ public class Project2Test extends InvokeMainTestCase {
     TextParser tp = new TextParser();
     tp.setFile("test2.txt");
     assertThat(tp.fileName, equalTo("test2.txt"));
+  }
+
+  @Test
+  public void testTextParserReadsFileData() {
+    TextParser tp = new TextParser();
+    tp.setFile("test2.txt");
+    try {
+      PhoneBill bill = (PhoneBill) tp.parse();
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
   }
 
 
