@@ -14,17 +14,17 @@ import java.io.Writer;
  */
 public class TextDumper implements PhoneBillDumper {
 
-  public String fileName = null;
+  private String fileName = null;
 
   public boolean fileExists(String fileName){
     File f = new File(fileName);
-    if(f.exists() && !f.isDirectory()) {
-      return true;
-    } else {
-      return false;
-    }
+    return f.exists() && !f.isDirectory();
   }
 
+  /**
+   * Sets the file to be written to
+   * @param file name of file as String
+   */
   public void setFile(String file) {
     fileName = file;
   }
@@ -33,14 +33,19 @@ public class TextDumper implements PhoneBillDumper {
    * Dumps a phone bill to some destination.
    *
    * @param bill the phone bill to be printed
+    *@throws IOException
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void dump(AbstractPhoneBill bill) throws IOException {
     if (fileName == null) {
-      throw new IOException("File name is invalid");
+      throw new IOException("File name not set");
     }
     Writer writer = new FileWriter(fileName);
-    writer.write(bill.toString());
+    StringBuilder s = new StringBuilder(bill.getCustomer());
+    s.append("\n");
+    bill.getPhoneCalls().forEach(call -> s.append(call.toString()).append("\n"));
+    writer.write(String.valueOf(s));
     writer.flush();
     writer.close();
   }

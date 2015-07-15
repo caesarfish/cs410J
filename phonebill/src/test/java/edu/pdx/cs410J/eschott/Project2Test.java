@@ -190,19 +190,38 @@ public class Project2Test extends InvokeMainTestCase {
   }
 
   @Test
-  public void testCheckForFileExistsReturnsTrue(){
+  public void testDumpThrowsIOException() {
+    PhoneBill bill = getPhoneBill();
     TextDumper td = new TextDumper();
-    assertThat(td.fileExists("test.txt"), is(true));
+    try {
+      td.dump(bill);
+    } catch (IOException e) {
+      assertThat(e.getMessage(), is(equalTo("File name not set")));
+    }
   }
 
   @Test
   public void testDumpWritesToFile() {
     PhoneBill bill = getPhoneBill();
     TextDumper td = new TextDumper();
-    td.setFile("test.txt");
+    td.setFile("test1.txt");
     try {
       td.dump(bill);
     } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testDumpWritesMultipleCallPhoneBill() {
+    PhoneBill bill = getPhoneBill();
+    PhoneCall call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/1911 11:23", "1/1/1911 11:24");
+    bill.addPhoneCall(call);
+    TextDumper td = new TextDumper();
+    td.setFile("test2.txt");
+    try {
+      td.dump(bill);
+    } catch(IOException e) {
       fail(e.getMessage());
     }
   }
