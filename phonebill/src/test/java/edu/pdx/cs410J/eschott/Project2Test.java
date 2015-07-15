@@ -2,9 +2,11 @@ package edu.pdx.cs410J.eschott;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.hamcrest.CoreMatchers.is;
@@ -15,6 +17,8 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -56,6 +60,59 @@ public class Project2Test extends InvokeMainTestCase {
       MainMethodResult result = invokeMain("Argument First");
       assertEquals(new Integer(1), result.getExitCode());
       assertFalse(result.getErr().contains("Missing command line arguments"));
+  }
+
+  @Test
+  public void testMainMethodPrintsReadme() {
+    MainMethodResult result = invokeMain("-README");
+    String readmeText = "README file for PhoneBill v1.0 \n" +
+            "Evan Schott \n" +
+            "CS410J \n" +
+            "Summer 2015 \n" +
+            "Project 2 \n" +
+            "Project Description: \n" +
+            "   This project records phone call details entered on the command line. \n" +
+            "usage: java edu.pdx.cs410J.<login-id>.Project2 [options] <args>\n" +
+            "args are (in this order):\n" +
+            "   customer : Person whose phone bill we’re modeling\n" +
+            "   callerNumber : Phone number of caller\n" +
+            "   calleeNumber : Phone number of person who was called\n" +
+            "   startTime : Date and time call began (24-hour time)\n" +
+            "   endTime : Date and time call ended (24-hour time)\n" +
+            "options are (options may appear in any order):\n" +
+            "   -print : Prints a description of the new phone call\n" +
+            "   -README : Prints a README for this project and exits\n" +
+            "Date and time should be in the format: mm/dd/yyyy hh:mm";
+    assertThat(result.getOut(), containsString(readmeText));
+  }
+
+  @Ignore
+  public void testMainMethodPrintsPhoneCallRecord() {
+    MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), equalTo(""));
+    assertThat(result.getOut(), equalTo("Something"));
+  }
+
+  @Test
+  public void testMainMethod() {
+    MainMethodResult result = invokeMain(); //put args here
+    //result can return getExitCode(), getOut(), getErr()
+  }
+
+  @Test
+  public void testParseReadMeReturnsTrueIfFlagSet() {
+    ArrayList argsList = new ArrayList();
+    argsList.add("-README");
+    CommandLineParser clp = new CommandLineParser(argsList);
+    assertThat(clp.checkReadMeFlag(), equalTo(true));
+  }
+
+  @Test
+  public void testParsePrintReturnsTrueIfFlagSet() {
+    ArrayList argsList = new ArrayList();
+    argsList.add("-print");
+    CommandLineParser clp = new CommandLineParser(argsList);
+    assertThat(clp.checkPrintFlag(), equalTo(true));
   }
 
   /**

@@ -42,7 +42,6 @@ public class TextParser implements PhoneBillParser {
           PhoneCall call = new PhoneCall(s[0], s[1], s[2], s[3]);
           bill.addPhoneCall(call);
         }
-        System.out.println(bill.toString());
         return bill;
       } catch (IOException e) {
         e.printStackTrace();

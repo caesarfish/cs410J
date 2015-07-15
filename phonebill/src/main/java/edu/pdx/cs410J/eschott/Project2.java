@@ -12,6 +12,7 @@ public class Project2 {
   public static void main(String[] args) {
     Class c = AbstractPhoneBill.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     List<String> argsList = new ArrayList<>();
+    boolean optReadMe = false;
     boolean optPrint = false;
     String callerName = null;
     String callerNumber = null;
@@ -34,9 +35,8 @@ public class Project2 {
     /**
      * Process Command line args
      */
-    boolean isArgCountRight = false;
     if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
-      System.err.println("Wrong number of arguments entered: Expected (5)");
+      System.err.println("Wrong number of arguments entered: Expected (5) but was " + args.length);
       System.exit(1);
     }
     for (int i = optPrint?1:0; i <= args.length; i++) {
@@ -64,6 +64,8 @@ public class Project2 {
 
     System.exit(1);
   }
+
+
 
   /**
    * Parses command line args for readme flag
