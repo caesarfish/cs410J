@@ -226,7 +226,12 @@ public class Project2Test extends InvokeMainTestCase {
     }
   }
 
-
+  @Test
+  public void testTextParserSetFileNameSetsFileName() {
+    TextParser tp = new TextParser();
+    tp.setFile("test2.txt");
+    assertThat(tp.fileName, equalTo("test2.txt"));
+  }
 
 
 
