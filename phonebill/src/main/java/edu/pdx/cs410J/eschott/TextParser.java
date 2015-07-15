@@ -38,9 +38,11 @@ public class TextParser implements PhoneBillParser {
         customerName = reader.readLine();
         PhoneBill bill = new PhoneBill(customerName);
         while (reader.ready()) {
-          String[] s = reader.readLine().split(" ");
-
+          String[] s = reader.readLine().split(";");
+          PhoneCall call = new PhoneCall(s[0], s[1], s[2], s[3]);
+          bill.addPhoneCall(call);
         }
+        System.out.println(bill.toString());
         return bill;
       } catch (IOException e) {
         e.printStackTrace();
@@ -53,8 +55,6 @@ public class TextParser implements PhoneBillParser {
         e1.printStackTrace();
       }
     }
-
-
     return null;
   }
 }

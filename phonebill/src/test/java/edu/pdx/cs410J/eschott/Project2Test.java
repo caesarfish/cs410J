@@ -216,6 +216,7 @@ public class Project2Test extends InvokeMainTestCase {
   }
 
   @Test
+  //dependency: testTextParserReadsFileData
   public void testDumpWritesMultipleCallPhoneBill() {
     PhoneBill bill = getPhoneBill();
     PhoneCall call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/1911 11:23", "1/1/1911 11:24");
@@ -238,10 +239,12 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testTextParserReadsFileData() {
+    testDumpWritesMultipleCallPhoneBill(); //creates call text file with 2 calls
     TextParser tp = new TextParser();
     tp.setFile("test2.txt");
     try {
       PhoneBill bill = (PhoneBill) tp.parse();
+      assertThat(bill.toString(), equalTo("Bob Smith's phone bill with 2 phone calls"));
     } catch (ParserException e) {
       fail(e.getMessage());
     }
