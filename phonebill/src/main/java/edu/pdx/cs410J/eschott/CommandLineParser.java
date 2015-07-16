@@ -64,8 +64,8 @@ public class CommandLineParser {
   public boolean checkFileFlag() { return fileName == null; }
 
   /**
-   *
-   * @return
+   * Gets array list of non-option flag args
+   * @return array list of args
    */
   public ArrayList<String> getArgs() {
     return callArgs;

@@ -35,8 +35,8 @@ public class PhoneCall extends AbstractPhoneCall  {
         if(!validatePhoneNumber(caller) || !validatePhoneNumber(callee))
             throw new IllegalArgumentException("Phone number is not valid! Should be in format ###-###-####");
 
-        if(!validateDateTime(callStart) || !validateDateTime(callEnd))
-            throw new IllegalArgumentException("Invalid date-time format! Should be in format MM/DD/YYYY HH:MM");
+        if(!validateDateTime(callStart.toString()) || !validateDateTime(callEnd.toString()))
+            throw new IllegalArgumentException("Invalid date-time format:" + callEnd + ". Should be in format MM/DD/YYYY HH:MM");
 
         callerNumber = caller;
         calleeNumber = callee;

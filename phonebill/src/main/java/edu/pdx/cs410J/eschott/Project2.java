@@ -10,8 +10,6 @@ import java.util.List;
 public class Project2 {
 
   public static void main(String[] args) {
-    Class c = AbstractPhoneBill.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-    ArrayList<String> argsList = new ArrayList<>();
     boolean optReadMe = false;
     boolean optPrint = false;
     String callerName = null;
@@ -20,22 +18,23 @@ public class Project2 {
     String startTime = null;
     String endTime = null;
 
+    CommandLineParser clp = new CommandLineParser(args);
+
     /**
      * Parse Command line args
-     */
+     *//*
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
     } else {
       if (parseReadme(args)) {
         System.exit(1);
       }
-      optPrint = parsePrint(args);
-    }
+    }*/
 
     /**
      * Process Command line args
      */
-    if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
+    /*if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
       System.err.println("Wrong number of arguments entered: Expected (5) but was " + args.length);
       System.exit(1);
     }
@@ -50,7 +49,7 @@ public class Project2 {
       else if (endTime == null) {
           endTime = args[i] + " " + args[i+1];
       }
-    }
+    }*/
 
     /**
      * Creates PhoneCall object and prints if requested

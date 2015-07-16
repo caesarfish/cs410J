@@ -2,6 +2,7 @@ package edu.pdx.cs410J.eschott;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
+import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -88,11 +89,11 @@ public class Project2Test extends InvokeMainTestCase {
     assertThat(result.getOut(), containsString(readmeText));
   }
 
-  @Ignore
+  @Test
   public void testMainMethodPrintsPhoneCallRecord() {
     MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
-    assertThat(result.getErr(), equalTo(""));
-    assertThat(result.getOut(), equalTo("Something"));
+    assertThat(result.getErr().toString(), equalTo(""));
+    assertThat(result.getOut().toString(), equalTo("Something"));
   }
 
   @Test
@@ -123,16 +124,27 @@ public class Project2Test extends InvokeMainTestCase {
     argsList.add("-textFile test.txt");
     CommandLineParser clp = new CommandLineParser(argsList);
     assertThat(clp.checkFileFlag(), equalTo(true));
-
   }
 
   @Test
   public void testParserReturnsCorrectNumberOfArgs() {
     ArrayList argsList = new ArrayList();
-    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 1/1/2000 11:12 1/1/2000 11/13";
+    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 1/1/2000 11:12 1/1/2000 11:13";
     Collections.addAll(argsList, args.split(" "));
     CommandLineParser clp = new CommandLineParser(argsList);
     assertThat(clp.getArgs().size(), equalTo(6));
+  }
+
+  @Test
+  public void testParserReturnCanCreatePhoneCall() {
+    ArrayList argsList = new ArrayList();
+    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
+    Collections.addAll(argsList, args.split(" "));
+    CommandLineParser clp = new CommandLineParser(argsList);
+    PhoneCall call = new PhoneCall(clp.getArgs().get(0), clp.getArgs().get(1),
+                                   clp.getArgs().get(2).concat(" ").concat(clp.getArgs().get(3)),
+                                   clp.getArgs().get(4) + " " + clp.getArgs().get(5));
+    assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 01/01/2000 11:12 to 1/1/2000 11:13"));
   }
 
 
