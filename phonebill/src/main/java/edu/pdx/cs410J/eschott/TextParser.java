@@ -39,6 +39,10 @@ public class TextParser implements PhoneBillParser {
         PhoneBill bill = new PhoneBill(customerName);
         while (reader.ready()) {
           String[] s = reader.readLine().split(";");
+          if (s.length != 4) {
+            System.err.println("File does not contain valid call information");
+            return null;
+          }
           PhoneCall call = new PhoneCall(s[0], s[1], s[2], s[3]);
           bill.addPhoneCall(call);
         }
@@ -47,12 +51,13 @@ public class TextParser implements PhoneBillParser {
         e.printStackTrace();
       }
     } catch (FileNotFoundException e) {
-      File f = new File(fileName);
+      e.printStackTrace();
+      /*File f = new File(fileName);
       try {
         f.createNewFile();
       } catch (IOException e1) {
         e1.printStackTrace();
-      }
+      }*/
     }
     return null;
   }

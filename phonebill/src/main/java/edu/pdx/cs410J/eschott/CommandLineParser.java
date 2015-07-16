@@ -24,19 +24,24 @@ public class CommandLineParser {
     while (itr.hasNext()) {
       String arg = (String)itr.next();
       if (arg.startsWith("-")) {
-        if (arg.equals("-README")) {
-          readMe = true;
-          return; //does not need to process any more arguments
-        }
-        if (arg.equals("-print")) {
-          print = true;
-        }
-        if (arg.equals("-textFile")) {
-          try {
-            fileName = (String)itr.next();
-          } catch (NoSuchElementException e) {
-            System.out.println("textFile option requires file name: -textFile file");
-          }
+        switch (arg) {
+          case "-README":
+            readMe = true;
+            return; //does not need to process any more arguments
+
+          case "-print":
+            print = true;
+            break;
+          case "-textFile":
+            try {
+              fileName = (String) itr.next();
+            } catch (NoSuchElementException e) {
+              System.err.println("textFile option requires file name: -textFile file");
+            }
+            break;
+          default:
+            System.err.println("That option is not recognized. Please view README");
+            break;
         }
       } else {
         callArgs.add(arg); //Add remaining args to array list

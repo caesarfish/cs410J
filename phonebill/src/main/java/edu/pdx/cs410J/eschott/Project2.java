@@ -50,10 +50,12 @@ public class Project2 {
         tp.setFile(clp.returnFileName());
         try {
           PhoneBill parsedBill = (PhoneBill) tp.parse();
-          if ((parsedBill.getCustomer() != null) && parsedBill.getCustomer().equals(bill.getCustomer())){
+          if ((parsedBill.getCustomer() == null) || !parsedBill.getCustomer().equals(bill.getCustomer())){
+            System.err.println("Customer name provided does not match phone bill record on file");
+          } else {
             bill = parsedBill;
           }
-        } catch (ParserException e) {
+        } catch (ParserException | NullPointerException e) {
           System.err.println(e.getMessage());
         }
       }

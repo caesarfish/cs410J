@@ -16,7 +16,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,6 +109,43 @@ public class Project2Test extends InvokeMainTestCase {
   public void testMainMethodPrintsCallToFile() {
     MainMethodResult result = invokeMain("-print", "-textFile", "test2.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
+  }
+
+  @Test
+  public void testMainMethodFailsWithInvalidTextFileData() {
+    try {
+      Writer w = new FileWriter("test3.txt");
+      w.write("Some bad text\n");
+      w.write("Some more bad text\n");
+      w.flush();
+      w.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("Failed to write file");
+    }
+    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), containsString("File does not contain valid call information"));
+  }
+
+  @Test
+  public void testFailsIfFileDoesNotMatchCustomerName() {
+    try {
+      Writer w = new FileWriter("test3.txt");
+      w.write("Some bad text\n");
+      w.flush();
+      w.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("Failed to write file");
+    }
+    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), containsString("Customer name provided does not match phone bill record on file"));
+  }
+
+  @Test
+  public void testMainMethodFailsOnInvalidOption() {
+    MainMethodResult result = invokeMain("-writeOut", "-textFile", "test2.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), containsString("That option is not recognized. Please view README"));
   }
 
 
