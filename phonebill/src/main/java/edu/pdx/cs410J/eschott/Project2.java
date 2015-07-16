@@ -20,6 +20,13 @@ public class Project2 {
     String startTime = null;
     String endTime = null;
 
+    /**
+     * Parse Command line args
+     */
+    if (args.length < 1) {
+      System.err.println("Missing command line arguments");
+      System.exit(1);
+    }
 
     argList.addAll(Arrays.asList(args));
 
@@ -28,20 +35,12 @@ public class Project2 {
     if(clp.checkReadMeFlag()){
       printReadMe();
     } else {
-      //all other action goes here
-
+      if (clp.getArgs().size() != 6) {
+        System.err.println("Wrong number of arguments entered");
+      }
     }
 
-    /**
-     * Parse Command line args
-     *//*
-    if (args.length < 1) {
-      System.err.println("Missing command line arguments");
-    } else {
-      if (parseReadme(args)) {
-        System.exit(1);
-      }
-    }*/
+
 
     /**
      * Process Command line args

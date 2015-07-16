@@ -66,6 +66,12 @@ public class Project2Test extends InvokeMainTestCase {
   }
 
   @Test
+  public void testCorrectNumberOfArgsEnteredForPhoneCall() {
+    MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), equalTo(""));
+  }
+
+  @Test
   public void testMainMethodPrintsReadme() {
     MainMethodResult result = invokeMain("-README");
     String readmeText = "README file for PhoneBill v1.0 \n" +
@@ -92,9 +98,11 @@ public class Project2Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsPhoneCallRecord() {
     MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
-    assertThat(result.getErr().toString(), equalTo(""));
-    assertThat(result.getOut().toString(), equalTo("Something"));
+    assertThat(result.getErr(), equalTo(""));
+    assertThat(result.getOut(), equalTo("Something"));
   }
+
+
 
   @Test
   public void testMainMethod() {
@@ -112,39 +120,37 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testParsePrintReturnsTrueIfFlagSet() {
-    ArrayList argsList = new ArrayList();
-    argsList.add("-print");
-    CommandLineParser clp = new CommandLineParser(argsList);
+    CommandLineParser clp = getCommandLineParser();
     assertThat(clp.checkPrintFlag(), equalTo(true));
   }
 
   @Test
   public void testParseFileReturnsTrueIfFlagSet() {
-    ArrayList argsList = new ArrayList();
-    argsList.add("-textFile test.txt");
-    CommandLineParser clp = new CommandLineParser(argsList);
+    CommandLineParser clp = getCommandLineParser();
     assertThat(clp.checkFileFlag(), equalTo(true));
   }
 
   @Test
   public void testParserReturnsCorrectNumberOfArgs() {
-    ArrayList argsList = new ArrayList();
-    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 1/1/2000 11:12 1/1/2000 11:13";
-    Collections.addAll(argsList, args.split(" "));
-    CommandLineParser clp = new CommandLineParser(argsList);
+    CommandLineParser clp = getCommandLineParser();
     assertThat(clp.getArgs().size(), equalTo(6));
   }
 
   @Test
   public void testParserReturnCanCreatePhoneCall() {
-    ArrayList argsList = new ArrayList();
-    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
-    Collections.addAll(argsList, args.split(" "));
-    CommandLineParser clp = new CommandLineParser(argsList);
+    CommandLineParser clp = getCommandLineParser();
     PhoneCall call = new PhoneCall(clp.getArgs().get(0), clp.getArgs().get(1),
                                    clp.getArgs().get(2).concat(" ").concat(clp.getArgs().get(3)),
                                    clp.getArgs().get(4) + " " + clp.getArgs().get(5));
     assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 01/01/2000 11:12 to 1/1/2000 11:13"));
+  }
+
+
+
+  @Test
+  public void testValidatePhoneCallDataReturnsTrue() {
+    CommandLineParser clp = getCommandLineParser();
+
   }
 
 
@@ -341,8 +347,6 @@ public class Project2Test extends InvokeMainTestCase {
   }
 
 
-
-
   /**
    * Method for creating a PhoneCall object with 1 param
    * @param caller Number of the person calling
@@ -394,6 +398,17 @@ public class Project2Test extends InvokeMainTestCase {
     PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
     bill.addPhoneCall(call);
     return bill;
+  }
+
+  /**
+   * Method for creating a CommandLineParser for tests
+   * @return CommandLineParser
+   */
+  private CommandLineParser getCommandLineParser() {
+    ArrayList<String> argsList = new ArrayList<>();
+    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
+    Collections.addAll(argsList, args.split(" "));
+    return new CommandLineParser(argsList);
   }
 
 
