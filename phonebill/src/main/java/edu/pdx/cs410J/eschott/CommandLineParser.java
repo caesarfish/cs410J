@@ -14,6 +14,11 @@ public class CommandLineParser {
   private String fileName = null;
   private ArrayList<String> callArgs = new ArrayList<>();
 
+  /**
+   * Constructor for CommandLineParser
+   * Supports -README, -print, and -textFile file
+   * @param args
+   */
   public CommandLineParser(ArrayList args){
     Iterator itr = args.iterator();
     while (itr.hasNext()) {
@@ -29,7 +34,6 @@ public class CommandLineParser {
         if (arg.equals("-textFile")) {
           try {
             fileName = (String)itr.next();
-            itr.remove();
           } catch (NoSuchElementException e) {
             System.out.println("textFile option requires file name: -textFile file");
           }
@@ -41,12 +45,28 @@ public class CommandLineParser {
     }
   }
 
+  /**
+   * Checks if README option selected
+   * @return true if -README flag was set
+   */
   public boolean checkReadMeFlag() { return readMe; }
 
+  /**
+   * Checks if print option selected
+   * @return true if -print flag was set
+   */
   public boolean checkPrintFlag() { return print; }
 
+  /**
+   * Checks if textFile option selected
+   * @return true if -textFile flag was set with file name
+   */
   public boolean checkFileFlag() { return fileName == null; }
 
+  /**
+   *
+   * @return
+   */
   public ArrayList<String> getArgs() {
     return callArgs;
   }
