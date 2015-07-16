@@ -71,4 +71,8 @@ public class CommandLineParser {
     return callArgs;
   }
 
+  public String returnFileName() {
+    return fileName;
+  }
+
 }

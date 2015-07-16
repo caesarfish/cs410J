@@ -67,7 +67,8 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testCorrectNumberOfArgsEnteredForPhoneCall() {
-    MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    String[] args = new String[]{"-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34"};
+    MainMethodResult result = invokeMain(args);
     assertThat(result.getErr(), equalTo(""));
   }
 
@@ -97,9 +98,15 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testMainMethodPrintsPhoneCallRecord() {
-    MainMethodResult result = invokeMain("-print", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
-    assertThat(result.getOut(), equalTo("Something"));
+    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/2000 11:12 to 1/2/2000 12:34"));
+  }
+
+  @Test
+  public void testMainMethodPrintsCallToFile() {
+    MainMethodResult result = invokeMain("-print", "-textFile", "test2.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), equalTo(""));
   }
 
 
@@ -154,11 +161,7 @@ public class Project2Test extends InvokeMainTestCase {
 
 
 
-  @Test
-  public void testValidatePhoneCallDataReturnsTrue() {
-    CommandLineParser clp = getCommandLineParser();
 
-  }
 
 
   /**
@@ -235,7 +238,7 @@ public class Project2Test extends InvokeMainTestCase {
           PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
           fail("Expected exception");
       } catch (IllegalArgumentException e) {
-          assertThat(e.getMessage(), is(equalTo("Invalid date-time format! Should be in format MM/DD/YYYY HH:MM")));
+          assertThat(e.getMessage(), is(equalTo("Invalid date-time format: from 1234 to 1/1/2000 12:01. Should be in format MM/DD/YYYY HH:MM")));
       }
   }
 
@@ -294,6 +297,7 @@ public class Project2Test extends InvokeMainTestCase {
     String s = "Bob Smith's phone bill with 1 phone calls";
     assertThat(bill.toString(), equalTo(s));
   }
+
 
   @Test
   public void testDumpThrowsIOException() {

@@ -1,6 +1,9 @@
 package edu.pdx.cs410J.eschott;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
+import edu.pdx.cs410J.ParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,11 +15,11 @@ public class Project2 {
 
   public static void main(String[] args) {
     ArrayList<String> argList = new ArrayList<>();
-    String callerName = null;
-    String callerNumber = null;
-    String calleeNumber = null;
-    String startTime = null;
-    String endTime = null;
+    String callerName;
+    String callerNumber;
+    String calleeNumber;
+    String startTime;
+    String endTime;
 
     /**
      * Parse Command line args
@@ -35,8 +38,46 @@ public class Project2 {
       System.exit(1); //prints README and exits
     } else {
       if (clp.getArgs().size() != 7) { //TODO: check if assert needed here
-        System.err.println("Wrong number of arguments entered");
+        System.err.println("Wrong number of arguments entered. View README for usage.");
         System.exit(1);
+      }
+
+      callerName = clp.getArgs().get(0);
+      PhoneBill bill = new PhoneBill(callerName);
+
+      if (clp.checkFileFlag()) {
+        TextParser tp = new TextParser();
+        tp.setFile(clp.returnFileName());
+        try {
+          PhoneBill parsedBill = (PhoneBill) tp.parse();
+          if ((parsedBill.getCustomer() != null) && parsedBill.getCustomer().equals(bill.getCustomer())){
+            bill = parsedBill;
+          }
+        } catch (ParserException e) {
+          System.err.println(e.getMessage());
+        }
+      }
+
+      callerNumber = clp.getArgs().get(1);
+      calleeNumber = clp.getArgs().get(2);
+      startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4));
+      endTime = clp.getArgs().get(5).concat(" ").concat(clp.getArgs().get(6));
+      PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+      bill.addPhoneCall(call);
+
+
+      if (clp.checkPrintFlag()) {
+        if (clp.checkFileFlag()) {
+          TextDumper td = new TextDumper();
+          td.setFile(clp.returnFileName());
+          try {
+            td.dump(bill);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        } else {
+          System.out.println(call.toString());
+        }
       }
 
     }
