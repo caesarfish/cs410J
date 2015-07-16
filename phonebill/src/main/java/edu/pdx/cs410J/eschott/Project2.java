@@ -2,6 +2,7 @@ package edu.pdx.cs410J.eschott;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
 public class Project2 {
 
   public static void main(String[] args) {
+    ArrayList<String> argList = new ArrayList<>();
     boolean optReadMe = false;
     boolean optPrint = false;
     String callerName = null;
@@ -18,7 +20,17 @@ public class Project2 {
     String startTime = null;
     String endTime = null;
 
-    CommandLineParser clp = new CommandLineParser(args);
+
+    argList.addAll(Arrays.asList(args));
+
+    CommandLineParser clp = new CommandLineParser(argList);
+
+    if(clp.checkReadMeFlag()){
+      printReadMe();
+    } else {
+      //all other action goes here
+
+    }
 
     /**
      * Parse Command line args
@@ -54,12 +66,12 @@ public class Project2 {
     /**
      * Creates PhoneCall object and prints if requested
      */
-    try {
+    /*try {
         PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
         if (optPrint) { System.out.println(call.toString()); }
     } catch (IllegalArgumentException e) {
         System.out.println(e.getMessage());
-    }
+    }*/
 
     System.exit(1);
   }
@@ -67,12 +79,9 @@ public class Project2 {
 
 
   /**
-   * Parses command line args for readme flag
-   * Prints README if set
-   * @param args command line args
-   * @return true if readme flag set
+   * Prints README
    */
-  private static boolean parseReadme(String[] args) {
+  private static void printReadMe() {
     String readmeText = "README file for PhoneBill v1.0 \n" +
             "Evan Schott \n" +
             "CS410J \n" +
@@ -92,13 +101,7 @@ public class Project2 {
             "   -README : Prints a README for this project and exits\n" +
             "Date and time should be in the format: mm/dd/yyyy hh:mm";
 
-    for (String arg : args)
-      if (arg.contains("-README")) {
-        System.out.println(readmeText);
-        return true;
-      }
-
-    return false;
+    System.out.println(readmeText);
   }
 
   /**
