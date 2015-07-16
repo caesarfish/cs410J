@@ -13,7 +13,7 @@ import java.util.Collection;
  */
 public class PhoneBill extends AbstractPhoneBill {
 
-  private String customerName = null;
+  private String customerName = "";
   private ArrayList<PhoneCall> callList = new ArrayList<>();
 
   /**

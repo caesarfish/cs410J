@@ -50,10 +50,10 @@ public class Project2 {
         tp.setFile(clp.returnFileName());
         try {
           PhoneBill parsedBill = (PhoneBill) tp.parse();
-          if ((parsedBill.getCustomer() == null) || !parsedBill.getCustomer().equals(bill.getCustomer())){
-            System.err.println("Customer name provided does not match phone bill record on file");
-          } else {
+          if (parsedBill.getCustomer().equals(bill.getCustomer()) || parsedBill.getCustomer().equals("")){
             bill = parsedBill;
+          } else {
+            System.err.println("Customer name provided does not match phone bill record on file");
           }
         } catch (ParserException | NullPointerException e) {
           System.err.println(e.getMessage());
@@ -84,38 +84,6 @@ public class Project2 {
 
     }
 
-
-
-    /**
-     * Process Command line args
-     */
-    /*if (!(optPrint && args.length == 8) && !(!optPrint && args.length == 7)) {
-      System.err.println("Wrong number of arguments entered: Expected (5) but was " + args.length);
-      System.exit(1);
-    }
-    for (int i = optPrint?1:0; i <= args.length; i++) {
-      if (callerName == null) callerName = args[i];
-      else if (callerNumber == null) callerNumber = args[i];
-      else if (calleeNumber == null) calleeNumber = args[i];
-      else if (startTime == null) {
-        startTime = args[i] + " " + args[i+1];
-        i++;
-      }
-      else if (endTime == null) {
-          endTime = args[i] + " " + args[i+1];
-      }
-    }*/
-
-    /**
-     * Creates PhoneCall object and prints if requested
-     */
-    /*try {
-        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-        if (optPrint) { System.out.println(call.toString()); }
-    } catch (IllegalArgumentException e) {
-        System.out.println(e.getMessage());
-    }*/
-
     System.exit(1);
   }
 
@@ -145,21 +113,6 @@ public class Project2 {
             "Date and time should be in the format: mm/dd/yyyy hh:mm";
 
     System.out.println(readmeText);
-  }
-
-  /**
-   * Parses the command line args for print option
-   * @param args array of command line args
-   * @return returns true if print flag set
-   */
-  private static boolean parsePrint(String[] args) {
-
-    for (String arg : args) {
-      if (arg.contains("-print")) {
-        return true;
-      }
-    }
-    return false;
   }
 
 }

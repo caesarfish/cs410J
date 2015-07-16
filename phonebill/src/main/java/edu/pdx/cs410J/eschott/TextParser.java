@@ -51,14 +51,13 @@ public class TextParser implements PhoneBillParser {
         e.printStackTrace();
       }
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      /*File f = new File(fileName);
+      File f = new File(fileName);
       try {
         f.createNewFile();
       } catch (IOException e1) {
         e1.printStackTrace();
-      }*/
+      }
     }
-    return null;
+    return new PhoneBill();
   }
 }
