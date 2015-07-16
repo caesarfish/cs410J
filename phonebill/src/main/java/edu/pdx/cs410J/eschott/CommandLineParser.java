@@ -17,7 +17,7 @@ public class CommandLineParser {
   /**
    * Constructor for CommandLineParser
    * Supports -README, -print, and -textFile file
-   * @param args
+   * @param args ArrayList of command line args
    */
   public CommandLineParser(ArrayList args){
     Iterator itr = args.iterator();
@@ -61,7 +61,7 @@ public class CommandLineParser {
    * Checks if textFile option selected
    * @return true if -textFile flag was set with file name
    */
-  public boolean checkFileFlag() { return fileName == null; }
+  public boolean checkFileFlag() { return fileName != null; }
 
   /**
    * Gets array list of non-option flag args

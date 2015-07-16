@@ -133,15 +133,22 @@ public class Project2Test extends InvokeMainTestCase {
   @Test
   public void testParserReturnsCorrectNumberOfArgs() {
     CommandLineParser clp = getCommandLineParser();
-    assertThat(clp.getArgs().size(), equalTo(6));
+    assertThat(clp.getArgs().size(), equalTo(7));
+  }
+
+  @Test
+  public void testParserReturnCanCreatePhoneBill() {
+    CommandLineParser clp = getCommandLineParser();
+    PhoneBill bill = new PhoneBill(clp.getArgs().get(0));
+    assertThat(bill.getCustomer(), equalTo("Bob Smith"));
   }
 
   @Test
   public void testParserReturnCanCreatePhoneCall() {
     CommandLineParser clp = getCommandLineParser();
-    PhoneCall call = new PhoneCall(clp.getArgs().get(0), clp.getArgs().get(1),
-                                   clp.getArgs().get(2).concat(" ").concat(clp.getArgs().get(3)),
-                                   clp.getArgs().get(4) + " " + clp.getArgs().get(5));
+    PhoneCall call = new PhoneCall(clp.getArgs().get(1), clp.getArgs().get(2),
+                                   clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)),
+                                   clp.getArgs().get(5) + " " + clp.getArgs().get(6));
     assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 01/01/2000 11:12 to 1/1/2000 11:13"));
   }
 
@@ -406,8 +413,10 @@ public class Project2Test extends InvokeMainTestCase {
    */
   private CommandLineParser getCommandLineParser() {
     ArrayList<String> argsList = new ArrayList<>();
-    String args = "-print -textFile text.txt 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
-    Collections.addAll(argsList, args.split(" "));
+    Collections.addAll(argsList,"-print", "-textFile", "text.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12",
+            "1/1/2000", "11:13" );
+    //String args = "-print -textFile text.txt Bob Smith 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
+    //Collections.addAll(argsList, args.split(" "));
     return new CommandLineParser(argsList);
   }
 

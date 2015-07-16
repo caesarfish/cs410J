@@ -12,8 +12,6 @@ public class Project2 {
 
   public static void main(String[] args) {
     ArrayList<String> argList = new ArrayList<>();
-    boolean optReadMe = false;
-    boolean optPrint = false;
     String callerName = null;
     String callerNumber = null;
     String calleeNumber = null;
@@ -34,10 +32,13 @@ public class Project2 {
 
     if(clp.checkReadMeFlag()){
       printReadMe();
+      System.exit(1); //prints README and exits
     } else {
-      if (clp.getArgs().size() != 6) {
+      if (clp.getArgs().size() != 7) { //TODO: check if assert needed here
         System.err.println("Wrong number of arguments entered");
+        System.exit(1);
       }
+
     }
 
 
