@@ -61,10 +61,24 @@ public class Project2 {
         }
       }
 
+
+
       callerNumber = clp.getArgs().get(1);
       calleeNumber = clp.getArgs().get(2);
       startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4));
       endTime = clp.getArgs().get(5).concat(" ").concat(clp.getArgs().get(6));
+
+      if(!validatePhoneNumber(callerNumber) || !validatePhoneNumber(calleeNumber)) {
+        System.err.println("Phone number is not valid: from " + callerNumber + " to " + calleeNumber + ". Should be in format ###-###-####");
+        System.exit(1);
+      }
+
+      if(!validateDateTime(startTime) || !validateDateTime(endTime)) {
+        System.err.println("Invalid date-time format: from " + startTime + " to " + endTime +
+                ". Should be in format MM/DD/YYYY HH:MM");
+        System.exit(1);
+      }
+
       PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       bill.addPhoneCall(call);
 
@@ -88,13 +102,29 @@ public class Project2 {
     System.exit(1);
   }
 
+  /**
+   * Method uses a regex to validate phone number format
+   * @param phoneNumber should be in format ###-###-####
+   * @return true if phoneNumber matches regex
+   */
+  public static boolean validatePhoneNumber(String phoneNumber){
+    return phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
+  }
 
+  /**
+   * Method uses a regex to validate date format
+   * @param dateToValidate should be in format MM/DD/YYYY HH:MM
+   * @return true if date matches regex
+   */
+  public static boolean validateDateTime(String dateToValidate) {
+    return dateToValidate.matches("^(1[0-2]|0?[1-9])/(3[01]|[12][0-9]|0?[1-9])/([0-9]{4}) ([01]?[0-9]|2[0-3]):([0-5][0-9])$");
+  }
 
   /**
    * Prints README
    */
   private static void printReadMe() {
-    String readmeText = "README file for PhoneBill v1.0 \n" +
+    String readmeText = "README file for PhoneBill v1.1 \n" +
             "Evan Schott \n" +
             "CS410J \n" +
             "Summer 2015 \n" +
@@ -109,9 +139,11 @@ public class Project2 {
             "   startTime : Date and time call began (24-hour time)\n" +
             "   endTime : Date and time call ended (24-hour time)\n" +
             "options are (options may appear in any order):\n" +
+            "   -textFile file : Where to read/write the phone bill\n" +
             "   -print : Prints a description of the new phone call\n" +
             "   -README : Prints a README for this project and exits\n" +
-            "Date and time should be in the format: mm/dd/yyyy hh:mm";
+            "Date and time should be in the format: mm/dd/yyyy hh:mm\n" +
+            "Phone numbers should be in the format: ###-###-####";
 
     System.out.println(readmeText);
   }
