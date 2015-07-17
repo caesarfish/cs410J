@@ -35,6 +35,9 @@ public class CommandLineParser {
           case "-textFile":
             try {
               fileName = (String) itr.next();
+              if (fileName.startsWith("-")) {
+                throw new NoSuchElementException();
+              }
             } catch (NoSuchElementException e) {
               System.err.println("textFile option requires file name: -textFile file");
             }
