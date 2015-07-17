@@ -32,12 +32,6 @@ public class PhoneCall extends AbstractPhoneCall  {
      * @param callEnd - datetime call ends
      */
     public PhoneCall(String caller, String callee, String callStart, String callEnd){
-        if(!validatePhoneNumber(caller) || !validatePhoneNumber(callee))
-            throw new IllegalArgumentException("Phone number is not valid! Should be in format ###-###-####");
-
-        if(!validateDateTime(callStart) || !validateDateTime(callEnd))
-            throw new IllegalArgumentException("Invalid date-time format: from " + callStart + " to " + callEnd + ". Should be in format MM/DD/YYYY HH:MM");
-
         callerNumber = caller;
         calleeNumber = callee;
         startTime = callStart;
@@ -76,26 +70,7 @@ public class PhoneCall extends AbstractPhoneCall  {
         return this.endTime;
     }
 
-    /**
-     * Method uses a regex to validate phone number format
-     * @param phoneNumber should be in format ###-###-####
-     * @return true if phoneNumber matches regex
-     */
-    public boolean validatePhoneNumber(String phoneNumber){
-        return phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
-    }
 
-    public boolean validateDateTime(String dateToValidate) {
-        return dateToValidate.matches("^(1[0-2]|0?[1-9])/(3[01]|[12][0-9]|0?[1-9])/([0-9]{4}) ([01]?[0-9]|2[0-3]):([0-5][0-9])$");
-        /*SimpleDateFormat s = new SimpleDateFormat("mm/dd/yyyy hh:mm");
-        s.setLenient(false);
-        try {
-            Date date = s.parse(dateToValidate); //Doesn't validate strict enough
-        } catch (ParseException e) {
-            return false;
-        }*/
-        //return true;
-    }
 
 
 

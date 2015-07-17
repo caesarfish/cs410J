@@ -77,37 +77,23 @@ public class Project2Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsReadme() {
     MainMethodResult result = invokeMain("-README");
-    String readmeText = "README file for PhoneBill v1.0 \n" +
-            "Evan Schott \n" +
-            "CS410J \n" +
-            "Summer 2015 \n" +
-            "Project 2 \n" +
-            "Project Description: \n" +
-            "   This project records phone call details entered on the command line. \n" +
-            "usage: java edu.pdx.cs410J.<login-id>.Project2 [options] <args>\n" +
-            "args are (in this order):\n" +
-            "   customer : Person whose phone bill we’re modeling\n" +
-            "   callerNumber : Phone number of caller\n" +
-            "   calleeNumber : Phone number of person who was called\n" +
-            "   startTime : Date and time call began (24-hour time)\n" +
-            "   endTime : Date and time call ended (24-hour time)\n" +
-            "options are (options may appear in any order):\n" +
-            "   -print : Prints a description of the new phone call\n" +
-            "   -README : Prints a README for this project and exits\n" +
-            "Date and time should be in the format: mm/dd/yyyy hh:mm";
+    String readmeText = "README file for PhoneBill v1.1 ";
     assertThat(result.getOut(), containsString(readmeText));
   }
 
   @Test
   public void testMainMethodPrintsPhoneCallRecord() {
-    MainMethodResult result = invokeMain("-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000",
+            "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
-    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/2000 11:12 to 1/2/2000 12:34"));
+    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/2000 " +
+            "11:12 to 1/2/2000 12:34"));
   }
 
   @Test
   public void testMainMethodPrintsCallToFile() {
-    MainMethodResult result = invokeMain("-print", "-textFile", "test4.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "-textFile", "test4.txt", "Bob Smith", "111-111-1111",
+            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
   }
 
@@ -123,7 +109,8 @@ public class Project2Test extends InvokeMainTestCase {
       e.printStackTrace();
       fail("Failed to write file");
     }
-    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111",
+            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), containsString("File is not a properly formatted phone bill record"));
   }
 
@@ -138,17 +125,31 @@ public class Project2Test extends InvokeMainTestCase {
       e.printStackTrace();
       fail("Failed to write file");
     }
-    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111",
+            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), containsString("Customer name provided does not match phone bill record on file"));
   }
 
   @Test
   public void testMainMethodFailsOnInvalidOption() {
-    MainMethodResult result = invokeMain("-writeOut", "-textFile", "test2.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-writeOut", "-textFile", "test2.txt", "Bob Smith", "111-111-1111",
+            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), containsString("That option is not recognized. Please view README"));
   }
 
+  @Test
+  public void testMainMethodFailsOnInvalidNumber() {
+    MainMethodResult result = invokeMain("Bob Smith", "xxx-111-1111", "222-222-2222", "1/1/2000",
+            "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), containsString("Phone number is not valid"));
+  }
 
+  @Test
+  public void testMainMethodFailsOnInvalidDate() {
+    MainMethodResult result = invokeMain("Bob Smith", "111-111-1111", "222-222-2222", "1234",
+            "11:12", "1/2/2000", "12:34");
+    assertThat(result.getErr(), containsString("Invalid date-time format"));
+  }
 
   @Test
   public void testMainMethod() {
@@ -221,33 +222,7 @@ public class Project2Test extends InvokeMainTestCase {
       assertThat(call.getCallee(), equalTo(calleeNumber));
   }
 
-  /**
-   * Tests that the callerNumber validation works
-   */
-  @Test
-  public void testIsCallerNumberValid() {
-      callerNumber = "9999";
-      try {
-          PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
-          fail("Expected exception");
-      } catch (IllegalArgumentException e) {
-          assertThat(e.getMessage(), is(equalTo("Phone number is not valid! Should be in format ###-###-####")));
-      }
-  }
 
-  /**
-   * Tests that the calleeNumber validation works
-   */
-  @Test
-  public void testIsCalleeNumberValid() {
-      calleeNumber = "111-x11-1111";
-      try {
-          PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
-          fail("Expected exception");
-      } catch (IllegalArgumentException e) {
-          assertThat(e.getMessage(), is(equalTo("Phone number is not valid! Should be in format ###-###-####")));
-      }
-  }
 
   /**
    * Tests that getStartTimeString() method works
@@ -265,20 +240,6 @@ public class Project2Test extends InvokeMainTestCase {
   public void testGetEndTimeStringReturnsEndTime() {
       PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
       assertThat(call.getEndTimeString(), equalTo(endTime));
-  }
-
-  /**
-   * Tests date time validation
-   */
-  @Test
-  public void testInvalidStartTimeIsInvalid() {
-      startTime = "1234";
-      try {
-          PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
-          fail("Expected exception");
-      } catch (IllegalArgumentException e) {
-          assertThat(e.getMessage(), is(equalTo("Invalid date-time format: from 1234 to 1/1/2000 12:01. Should be in format MM/DD/YYYY HH:MM")));
-      }
   }
 
   /**
