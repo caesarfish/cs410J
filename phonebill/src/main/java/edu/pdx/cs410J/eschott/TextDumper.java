@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
 
 /**
  * Created by Evan on 7/13/2015.
@@ -17,12 +16,7 @@ public class TextDumper implements PhoneBillDumper {
 
   private String fileName = null;
 
-  public boolean fileExists(String fileName){
-    File f = new File(fileName);
-    return f.exists() && !f.isDirectory();
-  }
-
-  /**
+   /**
    * Sets the file to be written to
    * @param file name of file as String
    */

@@ -22,6 +22,10 @@ public class PhoneBill extends AbstractPhoneBill {
   public PhoneBill() {
   }
 
+  /**
+   * Main constructor
+   * @param customer customer name provided as argument to program
+   */
   public PhoneBill(String customer){
     customerName = customer;
   }
@@ -31,6 +35,14 @@ public class PhoneBill extends AbstractPhoneBill {
    */
   public String getCustomer() {
     return customerName;
+  }
+
+  /**
+   * Sets customer name
+   * @param name name of customer
+   */
+  public void setCustomer(String name) {
+    customerName = name;
   }
 
   /**

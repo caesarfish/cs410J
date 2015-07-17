@@ -76,7 +76,11 @@ public class CommandLineParser {
     return callArgs;
   }
 
-  public String returnFileName() {
+  /**
+   * Gets file name set by the -textFile option
+   * @return fileName
+   */
+  public String getFileName() {
     return fileName;
   }
 

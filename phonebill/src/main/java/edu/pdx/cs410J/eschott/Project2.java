@@ -1,12 +1,10 @@
 package edu.pdx.cs410J.eschott;
 
-import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * The main class for the CS410J Phone Bill Project
@@ -21,9 +19,6 @@ public class Project2 {
     String startTime;
     String endTime;
 
-    /**
-     * Parse Command line args
-     */
     if (args.length < 1) {
       System.err.println("Missing command line arguments");
       System.exit(1);
@@ -37,7 +32,7 @@ public class Project2 {
       printReadMe();
       System.exit(1); //prints README and exits
     } else {
-      if (clp.getArgs().size() != 7) { //TODO: check if assert needed here
+      if (clp.getArgs().size() != 7) {
         System.err.println("Wrong number of arguments entered. View README for usage.");
         System.exit(1);
       }
@@ -47,16 +42,22 @@ public class Project2 {
 
       if (clp.checkFileFlag()) {
         TextParser tp = new TextParser();
-        tp.setFile(clp.returnFileName());
+        tp.setFile(clp.getFileName());
         try {
           PhoneBill parsedBill = (PhoneBill) tp.parse();
-          if (parsedBill.getCustomer().equals(bill.getCustomer()) || parsedBill.getCustomer().equals("")){
+          if (parsedBill.getCustomer().equals(bill.getCustomer())){
             bill = parsedBill;
           } else {
-            System.err.println("Customer name provided does not match phone bill record on file");
+            if (!parsedBill.getCustomer().equals("")) {
+              System.err.println("Customer name provided does not match phone bill record on file");
+              System.exit(1); //Will not continue in this case
+            }
           }
         } catch (ParserException | NullPointerException e) {
-          System.err.println(e.getMessage());
+          if (!e.getMessage().contains("Empty file")) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+          }
         }
       }
 
@@ -71,7 +72,7 @@ public class Project2 {
       if (clp.checkPrintFlag()) {
         if (clp.checkFileFlag()) {
           TextDumper td = new TextDumper();
-          td.setFile(clp.returnFileName());
+          td.setFile(clp.getFileName());
           try {
             td.dump(bill);
           } catch (IOException e) {

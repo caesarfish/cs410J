@@ -107,7 +107,7 @@ public class Project2Test extends InvokeMainTestCase {
 
   @Test
   public void testMainMethodPrintsCallToFile() {
-    MainMethodResult result = invokeMain("-print", "-textFile", "test2.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+    MainMethodResult result = invokeMain("-print", "-textFile", "test4.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
   }
 
@@ -124,7 +124,7 @@ public class Project2Test extends InvokeMainTestCase {
       fail("Failed to write file");
     }
     MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
-    assertThat(result.getErr(), containsString("File does not contain valid call information"));
+    assertThat(result.getErr(), containsString("File is not a properly formatted phone bill record"));
   }
 
   @Test
