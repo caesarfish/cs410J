@@ -1,9 +1,6 @@
 package edu.pdx.cs410J.eschott;
 
-import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
-import org.hamcrest.CoreMatchers;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
@@ -19,18 +16,15 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Tests the functionality in the {@link Project2} main class.
+ * Tests the functionality in the {@link Project3} main class.
  */
-public class Project2Test extends InvokeMainTestCase {
+public class Project3Test extends InvokeMainTestCase {
   /**
    * Variables for invoking new class objects
    */
@@ -41,10 +35,10 @@ public class Project2Test extends InvokeMainTestCase {
   private String endTime = "1/1/2000 12:01";
 
   /**
-   * Invokes the main method of {@link Project2} with the given arguments.
+   * Invokes the main method of {@link Project3} with the given arguments.
    */
   private MainMethodResult invokeMain(String... args) {
-      return invokeMain( Project2.class, args );
+      return invokeMain( Project3.class, args );
   }
 
   /**
@@ -199,11 +193,6 @@ public class Project2Test extends InvokeMainTestCase {
     assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 01/01/2000 11:12 to 1/1/2000 11:13"));
   }
 
-
-
-
-
-
   /**
    * Tests that the getCaller() method works
    */
@@ -221,8 +210,6 @@ public class Project2Test extends InvokeMainTestCase {
       PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
       assertThat(call.getCallee(), equalTo(calleeNumber));
   }
-
-
 
   /**
    * Tests that getStartTimeString() method works

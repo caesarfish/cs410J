@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * The main class for the CS410J Phone Bill Project
  */
-public class Project2 {
+public class Project3 {
 
   public static void main(String[] args) {
     ArrayList<String> argList = new ArrayList<>();
@@ -131,7 +131,7 @@ public class Project2 {
             "Project 2 \n" +
             "Project Description: \n" +
             "   This project records phone call details entered on the command line. \n" +
-            "usage: java edu.pdx.cs410J.<login-id>.Project2 [options] <args>\n" +
+            "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +
             "args are (in this order):\n" +
             "   customer : Person whose phone bill we’re modeling\n" +
             "   callerNumber : Phone number of caller\n" +
