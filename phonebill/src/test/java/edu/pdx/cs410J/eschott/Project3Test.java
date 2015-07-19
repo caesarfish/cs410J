@@ -212,6 +212,16 @@ public class Project3Test extends InvokeMainTestCase {
   }
 
   /**
+   * Tests that getStartTime() and getEndTime() methods work
+   */
+  @Test
+  public void testGetStartAndEndTimeReturnsDate() {
+    PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    assertThat(call.getStartTime().toString(), equalTo("Sat Jan 01 11:59:00 PST 2000"));
+    assertThat(call.getEndTime().toString(), equalTo("Sat Jan 01 12:01:00 PST 2000"));
+  }
+
+  /**
    * Tests that getStartTimeString() method works
    */
   @Test

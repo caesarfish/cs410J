@@ -2,6 +2,7 @@ package edu.pdx.cs410J.eschott;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,17 +55,36 @@ public class PhoneCall extends AbstractPhoneCall  {
         return this.calleeNumber;
     }
 
-   /* @Override
+    @Override
     public Date getStartTime() {
+      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      Date date = null;
+      try {
+        date = dateFormat.parse(this.startTime);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+      return date;
+    }
 
-
-    }*/
     /**
      * Method for returning startTime
      * @return startTime
      */
     public String getStartTimeString () {
         return this.startTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      Date date = null;
+      try {
+        date = dateFormat.parse(this.endTime);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+      return date;
     }
 
     /**

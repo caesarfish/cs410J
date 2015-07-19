@@ -5,6 +5,7 @@ import edu.pdx.cs410J.ParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * The main class for the CS410J Phone Bill Project
@@ -60,8 +61,6 @@ public class Project3 {
           }
         }
       }
-
-
 
       callerNumber = clp.getArgs().get(1);
       calleeNumber = clp.getArgs().get(2);
