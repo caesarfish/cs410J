@@ -80,8 +80,8 @@ public class Project3Test extends InvokeMainTestCase {
     MainMethodResult result = invokeMain("-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000",
             "11:12", "1/2/2000", "12:34");
     assertThat(result.getErr(), equalTo(""));
-    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/2000 " +
-            "11:12 to 1/2/2000 12:34"));
+    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 " +
+            "11:12 AM to 1/2/00 12:34 PM"));
   }
 
   @Test
@@ -190,7 +190,7 @@ public class Project3Test extends InvokeMainTestCase {
     PhoneCall call = new PhoneCall(clp.getArgs().get(1), clp.getArgs().get(2),
                                    clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)),
                                    clp.getArgs().get(5) + " " + clp.getArgs().get(6));
-    assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 01/01/2000 11:12 to 1/1/2000 11:13"));
+    assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 11:12 AM to 1/1/00 11:13 AM"));
   }
 
   /**
@@ -227,7 +227,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testGetStartTimeStringReturnsStartTime() {
       PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
-      assertThat(call.getStartTimeString(), equalTo(startTime));
+      assertThat(call.getStartTimeString(), equalTo("1/1/00 11:59 AM"));
   }
 
   /**
@@ -236,7 +236,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testGetEndTimeStringReturnsEndTime() {
       PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      assertThat(call.getEndTimeString(), equalTo(endTime));
+      assertThat(call.getEndTimeString(), equalTo("1/1/00 12:01 PM"));
   }
 
   /**
@@ -258,9 +258,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testPrintsCallDescriptionShouldPrintCallDescription() {
       PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      String s = "Phone call from " + callerNumber + " to " +
-              calleeNumber + " from " + startTime +
-              " to " + endTime;
+      String s = "Phone call from 111-111-1111 to 999-999-9999 from 1/1/00 11:59 AM to 1/1/00 12:01 PM";
       assertThat(call.toString(), equalTo(s));
   }
 

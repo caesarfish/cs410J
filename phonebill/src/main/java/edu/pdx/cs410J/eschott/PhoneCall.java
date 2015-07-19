@@ -14,8 +14,8 @@ import java.util.Date;
 public class PhoneCall extends AbstractPhoneCall  {
     private String callerNumber;
     private String calleeNumber;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
 
 
 
@@ -35,8 +35,8 @@ public class PhoneCall extends AbstractPhoneCall  {
     public PhoneCall(String caller, String callee, String callStart, String callEnd){
         callerNumber = caller;
         calleeNumber = callee;
-        startTime = callStart;
-        endTime = callEnd;
+        startTime = stringToDate(callStart);
+        endTime = stringToDate(callEnd);
     }
 
     /**
@@ -57,14 +57,7 @@ public class PhoneCall extends AbstractPhoneCall  {
 
     @Override
     public Date getStartTime() {
-      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Date date = null;
-      try {
-        date = dateFormat.parse(this.startTime);
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return date;
+     return startTime;
     }
 
     /**
@@ -72,19 +65,12 @@ public class PhoneCall extends AbstractPhoneCall  {
      * @return startTime
      */
     public String getStartTimeString () {
-        return this.startTime;
+        return dateToString(getStartTime());
     }
 
     @Override
     public Date getEndTime() {
-      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Date date = null;
-      try {
-        date = dateFormat.parse(this.endTime);
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return date;
+      return endTime;
     }
 
     /**
@@ -92,10 +78,30 @@ public class PhoneCall extends AbstractPhoneCall  {
      * @return endTime
      */
     public String getEndTimeString() {
-        return this.endTime;
+        return dateToString(getEndTime());
     }
 
+  /**
+   * Method to convert strings to date
+   */
+  private Date stringToDate(String stringToConvert) {
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    Date date = null;
+    try {
+      date = dateFormat.parse(stringToConvert);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return date;
+  }
 
+  /**
+   * Method to convert date to string
+   */
+  private String dateToString(Date dateToConvert) {
+    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    return dateFormat.format(dateToConvert);
+  }
 
 
 
