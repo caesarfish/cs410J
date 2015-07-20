@@ -85,12 +85,12 @@ public class PhoneCall extends AbstractPhoneCall  {
    * Method to convert strings to date
    */
   private Date stringToDate(String stringToConvert) {
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
     Date date = null;
     try {
       date = dateFormat.parse(stringToConvert);
     } catch (ParseException e) {
-      e.printStackTrace();
+      System.err.println("Invalid date-time format");
     }
     return date;
   }

@@ -31,8 +31,8 @@ public class Project3Test extends InvokeMainTestCase {
   private String customer = "Bob Smith";
   private String callerNumber = "111-111-1111";
   private String calleeNumber = "999-999-9999";
-  private String startTime = "1/1/2000 11:59";
-  private String endTime = "1/1/2000 12:01";
+  private String startTime = "1/1/2000 11:59 AM";
+  private String endTime = "1/1/2000 12:01 PM";
 
   /**
    * Invokes the main method of {@link Project3} with the given arguments.
@@ -63,7 +63,7 @@ public class Project3Test extends InvokeMainTestCase {
 
   @Test
   public void testCorrectNumberOfArgsEnteredForPhoneCall() {
-    String[] args = new String[]{"-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34"};
+    String[] args = new String[]{"-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM"};
     MainMethodResult result = invokeMain(args);
     assertThat(result.getErr(), equalTo(""));
   }
@@ -78,7 +78,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsPhoneCallRecord() {
     MainMethodResult result = invokeMain("-print", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000",
-            "11:12", "1/2/2000", "12:34");
+            "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), equalTo(""));
     assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 " +
             "11:12 AM to 1/2/00 12:34 PM"));
@@ -87,7 +87,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsCallToFile() {
     MainMethodResult result = invokeMain("-print", "-textFile", "test4.txt", "Bob Smith", "111-111-1111",
-            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), equalTo(""));
   }
 
@@ -104,7 +104,7 @@ public class Project3Test extends InvokeMainTestCase {
       fail("Failed to write file");
     }
     MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111",
-            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), containsString("File is not a properly formatted phone bill record"));
   }
 
@@ -120,28 +120,28 @@ public class Project3Test extends InvokeMainTestCase {
       fail("Failed to write file");
     }
     MainMethodResult result = invokeMain("-print", "-textFile", "test3.txt", "Bob Smith", "111-111-1111",
-            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), containsString("Customer name provided does not match phone bill record on file"));
   }
 
   @Test
   public void testMainMethodFailsOnInvalidOption() {
     MainMethodResult result = invokeMain("-writeOut", "-textFile", "test2.txt", "Bob Smith", "111-111-1111",
-            "222-222-2222", "1/1/2000", "11:12", "1/2/2000", "12:34");
+            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), containsString("That option is not recognized. Please view README"));
   }
 
   @Test
   public void testMainMethodFailsOnInvalidNumber() {
     MainMethodResult result = invokeMain("Bob Smith", "xxx-111-1111", "222-222-2222", "1/1/2000",
-            "11:12", "1/2/2000", "12:34");
+            "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), containsString("Phone number is not valid"));
   }
 
   @Test
   public void testMainMethodFailsOnInvalidDate() {
     MainMethodResult result = invokeMain("Bob Smith", "111-111-1111", "222-222-2222", "1234",
-            "11:12", "1/2/2000", "12:34");
+            "11:12", "AM", "1/2/2000", "12:34", "PM");
     assertThat(result.getErr(), containsString("Invalid date-time format"));
   }
 
@@ -174,7 +174,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testParserReturnsCorrectNumberOfArgs() {
     CommandLineParser clp = getCommandLineParser();
-    assertThat(clp.getArgs().size(), equalTo(7));
+    assertThat(clp.getArgs().size(), equalTo(9));
   }
 
   @Test
@@ -188,8 +188,8 @@ public class Project3Test extends InvokeMainTestCase {
   public void testParserReturnCanCreatePhoneCall() {
     CommandLineParser clp = getCommandLineParser();
     PhoneCall call = new PhoneCall(clp.getArgs().get(1), clp.getArgs().get(2),
-                                   clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)),
-                                   clp.getArgs().get(5) + " " + clp.getArgs().get(6));
+                                   clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)).concat(" ").concat(clp.getArgs().get(5)),
+                                   clp.getArgs().get(6) + " " + clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
     assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 11:12 AM to 1/1/00 11:13 AM"));
   }
 
@@ -244,7 +244,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testValidEndTimeIsValid() {
-      endTime = "1/1/2000 1:01";
+      endTime = "1/1/2000 1:01 AM";
       try {
           PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
       } catch (IllegalArgumentException e) {
@@ -280,7 +280,7 @@ public class Project3Test extends InvokeMainTestCase {
   public void testAddMultiplePhoneCallsAddsAndReturnsPhoneCalls() {
     PhoneBill bill = new PhoneBill(customer);
     PhoneCall callOne = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    PhoneCall callTwo = new PhoneCall("123-456-7890", "098-765-4321", "2/3/1968 12:34", "2/4/1969 15:56");
+    PhoneCall callTwo = new PhoneCall("123-456-7890", "098-765-4321", "2/3/1968 12:34 AM", "2/4/1969 15:56 PM");
     bill.addPhoneCall(callOne);
     bill.addPhoneCall(callTwo);
     assertThat(bill.getPhoneCalls().size(), equalTo(2));
@@ -321,7 +321,7 @@ public class Project3Test extends InvokeMainTestCase {
   //dependency: testTextParserReadsFileData
   public void testDumpWritesMultipleCallPhoneBill() {
     PhoneBill bill = getPhoneBill();
-    PhoneCall call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/1911 11:23", "1/1/1911 11:24");
+    PhoneCall call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/1911 11:23 am", "1/1/1911 11:24 am");
     bill.addPhoneCall(call);
     TextDumper td = new TextDumper();
     td.setFile("test2.txt");
@@ -412,8 +412,8 @@ public class Project3Test extends InvokeMainTestCase {
    */
   private CommandLineParser getCommandLineParser() {
     ArrayList<String> argsList = new ArrayList<>();
-    Collections.addAll(argsList,"-print", "-textFile", "text.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12",
-            "1/1/2000", "11:13" );
+    Collections.addAll(argsList,"-print", "-textFile", "text.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12", "AM",
+            "1/1/2000", "11:13", "AM" );
     //String args = "-print -textFile text.txt Bob Smith 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
     //Collections.addAll(argsList, args.split(" "));
     return new CommandLineParser(argsList);
