@@ -378,7 +378,35 @@ public class Project3Test extends InvokeMainTestCase {
     assertThat(bill.getPhoneCalls().toArray(), equalTo(""));
   }
 
+  @Test
+  public void TestPrettyPrinterFailsWithNoFileSet() {
+    PhoneBill bill = new PhoneBill("Test");
+    PrettyPrinter pp = new PrettyPrinter();
+    try {
+      pp.dump(bill);
+      fail("Expected IOException");
+    } catch (IOException e) {
+      //pass
+    }
+  }
 
+  @Test
+  public void TestPrettyPrinterWritesToFile() {
+    PhoneBill bill = new PhoneBill("Test");
+    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
+    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:36 am");
+    bill.addPhoneCall(call1);
+    bill.addPhoneCall(call2);
+    bill.addPhoneCall(call3);
+    PrettyPrinter pp = new PrettyPrinter();
+    pp.setFile("PPTest.txt");
+    try {
+      pp.dump(bill);
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
   /**
    * Method for creating a PhoneCall object with 1 param
    * @param caller Number of the person calling
