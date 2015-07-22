@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * PhoneBill class extends AbstractPhoneBill
@@ -57,6 +58,7 @@ public class PhoneBill extends AbstractPhoneBill {
    * AbstractPhoneCall}) in this phone bill
    */
   public Collection getPhoneCalls() {
+    Collections.sort(callList);
     return callList;
 
   }
