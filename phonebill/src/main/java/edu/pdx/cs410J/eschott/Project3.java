@@ -127,21 +127,23 @@ public class Project3 {
    * Prints README
    */
   private static void printReadMe() {
-    String readmeText = "README file for PhoneBill v1.1 \n" +
+    String readmeText = "README file for PhoneBill v1.3 \n" +
             "Evan Schott \n" +
             "CS410J \n" +
             "Summer 2015 \n" +
-            "Project 2 \n" +
+            "Project 3 \n" +
             "Project Description: \n" +
             "   This project records phone call details entered on the command line. \n" +
             "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +
             "args are (in this order):\n" +
-            "   customer : Person whose phone bill we’re modeling\n" +
+            "   customer : Person whose phone bill we're modeling\n" +
             "   callerNumber : Phone number of caller\n" +
             "   calleeNumber : Phone number of person who was called\n" +
             "   startTime : Date and time call began (24-hour time)\n" +
             "   endTime : Date and time call ended (24-hour time)\n" +
             "options are (options may appear in any order):\n" +
+            "   -pretty : pretty print the phone bill to a text file\n" +
+            "             or standard out (file -)" +
             "   -textFile file : Where to read/write the phone bill\n" +
             "   -print : Prints a description of the new phone call\n" +
             "   -README : Prints a README for this project and exits\n" +
