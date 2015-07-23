@@ -72,7 +72,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsReadme() {
     MainMethodResult result = invokeMain("-README");
-    String readmeText = "README file for PhoneBill v1.1 ";
+    String readmeText = "README file for PhoneBill v1.3 ";
     assertThat(result.getOut(), containsString(readmeText));
   }
 
@@ -423,24 +423,6 @@ public class Project3Test extends InvokeMainTestCase {
     bill.addPhoneCall(call3);
     PrettyPrinter pp = new PrettyPrinter();
     pp.setFile("PPTest.txt");
-    try {
-      pp.dump(bill);
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-  }
-
-  @Test
-  public void testPrettyPrinterWritesToStandardOut() {
-    PhoneBill bill = new PhoneBill("Test");
-    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
-    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
-    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:36 am");
-    bill.addPhoneCall(call1);
-    bill.addPhoneCall(call2);
-    bill.addPhoneCall(call3);
-    PrettyPrinter pp = new PrettyPrinter();
-    pp.setFile("-");
     try {
       pp.dump(bill);
     } catch (IOException e) {
