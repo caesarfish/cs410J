@@ -3,10 +3,8 @@ package edu.pdx.cs410J.eschott;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * The main class for the CS410J Phone Bill Project
@@ -46,9 +44,9 @@ public class Project3 {
        * checks if read in file is specified in command line args
        * reads file contents into bill
        */
-      if (clp.checkFileFlag()) {
+      if (clp.checkTextFileFlag()) {
         TextParser tp = new TextParser();
-        tp.setFile(clp.getFileName());
+        tp.setFile(clp.getTextFileName());
         try {
           PhoneBill parsedBill = (PhoneBill) tp.parse();
           if (parsedBill.getCustomer().equals(bill.getCustomer())){
@@ -97,32 +95,32 @@ public class Project3 {
        * optionally prints to file if file option set
        */
       if (clp.checkPrintFlag()) {
-        if (clp.checkFileFlag()) {
-          TextDumper td = new TextDumper();
-          td.setFile(clp.getFileName());
-          try {
-            td.dump(bill);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
         System.out.println(call.toString());
+      }
+
+      if (clp.checkTextFileFlag()) {
+        TextDumper td = new TextDumper();
+        td.setFile(clp.getTextFileName());
+        try {
+          td.dump(bill);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
+      if (clp.checkPrettyFileFlag()) {
+        PrettyPrinter pp = new PrettyPrinter();
+        pp.setFile(clp.getPrettyFileName());
+        try {
+          pp.dump(bill);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
 
     System.exit(1);
   }
-
-
-  /** TODO: remove block
-   * Method uses a regex to validate date format
-   * @param dateToValidate should be in format MM/DD/YYYY HH:MM
-   * @return true if date matches regex
-   *//*
-  public static boolean validateDateTime(String dateToValidate) {
-    return dateToValidate.matches("^(1[0-2]|0?[1-9])/(3[01]|[12][0-9]|0?[1-9])/([0-9]{4}) ([01]?[0-9]|2[0-3]):([0-5][0-9])$");
-  }*/
-
 
 
   /**

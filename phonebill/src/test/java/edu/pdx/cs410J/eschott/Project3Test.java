@@ -93,6 +93,23 @@ public class Project3Test extends InvokeMainTestCase {
   }
 
   @Test
+  public void testMainMethodPrettyPrintsCallToFile() {
+    MainMethodResult result = invokeMain("-print", "-pretty", "PPTestMain.txt", "Bob Smith", "111-111-1111",
+            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
+    assertThat(result.getErr(), equalTo(""));
+  }
+
+  @Test
+  public void testMMPrettyPrintsToStdOut() {
+    MainMethodResult result = invokeMain("-print", "-pretty", "-", "Bob Smith", "111-111-1111", "222-222-2222", "1/1/2000",
+            "11:12", "AM", "1/2/2000", "12:34", "PM");
+    assertThat(result.getErr(), equalTo(""));
+    assertThat(result.getOut(), containsString("Phone bill for customer: Bob Smith"));
+    assertThat(result.getOut(), containsString("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 " +
+            "11:12 AM to 1/2/00 12:34 PM"));
+  }
+
+  @Test
   public void testMainMethodFailsWithInvalidTextFileData() {
     try {
       Writer w = new FileWriter("test3.txt");
@@ -169,7 +186,13 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testParseFileReturnsTrueIfFlagSet() {
     CommandLineParser clp = getCommandLineParser();
-    assertThat(clp.checkFileFlag(), equalTo(true));
+    assertThat(clp.checkTextFileFlag(), equalTo(true));
+  }
+
+  @Test
+  public void testParsePrettyReturnsTrueIfFlagSet() {
+    CommandLineParser clp = getCommandLineParser();
+    assertThat(clp.checkPrettyFileFlag(), equalTo(true));
   }
 
   @Test
@@ -463,7 +486,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   private CommandLineParser getCommandLineParser() {
     ArrayList<String> argsList = new ArrayList<>();
-    Collections.addAll(argsList,"-print", "-textFile", "text.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12", "AM",
+    Collections.addAll(argsList,"-print", "-textFile", "text.txt", "-pretty", "PPTest.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12", "AM",
             "1/1/2000", "11:13", "AM" );
     //String args = "-print -textFile text.txt Bob Smith 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
     //Collections.addAll(argsList, args.split(" "));

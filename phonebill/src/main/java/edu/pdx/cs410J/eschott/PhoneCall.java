@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by Evan on 7/7/2015.
  * Public class PhoneCall extends AbstractPhoneCall
  */
-public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall>  {
+public class PhoneCall extends AbstractPhoneCall implements Comparable  {
     private String callerNumber;
     private String calleeNumber;
     private Date startTime;
@@ -143,11 +143,12 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
    * @throws ClassCastException   if the specified object's type prevents it
    *                              from being compared to this object.
    */
+  @SuppressWarnings("NullableProblems")
   @Override
-  public int compareTo(PhoneCall o) {
-    int dateComparison = this.getStartTime().compareTo(o.getStartTime());
+  public int compareTo(Object o) {
+    int dateComparison = this.getStartTime().compareTo(((PhoneCall)o).getStartTime());
     if (dateComparison == 0) {
-      dateComparison = this.getCallee().compareTo(o.getCallee());
+      dateComparison = this.getCallee().compareTo(((PhoneCall)o).getCallee());
     }
     return dateComparison;
   }
