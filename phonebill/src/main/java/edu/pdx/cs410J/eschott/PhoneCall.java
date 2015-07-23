@@ -123,10 +123,10 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
   @SuppressWarnings("NullableProblems")
   @Override
   public int compareTo(PhoneCall o) {
-    /*Date date1 = stringToDate(dateToString(this.getStartTime())); //necessary for proper YY to YYYY comparison
+    Date date1 = stringToDate(dateToString(this.getStartTime())); //necessary for proper YY to YYYY comparison
     Date date2 = stringToDate(dateToString(o.getStartTime()));
-    int dateComparison = date1.compareTo(date2);*/
-    int dateComparison = this.getStartTime().compareTo(o.getStartTime());
+    int dateComparison = date1.compareTo(date2);
+    //int dateComparison = this.getStartTime().compareTo(o.getStartTime());
     if (dateComparison == 0) {
       dateComparison = this.getCallee().compareTo(o.getCallee());
     }
