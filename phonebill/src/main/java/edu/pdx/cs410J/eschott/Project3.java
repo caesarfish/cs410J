@@ -139,15 +139,15 @@ public class Project3 {
             "   customer : Person whose phone bill we're modeling\n" +
             "   callerNumber : Phone number of caller\n" +
             "   calleeNumber : Phone number of person who was called\n" +
-            "   startTime : Date and time call began (24-hour time)\n" +
-            "   endTime : Date and time call ended (24-hour time)\n" +
+            "   startTime : Date and time call began (12-hour time)\n" +
+            "   endTime : Date and time call ended (12-hour time)\n" +
             "options are (options may appear in any order):\n" +
             "   -pretty : pretty print the phone bill to a text file\n" +
             "             or standard out (file -)\n" +
             "   -textFile file : Where to read/write the phone bill\n" +
             "   -print : Prints a description of the new phone call\n" +
             "   -README : Prints a README for this project and exits\n" +
-            "Date and time should be in the format: mm/dd/yyyy hh:mm\n" +
+            "Date and time should be in the format: mm/dd/yyyy hh:mm a (ex. 1/1/2000 12:23 pm)\n" +
             "Phone numbers should be in the format: ###-###-####";
 
     System.out.println(readmeText);
