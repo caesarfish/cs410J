@@ -35,13 +35,14 @@ public class PrettyPrinter implements PhoneBillDumper {
   public void dump(AbstractPhoneBill bill) throws IOException {
     StringBuilder s = new StringBuilder();
     long totalCallTime = 0;
-    s.append("Phone bill for customer: ").append(bill.getCustomer()).append("\n\n");
+    String separator = System.lineSeparator();
+    s.append("Phone bill for customer: ").append(bill.getCustomer()).append(separator).append(separator);
     s.append("Call to:\t")
             .append("Call from:\t")
             .append("Started at:\t")
             .append("Ended at:\t")
             .append("Call duration:")
-            .append("\r\n");
+            .append(separator);
     for (Object o : bill.getPhoneCalls()) {
       PhoneCall call = (PhoneCall) o;
       long callDuration = call.getEndTime().getTime() - call.getStartTime().getTime();
@@ -50,9 +51,9 @@ public class PrettyPrinter implements PhoneBillDumper {
               .append(call.getCaller()).append("\t")
               .append(call.getStartTimeString()).append("\t")
               .append(call.getEndTimeString()).append("\t")
-              .append(callDuration/60000).append(" minutes\r\n");
+              .append(callDuration / 60000).append(" minutes").append(separator);
     }
-    s.append("\n").append("Total calls: ").append(bill.getPhoneCalls().size()).append("\n");
+    s.append(separator).append("\n").append("Total calls: ").append(bill.getPhoneCalls().size()).append(separator);
     s.append("Total call time: ").append(totalCallTime / 60000).append(" minutes").append("\n");
 
     //Set destination and output data

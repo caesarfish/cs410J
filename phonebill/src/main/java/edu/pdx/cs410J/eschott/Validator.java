@@ -17,20 +17,22 @@ public class Validator {
    * Method uses a regex to validate phone number format
    * @param phoneNumber should be in format ###-###-####
   **/
-  public static void validatePhoneNumber(String phoneNumber) throws ParserException{
+  public static boolean validatePhoneNumber(String phoneNumber) throws ParserException{
     if (!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
       throw new ParserException("Invalid phone number format");
     }
+    return true;
   }
 
-  public static void validateDate(String dateToValidate) throws ParserException {
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+  public static boolean validateDate(String dateToValidate) throws ParserException {
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
     dateFormat.setLenient(false);
     try {
       Date date = dateFormat.parse(dateToValidate);
     } catch (ParseException e) {
       throw new ParserException("Invalid date-time format");
     }
+    return true;
   }
 
 }

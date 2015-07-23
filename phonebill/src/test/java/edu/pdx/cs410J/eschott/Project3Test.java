@@ -88,7 +88,7 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testMainMethodPrintsCallToFile() {
     MainMethodResult result = invokeMain("-print", "-textFile", "test4.txt", "Bob Smith", "111-111-1111",
-            "222-222-2222", "1/1/2000", "11:12", "AM", "1/2/2000", "12:34", "PM");
+            "222-222-2222", "1/1/2000", "1:12", "AM", "01/02/2000", "12:34", "PM");
     assertThat(result.getErr(), equalTo(""));
   }
 
@@ -211,9 +211,14 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testParserReturnCanCreatePhoneCall() {
     CommandLineParser clp = getCommandLineParser();
-    PhoneCall call = new PhoneCall(clp.getArgs().get(1), clp.getArgs().get(2),
-                                   clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)).concat(" ").concat(clp.getArgs().get(5)),
-                                   clp.getArgs().get(6) + " " + clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(clp.getArgs().get(1), clp.getArgs().get(2),
+                                     clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4)).concat(" ").concat(clp.getArgs().get(5)),
+                                     clp.getArgs().get(6) + " " + clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     assertThat(call.toString(), equalTo("Phone call from 111-111-1111 to 222-222-2222 from 1/1/00 11:12 AM to 1/1/00 11:13 AM"));
   }
 
@@ -222,8 +227,13 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetCallerReturnsCallerNumber() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      assertThat(call.getCaller(), equalTo(callerNumber));
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    assertThat(call.getCaller(), equalTo(callerNumber));
   }
 
   /**
@@ -231,8 +241,13 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetCalleeReturnsCalleeNumber() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      assertThat(call.getCallee(), equalTo(calleeNumber));
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    assertThat(call.getCallee(), equalTo(calleeNumber));
   }
 
   /**
@@ -240,7 +255,12 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetStartAndEndTimeReturnsDate() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     assertThat(call.getStartTime().toString(), equalTo("Sat Jan 01 11:59:00 PST 2000"));
     assertThat(call.getEndTime().toString(), equalTo("Sat Jan 01 12:01:00 PST 2000"));
   }
@@ -250,8 +270,13 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetStartTimeStringReturnsStartTime() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      assertThat(call.getStartTimeString(), equalTo("1/1/00 11:59 AM"));
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    assertThat(call.getStartTimeString(), equalTo("1/1/00 11:59 AM"));
   }
 
   /**
@@ -259,8 +284,13 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetEndTimeStringReturnsEndTime() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      assertThat(call.getEndTimeString(), equalTo("1/1/00 12:01 PM"));
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    assertThat(call.getEndTimeString(), equalTo("1/1/00 12:01 PM"));
   }
 
   /**
@@ -273,6 +303,22 @@ public class Project3Test extends InvokeMainTestCase {
         PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       } catch (IllegalArgumentException e) {
         fail("Date Time format is invalid");
+      } catch (ParserException e) {
+        fail(e.getMessage());
+      }
+  }
+
+  /**
+   * Tests date time validation for valid input
+   */
+  @Test
+  public void testInvalidEndTimeIsInvalid() {
+    endTime = "1//2000 1:01 AM";
+      try {
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        fail("Expected exception");
+      } catch (ParserException e) {
+        //passes
       }
   }
 
@@ -281,8 +327,13 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testPrintsCallDescriptionShouldPrintCallDescription() {
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-      String s = "Phone call from 111-111-1111 to 999-999-9999 from 1/1/00 11:59 AM to 1/1/00 12:01 PM";
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    String s = "Phone call from 111-111-1111 to 999-999-9999 from 1/1/00 11:59 AM to 1/1/00 12:01 PM";
       assertThat(call.toString(), equalTo(s));
   }
 
@@ -303,8 +354,14 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testAddMultiplePhoneCallsAddsAndReturnsPhoneCalls() {
     PhoneBill bill = new PhoneBill(customer);
-    PhoneCall callOne = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
-    PhoneCall callTwo = new PhoneCall("123-456-7890", "098-765-4321", "2/3/1968 12:34 AM", "2/4/1969 15:56 PM");
+    PhoneCall callOne = null;
+    PhoneCall callTwo = null;
+    try {
+      callOne = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+      callTwo = new PhoneCall("123-456-7890", "098-765-4321", "2/3/1968 12:34 AM", "2/4/1969 3:56 PM");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill.addPhoneCall(callOne);
     bill.addPhoneCall(callTwo);
     assertThat(bill.getPhoneCalls().size(), equalTo(2));
@@ -345,7 +402,12 @@ public class Project3Test extends InvokeMainTestCase {
   //dependency: testTextParserReadsFileData
   public void testDumpWritesMultipleCallPhoneBill() {
     PhoneBill bill = getPhoneBill();
-    PhoneCall call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/2011 11:23 am", "1/1/2011 11:24 am");
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall("123-456-7890", "098-765-4321", "1/1/2011 11:23 am", "1/1/2011 11:24 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill.addPhoneCall(call);
     TextDumper td = new TextDumper();
     td.setFile("test2.txt");
@@ -378,8 +440,14 @@ public class Project3Test extends InvokeMainTestCase {
 
   @Test
   public void testDateOlderThanOtherDate() {
-    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
-    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+    PhoneCall call1 = null;
+    PhoneCall call2 = null;
+    try {
+      call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
+      call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     assertThat(call1.compareTo(call2), equalTo(-1)); //call1 is earlier than call2
   }
 
@@ -388,9 +456,16 @@ public class Project3Test extends InvokeMainTestCase {
   @Ignore //can't get this test to pass
   public void testPhoneBillSortReturnsCorrectOrder() {
     PhoneBill bill = new PhoneBill("Bob Smith");
-    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
-    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
-    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:35 am");
+    PhoneCall call1 = null;
+    PhoneCall call2 = null;
+    PhoneCall call3 = null;
+    try {
+      call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
+      call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+      call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:35 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill.addPhoneCall(call3);
     bill.addPhoneCall(call2);
     bill.addPhoneCall(call1);
@@ -415,9 +490,16 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testPrettyPrinterWritesToFile() {
     PhoneBill bill = new PhoneBill("Test");
-    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
-    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
-    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:36 am");
+    PhoneCall call1 = null;
+    PhoneCall call2 = null;
+    PhoneCall call3 = null;
+    try {
+      call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
+      call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+      call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:35 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill.addPhoneCall(call3);
     bill.addPhoneCall(call2);
     bill.addPhoneCall(call1);
@@ -433,9 +515,16 @@ public class Project3Test extends InvokeMainTestCase {
   @Test
   public void testTextParserWritesToReadsFromWritesToAgainInSortOrder() {
     PhoneBill bill = new PhoneBill("Test");
-    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2015 01:00 am", "1/1/2015 01:05 am");
-    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2015 01:05 am", "1/1/2015 01:10 am");
-    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2015 11:00 am", "1/2/2015 11:36 am");
+    PhoneCall call1 = null;
+    PhoneCall call2 = null;
+    PhoneCall call3 = null;
+    try {
+      call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
+      call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
+      call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:35 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill.addPhoneCall(call3);
     bill.addPhoneCall(call2);
     bill.addPhoneCall(call1);
@@ -454,7 +543,12 @@ public class Project3Test extends InvokeMainTestCase {
     } catch (ParserException e) {
       e.printStackTrace();
     }
-    PhoneCall call4 = new PhoneCall("111-111-1111", "223-543-5678", "1/1/2015 1:10 am", "1/1/2015 1:15 am");
+    PhoneCall call4 = null;
+    try {
+      call4 = new PhoneCall("111-111-1111", "223-543-5678", "1/1/2015 1:10 am", "1/1/2015 1:15 am");
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
     bill2.addPhoneCall(call4);
     try {
       td.dump(bill2);
@@ -490,7 +584,12 @@ public class Project3Test extends InvokeMainTestCase {
    */
   private PhoneBill getPhoneBill() {
     PhoneBill bill = new PhoneBill(customer);
-    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      System.err.println(e.getMessage());
+    }
     bill.addPhoneCall(call);
     return bill;
   }

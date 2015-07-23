@@ -87,7 +87,13 @@ public class Project3 {
       }
 
 
-      PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+      PhoneCall call = null;
+      try {
+        call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+      } catch (ParserException e) {
+        System.err.println(e.getMessage());
+        System.exit(1);
+      }
       bill.addPhoneCall(call);
 
       /**
