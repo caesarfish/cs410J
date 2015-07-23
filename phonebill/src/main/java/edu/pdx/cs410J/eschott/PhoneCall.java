@@ -32,7 +32,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
      * @param callStart - datetime call begins
      * @param callEnd - datetime call ends
      */
-    public PhoneCall(String caller, String callee, String callStart, String callEnd){
+    public PhoneCall(String caller, String callee, String callStart, String callEnd) {
         callerNumber = caller;
         calleeNumber = callee;
         startTime = stringToDate(callStart);
@@ -84,13 +84,14 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
   /**
    * Method to convert strings to date
    */
-  private Date stringToDate(String stringToConvert) {
+  private Date stringToDate(String stringToConvert)  {
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
     Date date = null;
     try {
       date = dateFormat.parse(stringToConvert);
     } catch (ParseException e) {
       System.err.println("Invalid date-time format");
+      e.printStackTrace();
     }
     return date;
   }

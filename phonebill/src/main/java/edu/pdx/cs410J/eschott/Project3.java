@@ -42,6 +42,10 @@ public class Project3 {
       callerName = clp.getArgs().get(0);
       PhoneBill bill = new PhoneBill(callerName);
 
+      /**
+       * checks if read in file is specified in command line args
+       * reads file contents into bill
+       */
       if (clp.checkFileFlag()) {
         TextParser tp = new TextParser();
         tp.setFile(clp.getFileName());
@@ -68,23 +72,30 @@ public class Project3 {
       startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4).concat(" ").concat(clp.getArgs().get(5)));
       endTime = clp.getArgs().get(6).concat(" ").concat(clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
 
-      if(!validatePhoneNumber(callerNumber) || !validatePhoneNumber(calleeNumber)) {
-        System.err.println("Phone number is not valid: from " + callerNumber + " to " + calleeNumber + ". Should be in format ###-###-####");
+
+      try {
+        Validator.validatePhoneNumber(callerNumber);
+        Validator.validatePhoneNumber(calleeNumber);
+      } catch (ParserException e) {
+        System.err.println("Invalid phone number format");
         System.exit(1);
       }
 
-      //Date should validate in PhoneCall object.
-      //TODO: consider validating before passing to PhoneCall constructor?
-      /*if(!validateDateTime(startTime) || !validateDateTime(endTime)) {
-        System.err.println("Invalid date-time format: from " + startTime + " to " + endTime +
-                ". Should be in format MM/DD/YYYY HH:MM");
+      try {
+        Validator.validateDate(startTime);
+      } catch (ParserException e) {
+        System.err.println(e.getMessage());
         System.exit(1);
-      }*/
+      }
+
 
       PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       bill.addPhoneCall(call);
 
-
+      /**
+       * If print option set prints to command line
+       * optionally prints to file if file option set
+       */
       if (clp.checkPrintFlag()) {
         if (clp.checkFileFlag()) {
           TextDumper td = new TextDumper();
@@ -94,24 +105,14 @@ public class Project3 {
           } catch (IOException e) {
             e.printStackTrace();
           }
-        } else {
-          System.out.println(call.toString());
         }
+        System.out.println(call.toString());
       }
-
     }
 
     System.exit(1);
   }
 
-  /**
-   * Method uses a regex to validate phone number format
-   * @param phoneNumber should be in format ###-###-####
-   * @return true if phoneNumber matches regex
-   */
-  public static boolean validatePhoneNumber(String phoneNumber){
-    return phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
-  }
 
   /** TODO: remove block
    * Method uses a regex to validate date format

@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import static junit.framework.Assert.assertEquals;
@@ -137,7 +136,7 @@ public class Project3Test extends InvokeMainTestCase {
   public void testMainMethodFailsOnInvalidNumber() {
     MainMethodResult result = invokeMain("Bob Smith", "xxx-111-1111", "222-222-2222", "1/1/2000",
             "11:12", "AM", "1/2/2000", "12:34", "PM");
-    assertThat(result.getErr(), containsString("Phone number is not valid"));
+    assertThat(result.getErr(), containsString("Invalid phone number format"));
   }
 
   @Test
@@ -200,7 +199,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetCallerReturnsCallerNumber() {
-      PhoneCall call = logPhoneCall(callerNumber);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       assertThat(call.getCaller(), equalTo(callerNumber));
   }
 
@@ -209,7 +208,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetCalleeReturnsCalleeNumber() {
-      PhoneCall call = logPhoneCall(callerNumber, calleeNumber);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       assertThat(call.getCallee(), equalTo(calleeNumber));
   }
 
@@ -218,7 +217,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetStartAndEndTimeReturnsDate() {
-    PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
     assertThat(call.getStartTime().toString(), equalTo("Sat Jan 01 11:59:00 PST 2000"));
     assertThat(call.getEndTime().toString(), equalTo("Sat Jan 01 12:01:00 PST 2000"));
   }
@@ -228,7 +227,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetStartTimeStringReturnsStartTime() {
-      PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       assertThat(call.getStartTimeString(), equalTo("1/1/00 11:59 AM"));
   }
 
@@ -237,7 +236,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testGetEndTimeStringReturnsEndTime() {
-      PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       assertThat(call.getEndTimeString(), equalTo("1/1/00 12:01 PM"));
   }
 
@@ -248,7 +247,7 @@ public class Project3Test extends InvokeMainTestCase {
   public void testValidEndTimeIsValid() {
       endTime = "1/1/2000 1:01 AM";
       try {
-          PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       } catch (IllegalArgumentException e) {
         fail("Date Time format is invalid");
       }
@@ -259,7 +258,7 @@ public class Project3Test extends InvokeMainTestCase {
    */
   @Test
   public void testPrintsCallDescriptionShouldPrintCallDescription() {
-      PhoneCall call = logPhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
       String s = "Phone call from 111-111-1111 to 999-999-9999 from 1/1/00 11:59 AM to 1/1/00 12:01 PM";
       assertThat(call.toString(), equalTo(s));
   }
@@ -391,7 +390,7 @@ public class Project3Test extends InvokeMainTestCase {
   }
 
   @Test
-  public void TestPrettyPrinterWritesToFile() {
+  public void testPrettyPrinterWritesToFile() {
     PhoneBill bill = new PhoneBill("Test");
     PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
     PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
@@ -409,7 +408,7 @@ public class Project3Test extends InvokeMainTestCase {
   }
 
   @Test
-  public void TestPrettyPrinterWritesToStandardOut() {
+  public void testPrettyPrinterWritesToStandardOut() {
     PhoneBill bill = new PhoneBill("Test");
     PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
     PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
@@ -425,50 +424,30 @@ public class Project3Test extends InvokeMainTestCase {
       fail(e.getMessage());
     }
   }
-  /**
-   * Method for creating a PhoneCall object with 1 param
-   * @param caller Number of the person calling
-   * @return calls logPhoneCall recursively
-   */
-  private PhoneCall logPhoneCall(String caller) {
-      return logPhoneCall(caller, "999-999-9999");
+
+  @Test
+  public void testValidatorThrowsExceptionOnInvalidPhoneNumber() {
+    try {
+      Validator.validatePhoneNumber("x11-111-1111");
+      fail("Expected exception");
+    } catch (ParserException e) {
+      //passes
+    }
   }
 
-  /**
-   * Method for creating a PhoneCall object with 2 params
-   * @param caller Number of the person calling
-   * @param callee Number of the person being called
-   * @return calls logPhoneCall recursively
-   */
-  private PhoneCall logPhoneCall(String caller, String callee) {
-      return logPhoneCall(caller, callee, "1/1/2000 11:59");
+  @Test
+  public void testValidatorThrowsExceptionOnInvalidDate() {
+    try {
+      Validator.validateDate("1/1/2000 11:59");
+      fail("Expected exception");
+    } catch (ParserException e) {
+      //passes
+    }
   }
 
-  /**
-   * Method for creating a PhoneCall object with 3 params
-   * @param caller Number of the person calling
-   * @param callee Number of the person being called
-   * @param callStart datetime of start time
-   * @return call logPhoneCall recursively
-   */
-  private PhoneCall logPhoneCall(String caller, String callee, String callStart) {
-      return logPhoneCall(caller, callee, callStart, "1/1/2000 12:01");
-  }
 
   /**
-   * Method for creating a PhoneCall object with all 4 params
-   * @param caller Number of the person calling
-   * @param callee Number of the person being called
-   * @param callStart datetime the call starts
-   * @param callEnd datetime the call ends
-   * @return call logPhoneCall recursively
-   */
-  private PhoneCall logPhoneCall(String caller, String callee, String callStart, String callEnd) {
-      return new PhoneCall(caller, callee, callStart, callEnd);
-  }
-
-  /**
-   * Method for created a PhoneBill for test calls
+   * Helper Method for creating a PhoneBill for test calls
    * @return returns a phone bill
    */
   private PhoneBill getPhoneBill() {
