@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by Evan on 7/7/2015.
  * Public class PhoneCall extends AbstractPhoneCall
  */
-public class PhoneCall extends AbstractPhoneCall implements Comparable  {
+public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall>  {
     private String callerNumber;
     private String calleeNumber;
     private Date startTime;
@@ -100,8 +100,8 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable  {
    * Method to convert date to string
    */
   private String dateToString(Date dateToConvert) {
-    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-    return dateFormat.format(dateToConvert);
+      DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+      return dateFormat.format(dateToConvert);
   }
 
 
@@ -145,8 +145,11 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable  {
    */
   @SuppressWarnings("NullableProblems")
   @Override
-  public int compareTo(Object o) {
-    int dateComparison = this.getStartTime().compareTo(((PhoneCall)o).getStartTime());
+  public int compareTo(PhoneCall o) {
+    Date date1 = stringToDate(dateToString(this.getStartTime())); //necessary for proper YY to YYYY comparison
+    Date date2 = stringToDate(dateToString(o.getStartTime()));
+    int dateComparison = date1.compareTo(date2);
+    //int dateComparison = this.getStartTime().compareTo(((PhoneCall)o).getStartTime());
     if (dateComparison == 0) {
       dateComparison = this.getCallee().compareTo(((PhoneCall)o).getCallee());
     }

@@ -36,21 +36,21 @@ public class PrettyPrinter implements PhoneBillDumper {
     StringBuilder s = new StringBuilder();
     long totalCallTime = 0;
     s.append("Phone bill for customer: ").append(bill.getCustomer()).append("\n\n");
-    s.append("Call to:\t\t\t")
-            .append("Call from:\t\t\t")
-            .append("Started at:\t\t\t")
-            .append("Ended at:\t\t\t")
-            .append("Call duration:\t\t\t")
-            .append("\n");
+    s.append("Call to:\t")
+            .append("Call from:\t")
+            .append("Started at:\t")
+            .append("Ended at:\t")
+            .append("Call duration:")
+            .append("\r\n");
     for (Object o : bill.getPhoneCalls()) {
       PhoneCall call = (PhoneCall) o;
       long callDuration = call.getEndTime().getTime() - call.getStartTime().getTime();
       totalCallTime += callDuration;
-      s.append(call.getCallee()).append("\t\t")
-              .append(call.getCaller()).append("\t\t")
-              .append(call.getStartTimeString()).append("\t\t")
-              .append(call.getEndTimeString()).append("\t\t")
-              .append(callDuration/60000).append(" minutes\n");
+      s.append(call.getCallee()).append("\t")
+              .append(call.getCaller()).append("\t")
+              .append(call.getStartTimeString()).append("\t")
+              .append(call.getEndTimeString()).append("\t")
+              .append(callDuration/60000).append(" minutes\r\n");
     }
     s.append("\n").append("Total calls: ").append(bill.getPhoneCalls().size()).append("\n");
     s.append("Total call time: ").append(totalCallTime / 60000).append(" minutes").append("\n");

@@ -51,6 +51,7 @@ public class PhoneBill extends AbstractPhoneBill {
    */
   public void addPhoneCall(AbstractPhoneCall call) {
     callList.add((PhoneCall) call);
+    Collections.sort(callList);
   }
 
   /**
@@ -58,7 +59,6 @@ public class PhoneBill extends AbstractPhoneBill {
    * AbstractPhoneCall}) in this phone bill
    */
   public Collection getPhoneCalls() {
-    Collections.sort(callList);
     return callList;
 
   }

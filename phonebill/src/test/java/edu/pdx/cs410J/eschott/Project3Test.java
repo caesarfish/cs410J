@@ -418,13 +418,46 @@ public class Project3Test extends InvokeMainTestCase {
     PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:00 am", "1/1/2000 01:05 am");
     PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2000 01:05 am", "1/1/2000 01:10 am");
     PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2000 11:00 am", "1/2/2000 11:36 am");
-    bill.addPhoneCall(call1);
-    bill.addPhoneCall(call2);
     bill.addPhoneCall(call3);
+    bill.addPhoneCall(call2);
+    bill.addPhoneCall(call1);
     PrettyPrinter pp = new PrettyPrinter();
     pp.setFile("PPTest.txt");
     try {
       pp.dump(bill);
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testTextParserWritesToReadsFromWritesToAgainInSortOrder() {
+    PhoneBill bill = new PhoneBill("Test");
+    PhoneCall call1 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2015 01:00 am", "1/1/2015 01:05 am");
+    PhoneCall call2 = new PhoneCall("111-111-1111", "555-555-5555", "1/1/2015 01:05 am", "1/1/2015 01:10 am");
+    PhoneCall call3 = new PhoneCall("111-111-1111", "223-543-5678", "1/2/2015 11:00 am", "1/2/2015 11:36 am");
+    bill.addPhoneCall(call3);
+    bill.addPhoneCall(call2);
+    bill.addPhoneCall(call1);
+    TextDumper td = new TextDumper();
+    td.setFile("TDReadWriteTest.txt");
+    try {
+      td.dump(bill);
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+    TextParser tp = new TextParser();
+    tp.setFile("TDReadWriteTest.txt");
+    PhoneBill bill2 = new PhoneBill("Test");
+    try {
+      bill2 = (PhoneBill)tp.parse();
+    } catch (ParserException e) {
+      e.printStackTrace();
+    }
+    PhoneCall call4 = new PhoneCall("111-111-1111", "223-543-5678", "1/1/2015 1:10 am", "1/1/2015 1:15 am");
+    bill2.addPhoneCall(call4);
+    try {
+      td.dump(bill2);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -470,8 +503,6 @@ public class Project3Test extends InvokeMainTestCase {
     ArrayList<String> argsList = new ArrayList<>();
     Collections.addAll(argsList,"-print", "-textFile", "text.txt", "-pretty", "PPTest.txt", "Bob Smith", "111-111-1111", "222-222-2222", "01/01/2000", "11:12", "AM",
             "1/1/2000", "11:13", "AM" );
-    //String args = "-print -textFile text.txt Bob Smith 111-111-1111 222-222-2222 01/01/2000 11:12 1/1/2000 11:13";
-    //Collections.addAll(argsList, args.split(" "));
     return new CommandLineParser(argsList);
   }
 
