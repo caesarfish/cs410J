@@ -143,7 +143,7 @@ public class Project3 {
             "   endTime : Date and time call ended (24-hour time)\n" +
             "options are (options may appear in any order):\n" +
             "   -pretty : pretty print the phone bill to a text file\n" +
-            "             or standard out (file -)" +
+            "             or standard out (file -)\n" +
             "   -textFile file : Where to read/write the phone bill\n" +
             "   -print : Prints a description of the new phone call\n" +
             "   -README : Prints a README for this project and exits\n" +
