@@ -91,8 +91,8 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
    * Method to convert strings to date
    */
   private Date stringToDate(String stringToConvert)  {
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-    //dateFormat.setLenient(false);
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
+    dateFormat.setLenient(false);
     Date date = null;
     try {
       date = dateFormat.parse(stringToConvert);
@@ -126,10 +126,22 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
     Date date1 = stringToDate(dateToString(this.getStartTime())); //necessary for proper YY to YYYY comparison
     Date date2 = stringToDate(dateToString(o.getStartTime()));
     int dateComparison = date1.compareTo(date2);
-    //int dateComparison = this.getStartTime().compareTo(o.getStartTime());
     if (dateComparison == 0) {
       dateComparison = this.getCallee().compareTo(o.getCallee());
     }
     return dateComparison;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return (o instanceof PhoneCall) && ((PhoneCall) o).getStartTimeString().equals(this.getStartTimeString()) &&
+            ((PhoneCall) o).getCallee().equals(this.getCallee());
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = Integer.parseInt(this.calleeNumber.substring(0, 2));
+    hash = (hash * 7)/3;
+    return hash;
   }
 }

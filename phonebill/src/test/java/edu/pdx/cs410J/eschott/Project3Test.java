@@ -352,6 +352,20 @@ public class Project3Test extends InvokeMainTestCase {
   }
 
   @Test
+  public void testAddDuplicatePhoneCallFails() {
+    PhoneBill bill = getPhoneBill();
+    PhoneCall call = null;
+    try {
+      call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+    } catch (ParserException e) {
+      fail(e.getMessage());
+    }
+    bill.addPhoneCall(call);
+    assertThat(bill.getPhoneCalls().size(), equalTo(1));
+
+  }
+
+  @Test
   public void testAddMultiplePhoneCallsAddsAndReturnsPhoneCalls() {
     PhoneBill bill = new PhoneBill(customer);
     PhoneCall callOne = null;

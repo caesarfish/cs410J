@@ -50,8 +50,17 @@ public class PhoneBill extends AbstractPhoneBill {
    * Adds a phone call to this phone bill
    */
   public void addPhoneCall(AbstractPhoneCall call) {
-    callList.add((PhoneCall) call);
-    Collections.sort(callList);
+    boolean callExists = false;
+    for(PhoneCall o : callList) {
+      if (call.equals(o)){
+        System.err.println("Call already exists in phone bill");
+        callExists = true;
+      }
+    }
+    if (!callExists){
+      callList.add((PhoneCall) call);
+      Collections.sort(callList);
+    }
   }
 
   /**
