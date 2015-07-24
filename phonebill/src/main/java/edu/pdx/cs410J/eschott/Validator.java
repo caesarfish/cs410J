@@ -24,6 +24,12 @@ public class Validator {
     return true;
   }
 
+  /**
+   * Method for date validation
+   * @param dateToValidate date passed in as string
+   * @return true if passes validation
+   * @throws ParserException
+   */
   public static boolean validateDate(String dateToValidate) throws ParserException {
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
     dateFormat.setLenient(false);

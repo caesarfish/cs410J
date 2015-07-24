@@ -61,6 +61,10 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
         return this.calleeNumber;
     }
 
+  /**
+   * Method for return start time of call
+   * @return start time in Date format
+   */
     @Override
     public Date getStartTime() {
      return startTime;
@@ -68,7 +72,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
 
     /**
      * Method for returning startTime
-     * @return startTime
+     * @return startTime as string
      */
     public String getStartTimeString () {
         return dateToString(getStartTime());
@@ -132,12 +136,22 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
     return dateComparison;
   }
 
+  /**
+   * Overrides equals
+   * checks for equality of calls based on startTime and callee number
+   * @param o object to be compared to for equality
+   * @return true if phone calls are equal
+   */
   @Override
   public boolean equals(Object o) {
     return (o instanceof PhoneCall) && ((PhoneCall) o).getStartTimeString().equals(this.getStartTimeString()) &&
             ((PhoneCall) o).getCallee().equals(this.getCallee());
   }
 
+  /**
+   * Overrides hashCode()
+   * @return hash
+   */
   @Override
   public int hashCode() {
     int hash = Integer.parseInt(this.calleeNumber.substring(0, 2));

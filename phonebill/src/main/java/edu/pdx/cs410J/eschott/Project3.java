@@ -65,12 +65,13 @@ public class Project3 {
         }
       }
 
+      //Assigns attributes from command line parser
       callerNumber = clp.getArgs().get(1);
       calleeNumber = clp.getArgs().get(2);
       startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4).concat(" ").concat(clp.getArgs().get(5)));
       endTime = clp.getArgs().get(6).concat(" ").concat(clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
 
-
+      //validates phone numbers
       try {
         Validator.validatePhoneNumber(callerNumber);
         Validator.validatePhoneNumber(calleeNumber);
@@ -79,14 +80,16 @@ public class Project3 {
         System.exit(1);
       }
 
+      //validates start and end time
       try {
         Validator.validateDate(startTime);
+        Validator.validateDate(endTime);
       } catch (ParserException e) {
         System.err.println(e.getMessage());
         System.exit(1);
       }
 
-
+      //creates phone call and adds to bill
       PhoneCall call = null;
       try {
         call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
@@ -99,6 +102,7 @@ public class Project3 {
       /**
        * If print option set prints to command line
        * optionally prints to file if file option set
+       * optionally prints pretty output to std out or file
        */
       if (clp.checkPrintFlag()) {
         System.out.println(call.toString());
