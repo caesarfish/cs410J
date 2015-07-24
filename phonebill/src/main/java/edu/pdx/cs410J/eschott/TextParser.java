@@ -5,6 +5,10 @@ import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.PhoneBillParser;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Parses text file for phone call data
@@ -19,6 +23,23 @@ public class TextParser implements PhoneBillParser {
    * @param file file name to write to
    */
   public void setFile(String file) { fileName = file; }
+
+  /**
+   * Method to convert string to date
+   * @param stringToConvert date as string value
+   * @return date in "MM/dd/yyyy hh:mm a" format
+   * @throws ParseException
+   */
+  private static Date stringToDate(String stringToConvert) throws ParseException {
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    Date date;
+    try {
+      date = dateFormat.parse(stringToConvert);
+    } catch (ParseException e) {
+      throw new ParseException("Invalid date-time format", e.getErrorOffset());
+    }
+    return date;
+  }
 
   /**
    * Parses some source and returns a phone bill

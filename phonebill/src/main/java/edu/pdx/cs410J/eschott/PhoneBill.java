@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * PhoneBill class extends AbstractPhoneBill
@@ -49,7 +50,17 @@ public class PhoneBill extends AbstractPhoneBill {
    * Adds a phone call to this phone bill
    */
   public void addPhoneCall(AbstractPhoneCall call) {
-    callList.add((PhoneCall) call);
+    boolean callExists = false;
+    for(PhoneCall o : callList) {
+      if (call.equals(o)){
+        System.err.println("Call already exists in phone bill");
+        callExists = true;
+      }
+    }
+    if (!callExists){
+      callList.add((PhoneCall) call);
+      Collections.sort(callList);
+    }
   }
 
   /**

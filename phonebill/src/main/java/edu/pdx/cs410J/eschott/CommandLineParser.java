@@ -11,7 +11,8 @@ import java.util.NoSuchElementException;
 public class CommandLineParser {
   private boolean readMe = false;
   private boolean print = false;
-  private String fileName = null;
+  private String textFileName = null;
+  private String prettyFileName = null;
   private ArrayList<String> callArgs = new ArrayList<>();
 
   /**
@@ -28,15 +29,24 @@ public class CommandLineParser {
           case "-README":
             readMe = true;
             return; //does not need to process any more arguments
-
           case "-print":
             print = true;
             break;
+          case "-pretty":
+            try {
+              prettyFileName = (String) itr.next();
+              if (prettyFileName.startsWith("-") && prettyFileName.length() > 1) {
+                throw new NoSuchElementException(); //either no filename or no more args
+              }
+            } catch (NoSuchElementException e) {
+              System.err.println("pretty print option requires file name or \"-\"");
+            }
+            break;
           case "-textFile":
             try {
-              fileName = (String) itr.next();
-              if (fileName.startsWith("-")) {
-                throw new NoSuchElementException();
+              textFileName = (String) itr.next();
+              if (textFileName.startsWith("-")) {
+                throw new NoSuchElementException(); //either no filename or no more args
               }
             } catch (NoSuchElementException e) {
               System.err.println("textFile option requires file name: -textFile file");
@@ -69,7 +79,13 @@ public class CommandLineParser {
    * Checks if textFile option selected
    * @return true if -textFile flag was set with file name
    */
-  public boolean checkFileFlag() { return fileName != null; }
+  public boolean checkTextFileFlag() { return textFileName != null; }
+
+  /**
+   * Checks if textFile option selected
+   * @return true if -textFile flag was set with file name
+   */
+  public boolean checkPrettyFileFlag() { return prettyFileName != null; }
 
   /**
    * Gets array list of non-option flag args
@@ -83,8 +99,16 @@ public class CommandLineParser {
    * Gets file name set by the -textFile option
    * @return fileName
    */
-  public String getFileName() {
-    return fileName;
+  public String getTextFileName() {
+    return textFileName;
+  }
+
+  /**
+   * Gets file name set by the -textFile option
+   * @return fileName
+   */
+  public String getPrettyFileName() {
+    return prettyFileName;
   }
 
 }
