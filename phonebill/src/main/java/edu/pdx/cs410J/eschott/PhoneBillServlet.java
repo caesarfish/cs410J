@@ -85,6 +85,8 @@ public class PhoneBillServlet extends HttpServlet
             e.printStackTrace();
         }
 
+        //If phone bill exists, adds to it
+        //otherwise creates new phone bill
         PhoneBill bill = new PhoneBill();
         if (!this.data.containsKey(customer)) {
             bill = new PhoneBill(customer);
@@ -97,20 +99,6 @@ public class PhoneBillServlet extends HttpServlet
         }
 
 
-
-        //verify data written
-        //Todo: delete this section
-        PhoneBill verify = this.data.get(customer);
-        if (verify == null) {
-            System.out.println("Verify failed");
-        } else {
-            System.out.println("Verified added");
-        }
-
-        //TODO: delete this section
-        /*PrintWriter pw = response.getWriter();
-        pw.println(Messages.mappedKeyValue(customer, bill.toString()));
-        pw.flush();*/
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
@@ -138,24 +126,21 @@ public class PhoneBillServlet extends HttpServlet
      */
     private void writeValue( String customer, HttpServletResponse response ) throws IOException
     {
-
+        PrintWriter pw = response.getWriter();
         System.out.println("writeValue has: " + customer);
         PhoneBill bill = this.data.get(customer);
         if (bill == null) {
-            System.out.println("Failed to retrieve bill");
+            pw.println("No records exist for customer: " + customer);
+            response.setStatus( HttpServletResponse.SC_NOT_FOUND);
         } else {
-            System.out.println("Retrieve success");
+            PrettyPrinter pp = new PrettyPrinter();
+            pp.dump(bill, response);
+            response.setStatus(HttpServletResponse.SC_OK);
         }
-        PrintWriter pw = response.getWriter();
-        pw.println("Sending to pretty printer bill for: " + bill.getCustomer());
+
         pw.flush();
 
-        PrettyPrinter pp = new PrettyPrinter();
-        pp.dump(bill, response);
 
-
-
-        response.setStatus( HttpServletResponse.SC_OK );
     }
 
     /**
