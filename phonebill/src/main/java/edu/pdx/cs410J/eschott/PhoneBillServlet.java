@@ -99,6 +99,7 @@ public class PhoneBillServlet extends HttpServlet
 
 
         //verify data written
+        //Todo: delete this section
         PhoneBill verify = this.data.get(customer);
         if (verify == null) {
             System.out.println("Verify failed");
@@ -106,9 +107,10 @@ public class PhoneBillServlet extends HttpServlet
             System.out.println("Verified added");
         }
 
-        PrintWriter pw = response.getWriter();
+        //TODO: delete this section
+        /*PrintWriter pw = response.getWriter();
         pw.println(Messages.mappedKeyValue(customer, bill.toString()));
-        pw.flush();
+        pw.flush();*/
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
@@ -141,19 +143,17 @@ public class PhoneBillServlet extends HttpServlet
         PhoneBill bill = this.data.get(customer);
         if (bill == null) {
             System.out.println("Failed to retrieve bill");
+        } else {
+            System.out.println("Retrieve success");
         }
         PrintWriter pw = response.getWriter();
-        //pw.println("Phonebill generated for " + bill.getCustomer());
-
+        pw.println("Sending to pretty printer bill for: " + bill.getCustomer());
         pw.flush();
 
         PrettyPrinter pp = new PrettyPrinter();
-        //pp.dump(bill, response);
+        pp.dump(bill, response);
 
-        /*PrintWriter pw = response.getWriter();
-        pw.println("Phonebill generated for " + customer);
 
-        pw.flush();*/
 
         response.setStatus( HttpServletResponse.SC_OK );
     }
