@@ -40,31 +40,6 @@ public class Project3 {
       callerName = clp.getArgs().get(0);
       PhoneBill bill = new PhoneBill(callerName);
 
-      /**
-       * checks if read in file is specified in command line args
-       * reads file contents into bill
-       */
-      if (clp.checkTextFileFlag()) {
-        TextParser tp = new TextParser();
-        tp.setFile(clp.getTextFileName());
-        try {
-          PhoneBill parsedBill = (PhoneBill) tp.parse();
-          if (parsedBill.getCustomer().equals(bill.getCustomer())){
-            bill = parsedBill;
-          } else {
-            if (!parsedBill.getCustomer().equals("")) {
-              System.err.println("Customer name provided does not match phone bill record on file");
-              System.exit(1); //Will not continue in this case
-            }
-          }
-        } catch (ParserException | NullPointerException e) {
-          if (!e.getMessage().contains("Empty file")) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-          }
-        }
-      }
-
       //Assigns attributes from command line parser
       callerNumber = clp.getArgs().get(1);
       calleeNumber = clp.getArgs().get(2);
@@ -101,31 +76,9 @@ public class Project3 {
 
       /**
        * If print option set prints to command line
-       * optionally prints to file if file option set
-       * optionally prints pretty output to std out or file
        */
       if (clp.checkPrintFlag()) {
         System.out.println(call.toString());
-      }
-
-      if (clp.checkTextFileFlag()) {
-        TextDumper td = new TextDumper();
-        td.setFile(clp.getTextFileName());
-        try {
-          td.dump(bill);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-
-      if (clp.checkPrettyFileFlag()) {
-        PrettyPrinter pp = new PrettyPrinter();
-        pp.setFile(clp.getPrettyFileName());
-        try {
-          pp.dump(bill);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
       }
     }
 
@@ -136,12 +89,12 @@ public class Project3 {
   /**
    * Prints README
    */
-  private static void printReadMe() {
-    String readmeText = "README file for PhoneBill v1.3 \n" +
+  private static void printReadMe() { //Todo: update readme
+    String readmeText = "README file for PhoneBill v1.4 \n" +
             "Evan Schott \n" +
             "CS410J \n" +
             "Summer 2015 \n" +
-            "Project 3 \n" +
+            "Project 4 \n" +
             "Project Description: \n" +
             "   This project records phone call details entered on the command line. \n" +
             "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +

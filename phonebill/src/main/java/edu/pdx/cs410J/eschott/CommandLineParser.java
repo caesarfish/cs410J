@@ -13,6 +13,8 @@ public class CommandLineParser {
   private boolean print = false;
   private String textFileName = null;
   private String prettyFileName = null;
+  private String hostName = null;
+  private String portString = null;
   private ArrayList<String> callArgs = new ArrayList<>();
 
   /**
@@ -29,28 +31,29 @@ public class CommandLineParser {
           case "-README":
             readMe = true;
             return; //does not need to process any more arguments
+          case "-host":
+            try {
+              hostName = (String) itr.next();
+              if (hostName.startsWith("-")) {
+                throw new NoSuchElementException();
+              }
+              //hostName = System.getProperty("http.port", hostName);
+            } catch (NoSuchElementException e) {
+              System.err.println("Host name required: -host hostname");
+            }
+            break;
+          case "-port":
+            try {
+              portString = (String) itr.next();
+              if (portString.startsWith("-")) {
+                throw new NoSuchElementException();
+              }
+            } catch (NoSuchElementException e) {
+              System.err.println("Port number required: -port port");
+            }
+            break;
           case "-print":
             print = true;
-            break;
-          case "-pretty":
-            try {
-              prettyFileName = (String) itr.next();
-              if (prettyFileName.startsWith("-") && prettyFileName.length() > 1) {
-                throw new NoSuchElementException(); //either no filename or no more args
-              }
-            } catch (NoSuchElementException e) {
-              System.err.println("pretty print option requires file name or \"-\"");
-            }
-            break;
-          case "-textFile":
-            try {
-              textFileName = (String) itr.next();
-              if (textFileName.startsWith("-")) {
-                throw new NoSuchElementException(); //either no filename or no more args
-              }
-            } catch (NoSuchElementException e) {
-              System.err.println("textFile option requires file name: -textFile file");
-            }
             break;
           default:
             System.err.println("That option is not recognized. Please view README");
@@ -75,40 +78,25 @@ public class CommandLineParser {
    */
   public boolean checkPrintFlag() { return print; }
 
-  /**
-   * Checks if textFile option selected
-   * @return true if -textFile flag was set with file name
-   */
-  public boolean checkTextFileFlag() { return textFileName != null; }
 
-  /**
-   * Checks if textFile option selected
-   * @return true if -textFile flag was set with file name
-   */
-  public boolean checkPrettyFileFlag() { return prettyFileName != null; }
-
-  /**
-   * Gets array list of non-option flag args
-   * @return array list of args
-   */
   public ArrayList<String> getArgs() {
     return callArgs;
   }
 
   /**
-   * Gets file name set by the -textFile option
+   * Gets host name set by the -host option
    * @return fileName
    */
-  public String getTextFileName() {
-    return textFileName;
+  public String getHostName() {
+    return hostName;
   }
 
   /**
-   * Gets file name set by the -textFile option
+   * Gets port set by the -port option
    * @return fileName
    */
-  public String getPrettyFileName() {
-    return prettyFileName;
+  public String getPortString() {
+    return portString;
   }
 
 }

@@ -18,7 +18,7 @@ public class PhoneBillRestClient extends HttpRequestHelper
 
 
     /**
-     * Creates a client to the Phone Bil REST service running on the given host and port
+     * Creates a client to the Phone Bill REST service running on the given host and port
      * @param hostName The name of the host
      * @param port The port
      */
@@ -30,21 +30,23 @@ public class PhoneBillRestClient extends HttpRequestHelper
     /**
      * Returns all keys and values from the server
      */
-    public Response getAllKeysAndValues() throws IOException
+    /*public Response getAllKeysAndValues() throws IOException
     {
         return get(this.url );
-    }
+    }*/
 
     /**
-     * Returns all values for the given key
+     * Returns all calls for the given customer
      */
-    public Response getValues( String key ) throws IOException
+    public Response printPhoneCall( String customer ) throws IOException
     {
-        return get(this.url, "key", key);
+        return get(this.url, "customer", customer);
     }
 
-    public Response addKeyValuePair( String key, String value ) throws IOException
+    public Response addPhoneCall( String customer, String callerNumber, String calleeNumber,
+                                  String startTime, String endTime) throws IOException
     {
-        return post( this.url, "key", key, "value", value );
+        return post( this.url, "customer", customer, "callerNumber", callerNumber, "calleeNumber", calleeNumber,
+                "startTime", startTime, "endTime", endTime);
     }
 }
