@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +46,9 @@ public class PhoneBillServlet extends HttpServlet
         String end = getParameter( "endTime", request);
         if (customer != null) {
             if (start != null) {
-                if (end!=null) {
+                if (end != null) {
                     System.out.println("Searching calls between " + start + " and " + end);
-                    printCallRange(customer, start, end, response);
+                    printCallRange(bill, start, end, response);
                 } else {
                     missingRequiredParameter( response, "endTime");
                 }
@@ -104,7 +108,6 @@ public class PhoneBillServlet extends HttpServlet
 
         //If phone bill exists, adds to it
         //otherwise creates new phone bill
-
         if (!this.data.containsKey(customer)) {
             PhoneBill bill = new PhoneBill(customer);
             bill.addPhoneCall(call);
@@ -147,8 +150,26 @@ public class PhoneBillServlet extends HttpServlet
 
     }
 
-    private void printCallRange(String customer, String start, String end, HttpServletResponse response) {
+    private void printCallRange(PhoneBill bill, String start, String end, HttpServletResponse response) throws IOException {
+        Date startTime;
+        Date endTime;
+        PhoneBill newBill = new PhoneBill(bill.getCustomer());
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
+        dateFormat.setLenient(false);
+        try {
+            startTime = dateFormat.parse(start);
+            endTime = dateFormat.parse(end);
+        } catch (ParseException e) {
+            throw new IOException("Invalid date format");
+        }
+        for (Object o : bill.getPhoneCalls()) {
+            PhoneCall call = (PhoneCall) o;
+            if (call.getStartTime().after(startTime) && call.getEndTime().before(endTime)) {
+                newBill.addPhoneCall(call);
+            }
+        }
 
+        printBill(newBill, response);
     }
 
     /**
