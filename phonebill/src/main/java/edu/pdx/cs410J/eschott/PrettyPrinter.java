@@ -33,8 +33,8 @@ public class PrettyPrinter implements PhoneBillDumper {
         StringBuilder s = new StringBuilder();
         long totalCallTime = 0;
         String separator = System.lineSeparator();
-        pw.println("Phone bill for customer: " + bill.getCustomer());
-        /*
+        //pw.println("Phone bill for customer: " + bill.getCustomer());
+
         s.append("Phone bill for customer: ").append(bill.getCustomer()).append(separator).append(separator);
         s.append("Call to:\t")
                 .append("Call from:\t")
@@ -53,10 +53,10 @@ public class PrettyPrinter implements PhoneBillDumper {
                   .append(callDuration / 60000).append(" minutes").append(separator);
         }
         s.append(separator).append("\n").append("Total calls: ").append(bill.getPhoneCalls().size()).append(separator);
-        s.append("Total call time: ").append(totalCallTime / 60000).append(" minutes").append("\n");*/
+        s.append("Total call time: ").append(totalCallTime / 60000).append(" minutes").append("\n");
 
 
-
+        pw.println(String.valueOf(s));
         pw.flush();
 
     //Set destination and output data
