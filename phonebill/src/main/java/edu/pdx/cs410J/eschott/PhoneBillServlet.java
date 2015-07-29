@@ -29,17 +29,35 @@ public class PhoneBillServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        response.setContentType( "text/plain" );
-
         String customer = getParameter( "customer", request );
-        System.out.println("Before passing to writeValue(): " + customer);
-        if (customer != null) {
-            writeValue(customer, response);
-
-        } else {
-           // writeAllMappings(response);
+        PrintWriter pw = response.getWriter();
+        PhoneBill bill = this.data.get(customer);
+        if (bill == null) {
+            pw.println("No records exist for customer: " + customer);
+            response.setStatus( HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
+        response.setContentType( "text/plain" );
+        String start = getParameter( "startTime", request);
+        String end = getParameter( "endTime", request);
+        if (customer != null) {
+            if (start != null) {
+                if (end!=null) {
+                    System.out.println("Searching calls between " + start + " and " + end);
+                    printCallRange(customer, start, end, response);
+                } else {
+                    missingRequiredParameter( response, "endTime");
+                }
+            } else {
+                printBill(bill, response);
+            }
+        }
+
+        pw.flush();
+
     }
+
+
 
     /**
      * Handles an HTTP POST request by storing the key/value pair specified by the
@@ -56,7 +74,6 @@ public class PhoneBillServlet extends HttpServlet
             missingRequiredParameter( response, "customer" );
             return;
         }
-
         String callerNumber = getParameter( "callerNumber", request );
         if ( callerNumber == null) {
             missingRequiredParameter( response, "callerNumber" );
@@ -87,18 +104,16 @@ public class PhoneBillServlet extends HttpServlet
 
         //If phone bill exists, adds to it
         //otherwise creates new phone bill
-        PhoneBill bill = new PhoneBill();
+
         if (!this.data.containsKey(customer)) {
-            bill = new PhoneBill(customer);
+            PhoneBill bill = new PhoneBill(customer);
             bill.addPhoneCall(call);
             this.data.put(customer, bill);
         } else {
-            bill = this.data.get(customer);
+            PhoneBill bill = this.data.get(customer);
             bill.addPhoneCall(call);
             this.data.replace(customer, bill);
         }
-
-
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
@@ -124,22 +139,15 @@ public class PhoneBillServlet extends HttpServlet
      * The text of the message is formatted with {@link Messages#getMappingCount(int)}
      * and {@link Messages#formatKeyValuePair(String, String)}
      */
-    private void writeValue( String customer, HttpServletResponse response ) throws IOException
+    private void printBill( PhoneBill bill, HttpServletResponse response ) throws IOException
     {
-        PrintWriter pw = response.getWriter();
-        System.out.println("writeValue has: " + customer);
-        PhoneBill bill = this.data.get(customer);
-        if (bill == null) {
-            pw.println("No records exist for customer: " + customer);
-            response.setStatus( HttpServletResponse.SC_NOT_FOUND);
-        } else {
-            PrettyPrinter pp = new PrettyPrinter();
-            pp.dump(bill, response);
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
+        PrettyPrinter pp = new PrettyPrinter();
+        pp.dump(bill, response);
+        response.setStatus(HttpServletResponse.SC_OK);
 
-        pw.flush();
+    }
 
+    private void printCallRange(String customer, String start, String end, HttpServletResponse response) {
 
     }
 
