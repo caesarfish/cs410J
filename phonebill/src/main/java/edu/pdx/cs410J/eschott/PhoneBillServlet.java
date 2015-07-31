@@ -86,19 +86,19 @@ public class PhoneBillServlet extends HttpServlet
             missingRequiredParameter( response, "callerNumber" );
             return;
         }
-        String calleeNumber = getParameter( "calleeNumber", request );
+        String calleeNumber = getParameter("calleeNumber", request);
         if ( calleeNumber == null) {
             missingRequiredParameter( response, "calleeNumber" );
             return;
         }
-        String startTime = getParameter( "startTime", request );
+        String startTime = getParameter("startTime", request);
         if ( startTime == null) {
             missingRequiredParameter( response, "startTime" );
             return;
         }
-        String endTime = getParameter( "endTime", request );
+        String endTime = getParameter("endTime", request);
         if ( endTime == null) {
-            missingRequiredParameter( response, "endTime" );
+            missingRequiredParameter(response, "endTime");
             return;
         }
 
@@ -121,19 +121,18 @@ public class PhoneBillServlet extends HttpServlet
             this.data.replace(customer, bill);
         }
 
-        response.setStatus( HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.
      *
-     * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
     private void missingRequiredParameter( HttpServletResponse response, String parameterName )
         throws IOException
     {
         PrintWriter pw = response.getWriter();
-        pw.println( Messages.missingRequiredParameter(parameterName));
+        pw.println( String.format("The required parameter \"%s\" is missing", parameterName));
         pw.flush();
         
         response.setStatus( HttpServletResponse.SC_PRECONDITION_FAILED );
