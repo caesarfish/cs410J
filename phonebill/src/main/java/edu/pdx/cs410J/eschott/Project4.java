@@ -19,16 +19,19 @@ public class Project4 {
 
     public static void main(String... args) {
         ArrayList<String> argList = new ArrayList<>();
-        String hostName = null;
-        String portString = null;
+        String hostName;
+        String portString;
         String callerName;
-        String callerNumber;
-        String calleeNumber;
-        String startTime;
-        String endTime;
+        String callerNumber = "";
+        String calleeNumber = "";
+        String startTime = "";
+        String endTime = "";
 
 
         argList.addAll(Arrays.asList(args));
+        /*for (String arg : argList) {
+            System.out.println(arg.toString());
+        }*/
         CommandLineParser clp = new CommandLineParser(argList);
 
         hostName = clp.getHostName();
@@ -39,26 +42,32 @@ public class Project4 {
             System.exit(1); //prints README and exits
         }
 
-        if (clp.getArgs().size() != 9) {
-                usage(MISSING_ARGS);
-                System.exit(0);
+        callerName = clp.getArgs().get(0);
+        if (clp.checkSearchFlag() && clp.getArgs().size() == 7 ) {
+            startTime = clp.getArgs().get(1).concat(" ").concat(clp.getArgs().get(2).concat(" ").concat(clp.getArgs().get(3)));
+            endTime = clp.getArgs().get(4).concat(" ").concat(clp.getArgs().get(5).concat(" ").concat(clp.getArgs().get(6)));
+        } else if (clp.getArgs().size() == 9) {
+            callerNumber = clp.getArgs().get(1);
+            calleeNumber = clp.getArgs().get(2);
+            startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4).concat(" ").concat(clp.getArgs().get(5)));
+            endTime = clp.getArgs().get(6).concat(" ").concat(clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
+
+        } else {
+            usage(MISSING_ARGS);
+            System.exit(0);
         }
 
-        callerName = clp.getArgs().get(0);
-
-        //Assigns attributes from command line parser
-        callerNumber = clp.getArgs().get(1);
-        calleeNumber = clp.getArgs().get(2);
-        startTime = clp.getArgs().get(3).concat(" ").concat(clp.getArgs().get(4).concat(" ").concat(clp.getArgs().get(5)));
-        endTime = clp.getArgs().get(6).concat(" ").concat(clp.getArgs().get(7).concat(" ").concat(clp.getArgs().get(8)));
 
         //validates phone numbers
-        try {
-            Validator.validatePhoneNumber(callerNumber);
-            Validator.validatePhoneNumber(calleeNumber);
-        } catch (ParserException e) {
-            System.err.println("Invalid phone number format");
-            System.exit(0);
+        if (!callerNumber.equals("") || !calleeNumber.equals("")) {
+            try {
+                Validator.validatePhoneNumber(callerNumber);
+                Validator.validatePhoneNumber(calleeNumber);
+            } catch (ParserException e) {
+                System.err.println("Invalid phone number format");
+                System.exit(0);
+            }
+
         }
 
         //validates start and end time
@@ -95,23 +104,31 @@ public class Project4 {
 
         HttpRequestHelper.Response response;
 
-        if (callerName == null) {
-
-        }
-        try {
-            response = client.addPhoneCall(callerName, callerNumber, calleeNumber, startTime, endTime);
-        } catch (IOException e) {
-            error("While contacting server: " + e);
-            return;
-        }
-
-        if(clp.checkPrintFlag()) {
+        if (clp.checkSearchFlag()){
             try {
-                response = client.printPhoneCall(callerName);
+                response = client.searchPhoneCalls(callerName, startTime, endTime);
             } catch (IOException e) {
-                e.printStackTrace();
+                error("While contacting server: " + e);
+                return;
+            }
+
+        } else {
+            try {
+                response = client.addPhoneCall(callerName, callerNumber, calleeNumber, startTime, endTime);
+            } catch (IOException e) {
+                error("While contacting server: " + e);
+                return;
+            }
+
+            if(clp.checkPrintFlag()) {
+                try {
+                    response = client.printPhoneCall(callerName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
 
         checkResponseCode( HttpURLConnection.HTTP_OK, response);
 

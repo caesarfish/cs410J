@@ -11,8 +11,7 @@ import java.util.NoSuchElementException;
 public class CommandLineParser {
   private boolean readMe = false;
   private boolean print = false;
-  private String textFileName = null;
-  private String prettyFileName = null;
+  private boolean search = false;
   private String hostName = null;
   private String portString = null;
   private ArrayList<String> callArgs = new ArrayList<>();
@@ -55,6 +54,9 @@ public class CommandLineParser {
           case "-print":
             print = true;
             break;
+          case "-search":
+            search = true;
+            break;
           default:
             System.err.println("That option is not recognized. Please view README");
             break;
@@ -77,6 +79,12 @@ public class CommandLineParser {
    * @return true if -print flag was set
    */
   public boolean checkPrintFlag() { return print; }
+
+  /**
+   * Checks if search option is selected
+   * @return true if -search flag is set
+   */
+  public boolean checkSearchFlag() { return search; }
 
 
   public ArrayList<String> getArgs() {

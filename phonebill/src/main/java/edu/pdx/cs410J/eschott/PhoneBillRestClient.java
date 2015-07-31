@@ -28,14 +28,6 @@ public class PhoneBillRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns all keys and values from the server
-     */
-    /*public Response getAllKeysAndValues() throws IOException
-    {
-        return get(this.url );
-    }*/
-
-    /**
      * Returns all calls for the given customer
      */
     public Response printPhoneCall( String customer ) throws IOException
@@ -46,7 +38,11 @@ public class PhoneBillRestClient extends HttpRequestHelper
     public Response addPhoneCall( String customer, String callerNumber, String calleeNumber,
                                   String startTime, String endTime) throws IOException
     {
-        return post( this.url, "customer", customer, "callerNumber", callerNumber, "calleeNumber", calleeNumber,
+        return post(this.url, "customer", customer, "callerNumber", callerNumber, "calleeNumber", calleeNumber,
                 "startTime", startTime, "endTime", endTime);
+    }
+
+    public Response searchPhoneCalls(String customer, String startTime, String endTime) throws IOException {
+        return get(this.url, "customer", customer, "startTime", startTime, "endTime", endTime);
     }
 }
