@@ -16,6 +16,26 @@ import java.util.Arrays;
 public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
+    public static final String USAGE_NOTES = "usage: java edu.pdx.cs410J.<login-id>.Project4 [options] <args>\n" +
+            "args are (in this order):\n" +
+            "   customer :          Person whose phone bill we're modeling\n" +
+            "   callerNumber :      Phone number of caller\n" +
+            "   calleeNumber :      Phone number of person who was called\n" +
+            "   startTime :         Date and time call began (12-hour time)\n" +
+            "   endTime :           Date and time call ended (12-hour time)\n" +
+            "options are (options may appear in any order):\n" +
+            "   -host hostname :    Host computer on which the server runs\n" +
+            "   -port port :        Port on which the server is listening\n" +
+            "   -search :           Phone calls should be searched for\n" +
+            "   -print :            Prints a description of the new phone call\n" +
+            "   -README :           Prints a README for this project and exits\n" +
+            "The -search option should be followed only by start and end time arguments\n" +
+            "Date and time should be in the format: mm/dd/yyyy hh:mm a (ex. 1/1/2015 12:23 pm)\n" +
+            "Phone numbers should be in the format: ###-###-####";
+    public static final String PROJECT_DESCRIPTION = "Project Description: \n" +
+            "   This project records phone call details entered on the command line. Support\n" +
+            "   is provided for a phone bill server that provides REST-ful web services to \n" +
+            "   a phone bill client";
 
     public static void main(String... args) {
         ArrayList<String> argList = new ArrayList<>();
@@ -159,14 +179,7 @@ public class Project4 {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java Project4 host port");
-        err.println("  host    Host of web server");
-        err.println("  port    Port of web server");
-        err.println();
-        err.println("This simple program posts key/value pairs to the server");
-        err.println("If no value is specified, then all values are printed");
-        err.println("If no key is specified, all key/value pairs are printed");
-        err.println();
+        err.println(USAGE_NOTES);
 
         System.exit(1);
     }
@@ -174,30 +187,14 @@ public class Project4 {
     /**
      * Prints README
      */
-    private static void printReadMe() { //Todo: update readme
+    private static void printReadMe() {
         String readmeText = "README file for PhoneBill v1.4 \n" +
                 "Evan Schott \n" +
                 "CS410J \n" +
                 "Summer 2015 \n" +
-                "Project 4 \n" +
-                "Project Description: \n" +
-                "   This project records phone call details entered on the command line. \n" +
-                "usage: java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +
-                "args are (in this order):\n" +
-                "   customer : Person whose phone bill we're modeling\n" +
-                "   callerNumber : Phone number of caller\n" +
-                "   calleeNumber : Phone number of person who was called\n" +
-                "   startTime : Date and time call began (12-hour time)\n" +
-                "   endTime : Date and time call ended (12-hour time)\n" +
-                "options are (options may appear in any order):\n" +
-                "   -pretty : pretty print the phone bill to a text file\n" +
-                "             or standard out (file -)\n" +
-                "   -textFile file : Where to read/write the phone bill\n" +
-                "   -print : Prints a description of the new phone call\n" +
-                "   -README : Prints a README for this project and exits\n" +
-                "Date and time should be in the format: mm/dd/yyyy hh:mm a (ex. 1/1/2000 12:23 pm)\n" +
-                "Phone numbers should be in the format: ###-###-####";
-
+                "Project 4 \n";
         System.out.println(readmeText);
+        System.out.println(PROJECT_DESCRIPTION);
+        System.out.println(USAGE_NOTES);
     }
 }
