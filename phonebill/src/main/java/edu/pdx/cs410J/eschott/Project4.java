@@ -29,9 +29,6 @@ public class Project4 {
 
 
         argList.addAll(Arrays.asList(args));
-        /*for (String arg : argList) {
-            System.out.println(arg.toString());
-        }*/
         CommandLineParser clp = new CommandLineParser(argList);
 
         hostName = clp.getHostName();
@@ -40,8 +37,16 @@ public class Project4 {
         if(clp.checkReadMeFlag()){
             printReadMe();
             System.exit(1); //prints README and exits
+        } else {
+            if (hostName == null) {
+                usage( MISSING_ARGS );
+            } else if ( portString == null) {
+                usage( "Missing port" );
+            }
         }
 
+        //process command line args
+        //either search or add phone call
         callerName = clp.getArgs().get(0);
         if (clp.checkSearchFlag() && clp.getArgs().size() == 7 ) {
             startTime = clp.getArgs().get(1).concat(" ").concat(clp.getArgs().get(2).concat(" ").concat(clp.getArgs().get(3)));
@@ -57,7 +62,6 @@ public class Project4 {
             System.exit(0);
         }
 
-
         //validates phone numbers
         if (!callerNumber.equals("") || !calleeNumber.equals("")) {
             try {
@@ -67,7 +71,6 @@ public class Project4 {
                 System.err.println("Invalid phone number format");
                 System.exit(0);
             }
-
         }
 
         //validates start and end time
@@ -77,16 +80,6 @@ public class Project4 {
         } catch (ParserException e) {
             System.err.println(e.getMessage());
             System.exit(0);
-        }
-
-
-        if (!clp.checkReadMeFlag()) {
-            if (hostName == null) {
-                usage( MISSING_ARGS );
-
-            } else if ( portString == null) {
-                usage( "Missing port" );
-            }
         }
 
 
@@ -111,7 +104,6 @@ public class Project4 {
                 error("While contacting server: " + e);
                 return;
             }
-
         } else {
             try {
                 response = client.addPhoneCall(callerName, callerNumber, calleeNumber, startTime, endTime);
@@ -119,11 +111,11 @@ public class Project4 {
                 error("While contacting server: " + e);
                 return;
             }
-
             if(clp.checkPrintFlag()) {
                 try {
-                    response = client.printPhoneCall(callerName);
-                } catch (IOException e) {
+                    PhoneCall call = new PhoneCall(callerNumber, calleeNumber, startTime, endTime);
+                    System.out.println(call.toString());
+                } catch (ParserException e) {
                     e.printStackTrace();
                 }
             }

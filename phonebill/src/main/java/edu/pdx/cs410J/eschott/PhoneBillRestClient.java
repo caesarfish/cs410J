@@ -27,10 +27,12 @@ public class PhoneBillRestClient extends HttpRequestHelper
         this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
     }
 
+
+
     /**
      * Returns all calls for the given customer
      */
-    public Response printPhoneCall( String customer ) throws IOException
+    public Response printPhoneBill( String customer ) throws IOException
     {
         return get(this.url, "customer", customer);
     }

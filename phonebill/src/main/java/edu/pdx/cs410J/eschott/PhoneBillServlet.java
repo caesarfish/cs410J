@@ -172,25 +172,7 @@ public class PhoneBillServlet extends HttpServlet
         printBill(newBill, response);
     }
 
-    /**
-     * Writes all of the key/value pairs to the HTTP response.
-     *
-     * The text of the message is formatted with
-     * {@link Messages#formatKeyValuePair(String, String)}
-     */
-    private void writeAllMappings( HttpServletResponse response ) throws IOException
-    {
-        PrintWriter pw = response.getWriter();
-        pw.println(Messages.getMappingCount( data.size() ));
 
-        for (Map.Entry<String, PhoneBill> entry : this.data.entrySet()) {
-            pw.println(Messages.formatKeyValuePair(entry.getKey(), entry.getValue().toString()));
-        }
-
-        pw.flush();
-
-        response.setStatus( HttpServletResponse.SC_OK );
-    }
 
     /**
      * Returns the value of the HTTP request parameter with the given name.
