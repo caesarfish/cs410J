@@ -18,7 +18,7 @@ public class CommandLineParser {
 
   /**
    * Constructor for CommandLineParser
-   * Supports -README, -print, and -textFile file
+   * Supports -README, -print, and -search
    * @param args ArrayList of command line args
    */
   public CommandLineParser(ArrayList args){

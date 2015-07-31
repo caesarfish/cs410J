@@ -28,15 +28,27 @@ public class PhoneBillRestClient extends HttpRequestHelper
     }
 
 
-
     /**
-     * Returns all calls for the given customer
+     * Returns phone bill for the given customer
+     * @param customer Customer whose phone bill should print
+     * @return Returns response object
+     * @throws IOException
      */
     public Response printPhoneBill( String customer ) throws IOException
     {
         return get(this.url, "customer", customer);
     }
 
+    /**
+     * Posts a phone call add to the server
+     * @param customer Customer name
+     * @param callerNumber Originating phone number
+     * @param calleeNumber Destination phone number
+     * @param startTime Time call begins
+     * @param endTime Time call ends
+     * @return returns response object
+     * @throws IOException
+     */
     public Response addPhoneCall( String customer, String callerNumber, String calleeNumber,
                                   String startTime, String endTime) throws IOException
     {
@@ -44,6 +56,14 @@ public class PhoneBillRestClient extends HttpRequestHelper
                 "startTime", startTime, "endTime", endTime);
     }
 
+    /**
+     * Searches phone bill for calls with the given parameters
+     * @param customer Customer whose calls will be searched
+     * @param startTime Beginning of search time period
+     * @param endTime End of search time period
+     * @return Sends GET to server
+     * @throws IOException
+     */
     public Response searchPhoneCalls(String customer, String startTime, String endTime) throws IOException {
         return get(this.url, "customer", customer, "startTime", startTime, "endTime", endTime);
     }

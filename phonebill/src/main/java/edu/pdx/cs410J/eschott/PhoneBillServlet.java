@@ -25,10 +25,12 @@ public class PhoneBillServlet extends HttpServlet
     private final Map<String, PhoneBill> data = new HashMap<>();
 
     /**
-     * Handles an HTTP GET request from a client by writing the value of the key
-     * specified in the "key" HTTP parameter to the HTTP response.  If the "key"
-     * parameter is not specified, all of the key/value pairs are written to the
-     * HTTP response.
+     * Handles an HTTP GET request by printing out the bill or calls within
+     * the search range specified in the parameters passed in the request
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws ServletException
+     * @throws IOException
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
@@ -61,12 +63,13 @@ public class PhoneBillServlet extends HttpServlet
 
     }
 
-
-
     /**
-     * Handles an HTTP POST request by storing the key/value pair specified by the
-     * "key" and "value" request parameters.  It writes the key/value pair to the
-     * HTTP response.
+     * Handles an HTTP POST request by creating a phoneCall and adding it to the phoneBill record
+     * with the given parameters. If the phoneBill does not exist, it is created.
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws ServletException
+     * @throws IOException
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
@@ -137,10 +140,10 @@ public class PhoneBillServlet extends HttpServlet
     }
 
     /**
-     * Writes the value of the given key to the HTTP response.
-     *
-     * The text of the message is formatted with {@link Messages#getMappingCount(int)}
-     * and {@link Messages#formatKeyValuePair(String, String)}
+     * Prints the given phone bill
+     * @param bill bill to be printed
+     * @param response HttpServletResponse object
+     * @throws IOException
      */
     private void printBill( PhoneBill bill, HttpServletResponse response ) throws IOException
     {
@@ -150,6 +153,14 @@ public class PhoneBillServlet extends HttpServlet
 
     }
 
+    /**
+     * Prints the phone calls within the given time range
+     * @param bill phone bill containing phone call records
+     * @param start beginning of time range
+     * @param end end of time range
+     * @param response response object
+     * @throws IOException
+     */
     private void printCallRange(PhoneBill bill, String start, String end, HttpServletResponse response) throws IOException {
         Date startTime;
         Date endTime;
@@ -169,7 +180,13 @@ public class PhoneBillServlet extends HttpServlet
             }
         }
 
-        printBill(newBill, response);
+        if (newBill.getPhoneCalls().size() == 0) {
+            PrintWriter pw = response.getWriter();
+            pw.println( "No calls found between " + start + " and " + end + " for " + bill.getCustomer());
+            pw.flush();
+        } else {
+            printBill(newBill, response);
+        }
     }
 
 

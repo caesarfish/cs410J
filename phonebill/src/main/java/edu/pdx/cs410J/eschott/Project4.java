@@ -16,6 +16,7 @@ import java.util.Arrays;
 public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
+
     public static final String USAGE_NOTES = "usage: java edu.pdx.cs410J.<login-id>.Project4 [options] <args>\n" +
             "args are (in this order):\n" +
             "   customer :          Person whose phone bill we're modeling\n" +
@@ -32,6 +33,7 @@ public class Project4 {
             "The -search option should be followed only by start and end time arguments\n" +
             "Date and time should be in the format: mm/dd/yyyy hh:mm a (ex. 1/1/2015 12:23 pm)\n" +
             "Phone numbers should be in the format: ###-###-####";
+
     public static final String PROJECT_DESCRIPTION = "Project Description: \n" +
             "   This project records phone call details entered on the command line. Support\n" +
             "   is provided for a phone bill server that provides REST-ful web services to \n" +
@@ -162,6 +164,10 @@ public class Project4 {
         }
     }
 
+    /**
+     * Prints error information for this program and exits
+     * @param message an error message to print
+     */
     private static void error( String message )
     {
         PrintStream err = System.err;
