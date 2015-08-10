@@ -18,17 +18,28 @@ import java.util.Collection;
  * A basic GWT class that makes sure that we can send an Phone Bill back from the server
  */
 public class PhoneBillGwt implements EntryPoint {
+
+  private TextBox customerNameField;
+
   public void onModuleLoad() {
-    final TextBox customerNameField = new TextBox();
+    customerNameField = new TextBox();
 
     Button button = new Button("Get Customer phone bill");
-    button.addClickHandler(new ClickHandler() {
+    button.addClickHandler(createPhoneBill());
+
+      RootPanel rootPanel = RootPanel.get();
+      rootPanel.add(customerNameField);
+      rootPanel.add(button);
+  }
+
+  private ClickHandler createPhoneBill() {
+    return new ClickHandler() {
         public void onClick( ClickEvent clickEvent )
         {
           String customerName = customerNameField.getText();
           Window.alert("Customer name is " + customerName);
 
-          PingServiceAsync async = GWT.create( PingService.class );
+          PingServiceAsync async = GWT.create(PingService.class);
           async.ping( new AsyncCallback<AbstractPhoneBill>() {
 
               public void onFailure( Throwable ex )
@@ -48,10 +59,6 @@ public class PhoneBillGwt implements EntryPoint {
               }
           });
         }
-    });
-
-      RootPanel rootPanel = RootPanel.get();
-      rootPanel.add(customerNameField);
-      rootPanel.add(button);
+    };
   }
 }
