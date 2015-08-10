@@ -13,6 +13,7 @@ import java.lang.Override;
  */
 public class PingServiceImpl extends RemoteServiceServlet implements PingService
 {
+
   @Override
   public AbstractPhoneBill ping() {
     PhoneBill phonebill = new PhoneBill();

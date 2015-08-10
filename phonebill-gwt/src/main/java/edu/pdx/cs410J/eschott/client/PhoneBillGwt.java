@@ -8,8 +8,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
-import edu.pdx.cs410J.AbstractPhoneCall;
+import com.google.gwt.user.client.ui.TextBox;
 import edu.pdx.cs410J.AbstractPhoneBill;
+import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.util.Collection;
 
@@ -18,32 +19,39 @@ import java.util.Collection;
  */
 public class PhoneBillGwt implements EntryPoint {
   public void onModuleLoad() {
-    Button button = new Button("Ping Server");
+    TextBox customerNameField = new TextBox();
+
+    Button button = new Button("Get Customer phone bill");
     button.addClickHandler(new ClickHandler() {
         public void onClick( ClickEvent clickEvent )
         {
-            PingServiceAsync async = GWT.create( PingService.class );
-            async.ping( new AsyncCallback<AbstractPhoneBill>() {
+          String customerName = customerNameField.getText();
+          Window.alert("Customer name is " + customerName);
 
-                public void onFailure( Throwable ex )
-                {
-                    Window.alert(ex.toString());
-                }
+          PingServiceAsync async = GWT.create( PingService.class );
+          async.ping( new AsyncCallback<AbstractPhoneBill>() {
 
-                public void onSuccess( AbstractPhoneBill phonebill )
-                {
-                    StringBuilder sb = new StringBuilder( phonebill.toString() );
-                    Collection<AbstractPhoneCall> calls = phonebill.getPhoneCalls();
-                    for ( AbstractPhoneCall call : calls ) {
-                        sb.append(call);
-                        sb.append("\n");
-                    }
-                    Window.alert( sb.toString() );
-                }
-            });
+              public void onFailure( Throwable ex )
+              {
+                  Window.alert(ex.toString());
+              }
+
+              public void onSuccess( AbstractPhoneBill phonebill )
+              {
+                  StringBuilder sb = new StringBuilder( phonebill.toString() );
+                  Collection<AbstractPhoneCall> calls = phonebill.getPhoneCalls();
+                  for ( AbstractPhoneCall call : calls ) {
+                      sb.append(call);
+                      sb.append("\n");
+                  }
+                  Window.alert( sb.toString() );
+              }
+          });
         }
     });
+
       RootPanel rootPanel = RootPanel.get();
+      rootPanel.add(customerNameField);
       rootPanel.add(button);
   }
 }
