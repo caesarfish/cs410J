@@ -10,10 +10,25 @@ import java.util.Collection;
 public class PhoneBill extends AbstractPhoneBill
 {
   private Collection<AbstractPhoneCall> calls = new ArrayList<AbstractPhoneCall>();
+  private String customerName;
+
+  /**
+   * Method to create phone bill
+   * @param customerName
+   */
+  public PhoneBill(String customerName) {
+    this.customerName = customerName;
+  }
+
+  /**
+   * Default constructor needed for extending AbstractPhoneBill
+   */
+  public PhoneBill() {
+  }
 
   @Override
   public String getCustomer() {
-    return "CS410J";
+    return customerName;
   }
 
   @Override

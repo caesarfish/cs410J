@@ -15,8 +15,8 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
 {
 
   @Override
-  public AbstractPhoneBill ping() {
-    PhoneBill phonebill = new PhoneBill();
+  public AbstractPhoneBill ping(String customerName) {
+    PhoneBill phonebill = new PhoneBill(customerName);
     phonebill.addPhoneCall(new PhoneCall());
     return phonebill;
   }
