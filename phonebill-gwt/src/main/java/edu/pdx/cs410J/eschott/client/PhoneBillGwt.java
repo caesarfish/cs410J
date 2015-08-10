@@ -19,7 +19,7 @@ import java.util.Collection;
  */
 public class PhoneBillGwt implements EntryPoint {
   public void onModuleLoad() {
-    TextBox customerNameField = new TextBox();
+    final TextBox customerNameField = new TextBox();
 
     Button button = new Button("Get Customer phone bill");
     button.addClickHandler(new ClickHandler() {
