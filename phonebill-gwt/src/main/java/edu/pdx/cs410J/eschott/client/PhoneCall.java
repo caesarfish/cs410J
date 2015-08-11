@@ -1,38 +1,149 @@
 package edu.pdx.cs410J.eschott.client;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import edu.pdx.cs410J.AbstractPhoneCall;
+import edu.pdx.cs410J.ParserException;
 
-import java.lang.Override;
 import java.util.Date;
 
-public class PhoneCall extends AbstractPhoneCall
-{
+/**
+ * Created by Evan on 7/7/2015.
+ * Public class PhoneCall extends AbstractPhoneCall
+ */
+public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall>  {
+  private String callerNumber;
+  private String calleeNumber;
+  private Date startTime;
+  private Date endTime;
 
-  @Override
-  public String getCaller() {
-    return "123-345-6789";
+  /**
+   * Default constructor
+   */
+  public PhoneCall(){
   }
 
+  /**
+   * Primary constructor for PhoneCall object
+   * @param caller - the number of the person calling
+   * @param callee - the number being called
+   * @param callStart - datetime call begins
+   * @param callEnd - datetime call ends
+   * @throws ParserException from Validator class for caller to handle
+   */
+  public PhoneCall(String caller, String callee, String callStart, String callEnd) throws ParserException {
+    if (Validator.validatePhoneNumber(caller) && Validator.validatePhoneNumber(callee)) {
+      callerNumber = caller;
+      calleeNumber = callee;
+    }
+    if (Validator.validateDate(callStart) && Validator.validateDate(callEnd)) {
+      startTime = stringToDate(callStart);
+      endTime = stringToDate(callEnd);
+    }
+  }
+
+  /**
+   * Method for returning callerNumber
+   * @return callerNumber
+   */
+  public String getCaller() {
+    return this.callerNumber;
+  }
+
+  /**
+   * Method for returning calleeNumber
+   * @return calleeNumber
+   */
+  public String getCallee() {
+    return this.calleeNumber;
+  }
+
+  /**
+   * Method for return start time of call
+   * @return start time in Date format
+   */
   @Override
   public Date getStartTime() {
-    return new Date();
+    return startTime;
   }
 
-  public String getStartTimeString() {
-    return "START " + getStartTime();
+  /**
+   * Method for returning startTime
+   * @return startTime as string
+   */
+  public String getStartTimeString () {
+    return dateToString(getStartTime());
   }
 
   @Override
-  public String getCallee() {
-    return "345-677-2341";
-  }
-
   public Date getEndTime() {
-    return new Date();
+    return endTime;
   }
 
+  /**
+   * Method for returning endTime
+   * @return endTime
+   */
   public String getEndTimeString() {
-    return "END " + getEndTime();
+    return dateToString(getEndTime());
   }
 
+  /**
+   * Method to convert strings to date
+   */
+  private Date stringToDate(String stringToConvert)  {
+    DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
+    return dateFormat.parse(stringToConvert);
+  }
+
+  /**
+   * Method to convert date to string
+   */
+  private String dateToString(Date dateToConvert) {
+    return DateTimeFormat.getShortDateFormat().format(dateToConvert) + " " +
+            DateTimeFormat.getShortTimeFormat().format(dateToConvert);
+  }
+
+
+  /**
+   * @param o the object to be compared.
+   * @return a negative integer, zero, or a positive integer as this object
+   * is less than, equal to, or greater than the specified object.
+   * @throws NullPointerException if the specified object is null
+   * @throws ClassCastException   if the specified object's type prevents it
+   *                              from being compared to this object.
+   */
+  @SuppressWarnings("NullableProblems")
+  @Override
+  public int compareTo(PhoneCall o) {
+    Date date1 = stringToDate(dateToString(this.getStartTime())); //necessary for proper YY to YYYY comparison
+    Date date2 = stringToDate(dateToString(o.getStartTime()));
+    int dateComparison = date1.compareTo(date2);
+    if (dateComparison == 0) {
+      dateComparison = this.getCallee().compareTo(o.getCallee());
+    }
+    return dateComparison;
+  }
+
+  /**
+   * Overrides equals
+   * checks for equality of calls based on startTime and callee number
+   * @param o object to be compared to for equality
+   * @return true if phone calls are equal
+   */
+  @Override
+  public boolean equals(Object o) {
+    return (o instanceof PhoneCall) && ((PhoneCall) o).getStartTimeString().equals(this.getStartTimeString()) &&
+            ((PhoneCall) o).getCallee().equals(this.getCallee());
+  }
+
+  /**
+   * Overrides hashCode()
+   * @return hash
+   */
+  @Override
+  public int hashCode() {
+    int hash = Integer.parseInt(this.calleeNumber.substring(0, 2));
+    hash = (hash * 7)/3;
+    return hash;
+  }
 }

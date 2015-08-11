@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
+import edu.pdx.cs410J.ParserException;
 
 import java.util.Collection;
 
@@ -22,8 +23,11 @@ public class PhoneBillGwt implements EntryPoint {
   private TextBox callTo;
   private TextBox callStart;
   private TextBox callEnd;
+  private Label callText;
 
   public void onModuleLoad() {
+    callText = new Label();
+    DockPanel dock = new DockPanel();
 
     VerticalPanel v2 = createVertCallInfo();
 
@@ -31,8 +35,11 @@ public class PhoneBillGwt implements EntryPoint {
     tabAddPhoneCall.add(v2, "Call Information");
     tabAddPhoneCall.selectTab(0);
 
+    dock.add(tabAddPhoneCall, DockPanel.NORTH);
+    dock.add(callText, DockPanel.SOUTH);
+
     RootPanel rootPanel = RootPanel.get();
-    rootPanel.add(tabAddPhoneCall);
+    rootPanel.add(dock);
   }
 
   private VerticalPanel createVertCallInfo() {
@@ -81,6 +88,12 @@ public class PhoneBillGwt implements EntryPoint {
       public void onClick( ClickEvent clickEvent )
       {
         String customerName = customerNameField.getText();
+        try {
+          PhoneCall call = new PhoneCall(callFrom.getText(), callTo.getText(), callStart.getText(), callEnd.getText());
+        } catch (ParserException e) {
+          Window.alert(e.getMessage());
+        }
+
         PingServiceAsync async = GWT.create(PingService.class);
         async.ping(customerName, new AsyncCallback<AbstractPhoneBill>() {
 
@@ -95,7 +108,8 @@ public class PhoneBillGwt implements EntryPoint {
               sb.append(call);
               sb.append("\n");
             }
-            Window.alert(sb.toString());
+            //Window.alert(sb.toString());
+            callText.setText(sb.toString());
           }
         });
         }
