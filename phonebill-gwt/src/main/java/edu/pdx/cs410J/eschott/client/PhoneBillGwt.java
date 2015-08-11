@@ -49,6 +49,13 @@ public class PhoneBillGwt implements EntryPoint {
     callStart = new TextBox();
     callEnd = new TextBox();
 
+    //Set default values for testing
+    //Todo: remove default values
+    callFrom.setText("111-111-1111");
+    callTo.setText("222-222-2222");
+    callStart.setText("1/1/2015 1:00 pm");
+    callEnd.setText("1/1/2015 2:00 pm");
+
     HorizontalPanel hCustName = new HorizontalPanel();
     hCustName.add(new Label("Enter Customer Name: "));
     hCustName.add(customerNameField);
@@ -88,14 +95,15 @@ public class PhoneBillGwt implements EntryPoint {
       public void onClick( ClickEvent clickEvent )
       {
         String customerName = customerNameField.getText();
+        PhoneCall call = new PhoneCall();
         try {
-          PhoneCall call = new PhoneCall(callFrom.getText(), callTo.getText(), callStart.getText(), callEnd.getText());
+          call = new PhoneCall(callFrom.getText(), callTo.getText(), callStart.getText(), callEnd.getText());
         } catch (ParserException e) {
           Window.alert(e.getMessage());
         }
 
         PingServiceAsync async = GWT.create(PingService.class);
-        async.ping(customerName, new AsyncCallback<AbstractPhoneBill>() {
+        async.ping(customerName, call, new AsyncCallback<AbstractPhoneBill>() {
 
           public void onFailure(Throwable ex) {
             Window.alert(ex.toString());

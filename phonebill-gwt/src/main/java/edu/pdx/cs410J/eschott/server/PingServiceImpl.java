@@ -3,6 +3,7 @@ package edu.pdx.cs410J.eschott.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.eschott.client.PhoneBill;
+import edu.pdx.cs410J.eschott.client.PhoneCall;
 import edu.pdx.cs410J.eschott.client.PingService;
 
 /**
@@ -12,9 +13,19 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
 {
 
   @Override
-  public AbstractPhoneBill ping(String customerName) {
+  public AbstractPhoneBill ping(String customerName, PhoneCall call) {
     PhoneBill phonebill = new PhoneBill(customerName);
     return phonebill;
+  }
+
+  /**
+   * Returns the a dummy Phone Bill
+   *
+   * @param customerName
+   */
+  @Override
+  public AbstractPhoneBill ping(String customerName) {
+    return null;
   }
 
   /**

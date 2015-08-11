@@ -15,6 +15,10 @@ public interface PingService extends RemoteService {
    * @param customerName who the phone bill belongs to
    * @return
    */
-  public AbstractPhoneBill ping(String customerName);
+  public AbstractPhoneBill ping(String customerName, PhoneCall call);
 
+  /**
+   * Returns the a dummy Phone Bill
+   */
+  AbstractPhoneBill ping(String customerName);
 }
