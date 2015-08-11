@@ -6,9 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
@@ -20,16 +18,62 @@ import java.util.Collection;
 public class PhoneBillGwt implements EntryPoint {
 
   private TextBox customerNameField;
+  private TextBox callFrom;
+  private TextBox callTo;
+  private TextBox callStart;
+  private TextBox callEnd;
 
   public void onModuleLoad() {
+
+    VerticalPanel v2 = createVertCallInfo();
+
+    TabPanel tabAddPhoneCall = new TabPanel();
+    tabAddPhoneCall.add(v2, "Call Information");
+    tabAddPhoneCall.selectTab(0);
+
+    RootPanel rootPanel = RootPanel.get();
+    rootPanel.add(tabAddPhoneCall);
+  }
+
+  private VerticalPanel createVertCallInfo() {
     customerNameField = new TextBox();
+    callFrom = new TextBox();
+    callTo = new TextBox();
+    callStart = new TextBox();
+    callEnd = new TextBox();
+
+    HorizontalPanel hCustName = new HorizontalPanel();
+    hCustName.add(new Label("Enter Customer Name: "));
+    hCustName.add(customerNameField);
+
+    HorizontalPanel hCallFrom = new HorizontalPanel();
+    hCallFrom.add(new Label("Call from: "));
+    hCallFrom.add(callFrom);
+
+    HorizontalPanel hCallTo = new HorizontalPanel();
+    hCallTo.add(new Label("Call to: "));
+    hCallTo.add(callTo);
+
+    HorizontalPanel hCallStart = new HorizontalPanel();
+    hCallStart.add(new Label("Call start: "));
+    hCallStart.add(callStart);
+
+    HorizontalPanel hCallEnd = new HorizontalPanel();
+    hCallEnd.add(new Label("Call end: "));
+    hCallEnd.add(callEnd);
 
     Button button = new Button("Get Customer phone bill");
     button.addClickHandler(createPhoneCallOnServer());
 
-    RootPanel rootPanel = RootPanel.get();
-    rootPanel.add(customerNameField);
-    rootPanel.add(button);
+    VerticalPanel vert = new VerticalPanel();
+    vert.add(hCustName);
+    vert.add(hCallFrom);
+    vert.add(hCallTo);
+    vert.add(hCallStart);
+    vert.add(hCallEnd);
+    vert.add(button);
+
+    return vert;
   }
 
   private ClickHandler createPhoneCallOnServer() {
