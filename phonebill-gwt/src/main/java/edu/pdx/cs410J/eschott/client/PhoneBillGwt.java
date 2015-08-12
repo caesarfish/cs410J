@@ -1,17 +1,19 @@
 package edu.pdx.cs410J.eschott.client;
 
+import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractPhoneBill;
-import edu.pdx.cs410J.AbstractPhoneCall;
 import edu.pdx.cs410J.ParserException;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * A basic GWT class that makes sure that we can send an Phone Bill back from the server
@@ -23,20 +25,22 @@ public class PhoneBillGwt implements EntryPoint {
   private TextBox callTo;
   private TextBox callStart;
   private TextBox callEnd;
-  private Label callText;
+  private RichTextArea callText;
 
   public void onModuleLoad() {
-    callText = new Label();
+    callText = new RichTextArea();
+    callText.setWidth("1200px");
+    callText.setHeight("800px");
     DockPanel dock = new DockPanel();
 
     VerticalPanel v2 = createVertCallInfo();
 
-    TabPanel tabAddPhoneCall = new TabPanel();
-    tabAddPhoneCall.add(v2, "Call Information");
-    tabAddPhoneCall.selectTab(0);
+    TabPanel tabs = new TabPanel();
+    tabs.setWidth("600px");
+    tabs.add(v2, "Call Information");
+    tabs.selectTab(0);
 
-    dock.add(tabAddPhoneCall, DockPanel.NORTH);
-    dock.add(callText, DockPanel.SOUTH);
+    dock.add(tabs, DockPanel.NORTH);
 
     RootPanel rootPanel = RootPanel.get();
     rootPanel.add(dock);
@@ -90,6 +94,75 @@ public class PhoneBillGwt implements EntryPoint {
     return vert;
   }
 
+  public CellTable<PhoneCall> prettyPrint(final AbstractPhoneBill phoneBill) {
+    PhoneBill bill = (PhoneBill) phoneBill;
+    List<PhoneCall> calls = (List) phoneBill.getPhoneCalls();
+
+    //Create CellTable
+    CellTable<PhoneCall> table = new CellTable<>();
+
+    //Add CallFrom column
+    TextColumn<PhoneCall> callFromColumn = new TextColumn<PhoneCall>() {
+      @Override
+      public String getValue(PhoneCall phoneCall) {
+        return phoneCall.getCaller();
+
+      }
+    };
+    table.addColumn(callFromColumn, "Call From:");
+
+    //Add Call TO column
+    TextColumn<PhoneCall> callToColumn = new TextColumn<PhoneCall>() {
+
+      @Override
+      public String getValue(PhoneCall phoneCall) {
+        return phoneCall.getCallee();
+      }
+    };
+    table.addColumn(callToColumn, "Call To:");
+
+    //Add Call Start column
+    TextColumn<PhoneCall> startTimeColumn = new TextColumn<PhoneCall>() {
+
+      @Override
+      public String getValue(PhoneCall phoneCall) {
+        return phoneCall.getStartTimeString();
+      }
+    };
+    table.addColumn(startTimeColumn, "Start Time:");
+
+    //Add Call End column
+    TextColumn<PhoneCall> endTimeColumn = new TextColumn<PhoneCall>() {
+
+      @Override
+      public String getValue(PhoneCall phoneCall) {
+        return phoneCall.getEndTimeString();
+      }
+    };
+    table.addColumn(endTimeColumn, "End Time:");
+
+    //Add Call Duration column
+    NumberCell numCell = new NumberCell();
+    TextColumn<PhoneCall> callDurationColumn = new TextColumn<PhoneCall>() {
+
+      @Override
+      public String getValue(PhoneCall phoneCall) {
+        Long l = (phoneCall.getEndTime().getTime() - phoneCall.getStartTime().getTime())/60000;
+        String s = l.toString();
+        s += " minutes";
+        return s;
+      }
+    };
+    table.addColumn(callDurationColumn, "Call Duration:");
+
+
+    table.setRowCount(calls.size(), true);
+    table.setRowData(0, calls);
+
+    return table;
+
+  }
+
   private ClickHandler createPhoneCallOnServer() {
     return new ClickHandler() {
       public void onClick( ClickEvent clickEvent )
@@ -110,17 +183,14 @@ public class PhoneBillGwt implements EntryPoint {
           }
 
           public void onSuccess(AbstractPhoneBill phonebill) {
-            StringBuilder sb = new StringBuilder(phonebill.toString());
-            Collection<AbstractPhoneCall> calls = phonebill.getPhoneCalls();
-            for (AbstractPhoneCall call : calls) {
-              sb.append(call);
-              sb.append("\n");
-            }
-            //Window.alert(sb.toString());
-            callText.setText(sb.toString());
+            PhoneBill bill = (PhoneBill) phonebill;
+            CellTable<PhoneCall> table = prettyPrint(phonebill);
+            RootPanel.get().add(table);
           }
         });
         }
     };
   }
+
+
 }
