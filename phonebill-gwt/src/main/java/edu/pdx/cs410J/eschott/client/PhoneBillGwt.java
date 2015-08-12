@@ -37,7 +37,7 @@ public class PhoneBillGwt implements EntryPoint {
     deck = new DeckPanel();
 
     //Create the add call widget and add to deck
-    VerticalPanel vertCallInfo = createVertCallInfo();
+    VerticalPanel vertCallInfo = createVertCallAdd();
     deck.add(vertCallInfo); //index 1
 
     VerticalPanel vertDisplayCall = createVertDisplayCall();
@@ -85,7 +85,7 @@ public class PhoneBillGwt implements EntryPoint {
 
 
 
-  private VerticalPanel createVertCallInfo() {
+  private VerticalPanel createVertCallAdd() {
     customerAddNameField = new TextBox();
     callFrom = new TextBox();
     callTo = new TextBox();
@@ -138,6 +138,8 @@ public class PhoneBillGwt implements EntryPoint {
 
     //Create CellTable
     CellTable<PhoneCall> table = new CellTable<>();
+
+    //Add title row
 
     //Add CallFrom column
     TextColumn<PhoneCall> callFromColumn = new TextColumn<PhoneCall>() {
