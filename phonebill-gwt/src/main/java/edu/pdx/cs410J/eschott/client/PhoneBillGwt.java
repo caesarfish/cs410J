@@ -43,6 +43,9 @@ public class PhoneBillGwt implements EntryPoint {
     final VerticalPanel vertDisplayCall = createVertDisplayCall();
     deck.add(vertDisplayCall);
 
+    final VerticalPanel vertDisplayHelp = createVertDisplayHelp();
+    deck.add(vertDisplayHelp);
+
     //Create menu bar
     MenuBar taskMenu = new MenuBar();
     //Build Menu commands
@@ -57,14 +60,50 @@ public class PhoneBillGwt implements EntryPoint {
       }
     };
 
+
+    //Create submenus
+    MenuBar helpMenu = new MenuBar(true);
+    Command cmdShowHelp = new Command() {
+      public void execute() {
+        deck.showWidget(deck.getWidgetIndex(vertDisplayHelp));
+      }
+    };
+    helpMenu.addItem("View ReadMe", cmdShowHelp);
+
     //Add items to menu
     taskMenu.addItem("Add Call", cmdShowAddCall);
     taskMenu.addItem("Display Calls", cmdShowPhoneBillDisplay);
+    taskMenu.addItem("Help", helpMenu);
 
 
     RootPanel rootPanel = RootPanel.get();
     rootPanel.add(taskMenu);
     rootPanel.add(deck);
+  }
+
+  private VerticalPanel createVertDisplayHelp() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<h2>README file for PhoneBill v1.5</h2></br>");
+    sb.append("Author: Evan Schott</br>");
+    sb.append("Created for: CS410J</br>");
+    sb.append("</t>Summer 2015</br>");
+    sb.append("Project 5</br>");
+    sb.append("</br>");
+    sb.append("Project Description:</br>");
+    sb.append("<p>This project records phone call details entered in the web form. Support is provided</br>");
+    sb.append("for a phone bill server using Google Web Toolkit</p>");
+    sb.append("Instructions:</br>");
+    sb.append("<p>Create a new phone bill or add a call to an existing phone bill by selecting \"Add Call\"</br>");
+    sb.append("from the menu. Enter the customer name for the phone bill. If the customer already exists,</br>");
+    sb.append("the call will be added to the customer's phone bill. Otherwise, a new bill will be created</br>");
+    sb.append("with the customer name and call information provided.</p>");
+    sb.append("<p>To lookup a customer's phone bill records, select \"Display Calls\" from the menu. Enter</br>");
+    sb.append("the customer name and option search parameters to display the bill.</p></br>");
+
+    HTML readme = new HTML(sb.toString());
+    VerticalPanel vert = new VerticalPanel();
+    vert.add(readme);
+    return vert;
   }
 
   private VerticalPanel createVertDisplayCall() {

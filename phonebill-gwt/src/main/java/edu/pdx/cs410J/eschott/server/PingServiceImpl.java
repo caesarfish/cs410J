@@ -18,6 +18,12 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
   private final Map<String, PhoneBill> data = new HashMap<>();
 
 
+  /**
+   * Adds call to PhoneBill
+   * @param customerName who the phone bill belongs to
+   * @param call call information
+   * @return PhoneBill
+   */
   @Override
   public AbstractPhoneBill ping(String customerName, PhoneCall call) {
     //If phone bill exists, adds to it
@@ -35,9 +41,8 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
   }
 
   /**
-   * Returns the the Phone Bill for the given customer
-   *
-   * @param customerName
+   * Returns the the Phone Bill for the given customer   *
+   * @param customerName who the phone bill belongs to
    */
   @Override
   public AbstractPhoneBill ping(String customerName) {
