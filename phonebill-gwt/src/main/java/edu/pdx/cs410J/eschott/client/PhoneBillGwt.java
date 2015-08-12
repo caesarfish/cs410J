@@ -37,23 +37,23 @@ public class PhoneBillGwt implements EntryPoint {
     deck = new DeckPanel();
 
     //Create the add call widget and add to deck
-    VerticalPanel vertCallInfo = createVertCallAdd();
-    deck.add(vertCallInfo); //index 1
+    final VerticalPanel vertCallInfo = createVertCallAdd();
+    deck.add(vertCallInfo);
 
-    VerticalPanel vertDisplayCall = createVertDisplayCall();
-    deck.add(vertDisplayCall); //index 2
+    final VerticalPanel vertDisplayCall = createVertDisplayCall();
+    deck.add(vertDisplayCall);
 
     //Create menu bar
     MenuBar taskMenu = new MenuBar();
     //Build Menu commands
     Command cmdShowAddCall = new Command() {
       public void execute() {
-        deck.showWidget(0);
+        deck.showWidget(deck.getWidgetIndex(vertCallInfo));
       }
     };
     Command cmdShowPhoneBillDisplay = new Command() {
       public void execute() {
-        deck.showWidget(1);
+        deck.showWidget(deck.getWidgetIndex(vertDisplayCall));
       }
     };
 
@@ -217,8 +217,16 @@ public class PhoneBillGwt implements EntryPoint {
           public void onSuccess(AbstractPhoneBill phonebill) {
             PhoneBill bill = (PhoneBill) phonebill;
             CellTable<PhoneCall> table = prettyPrint(phonebill);
-            deck.add(table);
-            deck.showWidget(deck.getWidgetIndex(table));
+
+            //create panel to hold title and table
+            Label label = new Label("Displaying calls for: " + bill.getCustomer());
+            VerticalPanel vert = new VerticalPanel();
+            vert.add(label);
+            vert.add(table);
+
+            //add panel to deck and show
+            deck.add(vert);
+            deck.showWidget(deck.getWidgetIndex(vert));
           }
         });
       }
