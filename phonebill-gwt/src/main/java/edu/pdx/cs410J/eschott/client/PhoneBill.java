@@ -1,9 +1,12 @@
 package edu.pdx.cs410J.eschott.client;
 
+import com.google.gwt.user.client.Window;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class PhoneBill extends AbstractPhoneBill
 {
@@ -32,14 +35,20 @@ public class PhoneBill extends AbstractPhoneBill
   @Override
   public void addPhoneCall(AbstractPhoneCall call) {
     boolean found = false;
-    Iterator itr = calls.iterator();
+    for(PhoneCall o : calls) {
+      if (call.equals(o)){
+        Window.alert("Call already exists in phone bill");
+        found = true;
+      }
+    }
+    /*Iterator itr = calls.iterator();
     while (itr.hasNext()) {
       PhoneCall callInList = (PhoneCall)itr.next();
-      /*if (callInList.equals(call)){
+      *//*if (callInList.equals(call)){
         found = true;
         this.calls.add(call);
-      }*/
-    }
+      }*//*
+    }*/
     if (!found){
       this.calls.add((PhoneCall)call);
       Collections.sort(calls);

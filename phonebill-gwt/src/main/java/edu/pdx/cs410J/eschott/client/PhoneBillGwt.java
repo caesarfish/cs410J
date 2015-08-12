@@ -28,6 +28,8 @@ public class PhoneBillGwt implements EntryPoint {
   private TextBox callEnd;
   private DeckPanel deck;
   private TextBox customerLookupNameField;
+  private TextBox startTimeLookupField;
+  private TextBox endTimeLookupField;
 
   public void onModuleLoad() {
     deck = new DeckPanel();
@@ -108,11 +110,25 @@ public class PhoneBillGwt implements EntryPoint {
     hCustName.add(new Label("Enter Customer Name: "));
     hCustName.add(customerLookupNameField);
 
+    startTimeLookupField = new TextBox();
+    HorizontalPanel hStartTime = new HorizontalPanel();
+    hStartTime.add(new Label("Enter Beginning Time Range: "));
+    hStartTime.add(startTimeLookupField);
+    hStartTime.add(new Label("(optional)"));
+
+    endTimeLookupField = new TextBox();
+    HorizontalPanel hEndTime = new HorizontalPanel();
+    hEndTime.add(new Label("Enter Ending Time Range: "));
+    hEndTime.add(endTimeLookupField);
+    hEndTime.add(new Label("(optional)"));
+
     Button button = new Button("Get Customer Call Records");
     button.addClickHandler(getPhoneCallsFromServer());
 
     VerticalPanel vert = new VerticalPanel();
     vert.add(hCustName);
+    vert.add(hStartTime);
+    vert.add(hEndTime);
     vert.add(button);
     return vert;
 

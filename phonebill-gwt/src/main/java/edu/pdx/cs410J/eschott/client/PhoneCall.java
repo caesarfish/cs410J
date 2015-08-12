@@ -99,8 +99,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
    * Method to convert date to string
    */
   private String dateToString(Date dateToConvert) {
-    return DateTimeFormat.getShortDateFormat().format(dateToConvert) + " " +
-            DateTimeFormat.getShortTimeFormat().format(dateToConvert);
+    return dateToConvert.toString();
   }
 
 
@@ -124,8 +123,6 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
     } else {
       return 1;
     }
-
-
 
   }
 
