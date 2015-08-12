@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -26,24 +27,34 @@ public class PhoneBillGwt implements EntryPoint {
   private TextBox callStart;
   private TextBox callEnd;
   private RichTextArea callText;
+  private DeckPanel deck;
 
   public void onModuleLoad() {
     callText = new RichTextArea();
     callText.setWidth("1200px");
     callText.setHeight("800px");
-    DockPanel dock = new DockPanel();
+    deck = new DeckPanel();
 
+    //Create the add call widget and add to deck
     VerticalPanel v2 = createVertCallInfo();
+    deck.add(v2);
 
-    TabPanel tabs = new TabPanel();
-    tabs.setWidth("600px");
-    tabs.add(v2, "Call Information");
-    tabs.selectTab(0);
+    //Create menu bar
+    MenuBar taskMenu = new MenuBar();
+    //Menu commands
+    Command cmdShowAddCall = new Command() {
+      public void execute() {
+        deck.showWidget(0);
+      }
+    };
 
-    dock.add(tabs, DockPanel.NORTH);
+    taskMenu.addItem("Add Call", cmdShowAddCall);
+
+
 
     RootPanel rootPanel = RootPanel.get();
-    rootPanel.add(dock);
+    rootPanel.add(taskMenu);
+    rootPanel.add(deck);
   }
 
   private VerticalPanel createVertCallInfo() {
@@ -95,7 +106,6 @@ public class PhoneBillGwt implements EntryPoint {
   }
 
   public CellTable<PhoneCall> prettyPrint(final AbstractPhoneBill phoneBill) {
-    PhoneBill bill = (PhoneBill) phoneBill;
     List<PhoneCall> calls = (List) phoneBill.getPhoneCalls();
 
     //Create CellTable
@@ -185,7 +195,10 @@ public class PhoneBillGwt implements EntryPoint {
           public void onSuccess(AbstractPhoneBill phonebill) {
             PhoneBill bill = (PhoneBill) phonebill;
             CellTable<PhoneCall> table = prettyPrint(phonebill);
-            RootPanel.get().add(table);
+            Label label = new Label("Displaying phone bill for: " + bill.getCustomer());
+            RootPanel.get().add(label);
+            deck.add(table);
+            deck.showWidget(1);
           }
         });
         }
