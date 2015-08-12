@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,14 +28,10 @@ public class PhoneBillGwt implements EntryPoint {
   private TextBox callTo;
   private TextBox callStart;
   private TextBox callEnd;
-  private RichTextArea callText;
   private DeckPanel deck;
   private TextBox customerLookupNameField;
 
   public void onModuleLoad() {
-    callText = new RichTextArea();
-    callText.setWidth("1200px");
-    callText.setHeight("800px");
     deck = new DeckPanel();
 
     //Create the add call widget and add to deck
@@ -209,6 +207,7 @@ public class PhoneBillGwt implements EntryPoint {
       }
     };
     table.addColumn(startTimeColumn, "Start Time:");
+    startTimeColumn.setSortable(true);
 
     //Add Call End column
     TextColumn<PhoneCall> endTimeColumn = new TextColumn<PhoneCall>() {
@@ -234,6 +233,26 @@ public class PhoneBillGwt implements EntryPoint {
     };
     table.addColumn(callDurationColumn, "Call Duration:");
 
+    // Trying to get sorting to work
+    ColumnSortEvent.ListHandler<PhoneCall> columnSortHandler = new ColumnSortEvent.ListHandler<>(calls);
+    columnSortHandler.setComparator(startTimeColumn,
+            new Comparator<PhoneCall>() {
+              public int compare(PhoneCall o1, PhoneCall o2) {
+                if (o1.equals(o2)) {
+                  return 0;
+                }
+
+                // Compare the name columns.
+                if (o1 != null) {
+                  return (o2 != null) ? o1.getStartTime().compareTo(o2.getStartTime()) : 1;
+                }
+                return -1;
+              }
+            });
+    table.addColumnSortHandler(columnSortHandler);
+
+    // We know that the data is sorted alphabetically by default.
+    table.getColumnSortList().push(startTimeColumn);
 
     table.setRowCount(calls.size(), true);
     table.setRowData(0, calls);

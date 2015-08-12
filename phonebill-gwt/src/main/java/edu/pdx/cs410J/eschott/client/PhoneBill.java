@@ -3,12 +3,11 @@ package edu.pdx.cs410J.eschott.client;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 public class PhoneBill extends AbstractPhoneBill
 {
-  private Collection<AbstractPhoneCall> calls = new ArrayList<AbstractPhoneCall>();
+  private ArrayList<PhoneCall> calls = new ArrayList<PhoneCall>();
   private String customerName;
 
   /**
@@ -32,7 +31,20 @@ public class PhoneBill extends AbstractPhoneBill
 
   @Override
   public void addPhoneCall(AbstractPhoneCall call) {
-    this.calls.add(call);
+    boolean found = false;
+    Iterator itr = calls.iterator();
+    while (itr.hasNext()) {
+      PhoneCall callInList = (PhoneCall)itr.next();
+      /*if (callInList.equals(call)){
+        found = true;
+        this.calls.add(call);
+      }*/
+    }
+    if (!found){
+      this.calls.add((PhoneCall)call);
+      Collections.sort(calls);
+    }
+
   }
 
   @Override

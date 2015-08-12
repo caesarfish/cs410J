@@ -37,7 +37,7 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
       bill.addPhoneCall(call);
       this.data.replace(customerName, bill);
     }
-    return this.data.get(customerName);
+    return (AbstractPhoneBill)this.data.get(customerName);
   }
 
   /**
