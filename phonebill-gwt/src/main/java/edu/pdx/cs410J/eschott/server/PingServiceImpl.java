@@ -7,6 +7,7 @@ import edu.pdx.cs410J.eschott.client.PhoneBill;
 import edu.pdx.cs410J.eschott.client.PhoneCall;
 import edu.pdx.cs410J.eschott.client.PingService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,16 +44,29 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
   /**
    * Returns the the Phone Bill for the given customer   *
    * @param customerName who the phone bill belongs to
+   * @param startTime
+   * @param endTime
    */
   @Override
-  public AbstractPhoneBill ping(String customerName) {
+  public AbstractPhoneBill ping(String customerName, Date startTime, Date endTime) {
     PhoneBill bill = this.data.get(customerName);
+    PhoneBill newBill = new PhoneBill(customerName);
     if (bill == null) {
       //todo: should be handled in client
       Window.alert("Bill does not exist for this customer");
       return null;
     }
-    return bill;
+    if (startTime != null && endTime != null) {
+      for (Object o : bill.getPhoneCalls()) {
+        PhoneCall call = (PhoneCall) o;
+        if (call.getStartTime().after(startTime) && call.getEndTime().before(endTime)) {
+          newBill.addPhoneCall(call);
+        }
+      }
+      return newBill;
+    } else {
+      return bill;
+    }
   }
 
   /**

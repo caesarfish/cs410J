@@ -5,6 +5,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -258,8 +260,20 @@ public class PhoneBillGwt implements EntryPoint {
     return new ClickHandler() {
       public void onClick( ClickEvent clickEvent) {
         String customerName = customerLookupNameField.getText();
+        String startTime = startTimeLookupField.getText();
+        String endTime = endTimeLookupField.getText();
+        Date start;
+        Date end;
+        if (!"".equals(startTime) && !"".equals(endTime)) {
+          DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
+          start = dateFormat.parse(startTime);
+          end = dateFormat.parse(endTime);
+        } else {
+          start = null;
+          end = null;
+        }
         PingServiceAsync async = GWT.create(PingService.class);
-        async.ping(customerName, new AsyncCallback<AbstractPhoneBill>() {
+        async.ping(customerName, start, end, new AsyncCallback<AbstractPhoneBill>() {
 
           public void onFailure(Throwable ex) {
             Window.alert(ex.toString());

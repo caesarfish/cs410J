@@ -41,14 +41,6 @@ public class PhoneBill extends AbstractPhoneBill
         found = true;
       }
     }
-    /*Iterator itr = calls.iterator();
-    while (itr.hasNext()) {
-      PhoneCall callInList = (PhoneCall)itr.next();
-      *//*if (callInList.equals(call)){
-        found = true;
-        this.calls.add(call);
-      }*//*
-    }*/
     if (!found){
       this.calls.add((PhoneCall)call);
       Collections.sort(calls);

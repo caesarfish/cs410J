@@ -4,6 +4,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import edu.pdx.cs410J.AbstractPhoneBill;
 
+import java.util.Date;
+
 /**
  * A GWT remote service that returns a Phone Bill
  */
@@ -20,5 +22,5 @@ public interface PingService extends RemoteService {
   /**
    * Returns the a dummy Phone Bill
    */
-  AbstractPhoneBill ping(String customerName);
+  AbstractPhoneBill ping(String customerName, Date startTime, Date endTime);
 }
