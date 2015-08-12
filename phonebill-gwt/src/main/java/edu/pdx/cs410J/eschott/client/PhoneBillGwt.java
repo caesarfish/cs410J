@@ -36,26 +36,53 @@ public class PhoneBillGwt implements EntryPoint {
     deck = new DeckPanel();
 
     //Create the add call widget and add to deck
-    VerticalPanel v2 = createVertCallInfo();
-    deck.add(v2);
+    VerticalPanel vertCallInfo = createVertCallInfo();
+    deck.add(vertCallInfo); //index 1
+
+    VerticalPanel vertDisplayCall = createVertDisplayCall();
+    deck.add(vertDisplayCall); //index 2
 
     //Create menu bar
     MenuBar taskMenu = new MenuBar();
-    //Menu commands
+    //Build Menu commands
     Command cmdShowAddCall = new Command() {
       public void execute() {
         deck.showWidget(0);
       }
     };
+    Command cmdShowPhoneBillDisplay = new Command() {
+      public void execute() {
+        deck.showWidget(1);
+      }
+    };
 
+    //Add items to menu
     taskMenu.addItem("Add Call", cmdShowAddCall);
-
+    taskMenu.addItem("Display Calls", cmdShowPhoneBillDisplay);
 
 
     RootPanel rootPanel = RootPanel.get();
     rootPanel.add(taskMenu);
     rootPanel.add(deck);
   }
+
+  private VerticalPanel createVertDisplayCall() {
+    customerNameField = new TextBox();
+    HorizontalPanel hCustName = new HorizontalPanel();
+    hCustName.add(new Label("Enter Customer Name: "));
+    hCustName.add(customerNameField);
+
+    Button button = new Button("Get Customer Call Records");
+    button.addClickHandler(getPhoneCallsFromServer());
+
+    VerticalPanel vert = new VerticalPanel();
+    vert.add(hCustName);
+    vert.add(button);
+    return vert;
+
+  }
+
+
 
   private VerticalPanel createVertCallInfo() {
     customerNameField = new TextBox();
@@ -91,7 +118,7 @@ public class PhoneBillGwt implements EntryPoint {
     hCallEnd.add(new Label("Call end: "));
     hCallEnd.add(callEnd);
 
-    Button button = new Button("Get Customer phone bill");
+    Button button = new Button("Add Phone Call Record");
     button.addClickHandler(createPhoneCallOnServer());
 
     VerticalPanel vert = new VerticalPanel();
@@ -173,6 +200,30 @@ public class PhoneBillGwt implements EntryPoint {
 
   }
 
+  private ClickHandler getPhoneCallsFromServer() {
+    return new ClickHandler() {
+      public void onClick( ClickEvent clickEvent) {
+        String customerName = customerNameField.getText();
+        PingServiceAsync async = GWT.create(PingService.class);
+        async.ping(customerName, new AsyncCallback<AbstractPhoneBill>() {
+
+          public void onFailure(Throwable ex) {
+            Window.alert(ex.toString());
+          }
+
+          public void onSuccess(AbstractPhoneBill phonebill) {
+            PhoneBill bill = (PhoneBill) phonebill;
+            CellTable<PhoneCall> table = prettyPrint(phonebill);
+            Label label = new Label("Displaying phone bill for: " + bill.getCustomer());
+            RootPanel.get().add(label);
+            deck.add(table);
+            deck.showWidget(deck.getWidgetIndex(table));
+          }
+        });
+      }
+    };
+  }
+
   private ClickHandler createPhoneCallOnServer() {
     return new ClickHandler() {
       public void onClick( ClickEvent clickEvent )
@@ -195,13 +246,11 @@ public class PhoneBillGwt implements EntryPoint {
           public void onSuccess(AbstractPhoneBill phonebill) {
             PhoneBill bill = (PhoneBill) phonebill;
             CellTable<PhoneCall> table = prettyPrint(phonebill);
-            Label label = new Label("Displaying phone bill for: " + bill.getCustomer());
-            RootPanel.get().add(label);
             deck.add(table);
-            deck.showWidget(1);
+            deck.showWidget(deck.getWidgetIndex(table));
           }
         });
-        }
+      }
     };
   }
 
