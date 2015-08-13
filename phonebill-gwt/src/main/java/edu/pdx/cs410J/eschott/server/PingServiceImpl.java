@@ -2,10 +2,7 @@ package edu.pdx.cs410J.eschott.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.pdx.cs410J.AbstractPhoneBill;
-import edu.pdx.cs410J.eschott.client.InvalidCustomerNameException;
-import edu.pdx.cs410J.eschott.client.PhoneBill;
-import edu.pdx.cs410J.eschott.client.PhoneCall;
-import edu.pdx.cs410J.eschott.client.PingService;
+import edu.pdx.cs410J.eschott.client.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +23,7 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
    * @return PhoneBill
    */
   @Override
-  public AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException {
+  public AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException, PhoneCallAlreadyExistsException {
     //If phone bill exists, adds to it
     //otherwise creates new phone bill
     if (customerName == null || "".equals(customerName)) {

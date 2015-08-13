@@ -19,7 +19,7 @@ public interface PingService extends RemoteService {
    * @return returns phone bill
    * @throws InvalidCustomerNameException
    */
-  AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException;
+  AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException, PhoneCallAlreadyExistsException;
 
   /**
    * Returns a phone bill with the given parameters

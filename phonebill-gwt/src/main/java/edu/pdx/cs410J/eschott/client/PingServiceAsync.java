@@ -20,5 +20,5 @@ public interface PingServiceAsync {
    *
    * @param customerName who the phone bill belongs to
    */
-  void ping(String customerName, PhoneCall call, AsyncCallback<AbstractPhoneBill> async) throws InvalidCustomerNameException;
+  void ping(String customerName, PhoneCall call, AsyncCallback<AbstractPhoneBill> async) throws InvalidCustomerNameException, PhoneCallAlreadyExistsException;
 }

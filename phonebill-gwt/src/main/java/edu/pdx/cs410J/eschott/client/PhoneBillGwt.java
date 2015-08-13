@@ -308,6 +308,7 @@ public class PhoneBillGwt implements EntryPoint {
           call = new PhoneCall(callFrom.getText(), callTo.getText(), callStart.getText(), callEnd.getText());
         } catch (ParserException e) {
           Window.alert(e.getMessage());
+          return;
         }
 
         PingServiceAsync async = GWT.create(PingService.class);

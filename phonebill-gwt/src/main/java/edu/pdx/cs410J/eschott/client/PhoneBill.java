@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.eschott.client;
 
-import com.google.gwt.user.client.Window;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
@@ -34,17 +33,13 @@ public class PhoneBill extends AbstractPhoneBill
 
   @Override
   public void addPhoneCall(AbstractPhoneCall call) {
-    boolean found = false;
     for(PhoneCall o : calls) {
       if (call.equals(o)){
-        Window.alert("Call already exists in phone bill");
-        found = true;
+        throw new PhoneCallAlreadyExistsException("Call already exists in phone bill");
       }
     }
-    if (!found){
-      this.calls.add((PhoneCall)call);
-      Collections.sort(calls);
-    }
+    this.calls.add((PhoneCall)call);
+    Collections.sort(calls);
 
   }
 
