@@ -17,7 +17,7 @@ public class Validator {
   **/
   public static boolean validatePhoneNumber(String phoneNumber) throws ParserException{
     if (!phoneNumber.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-      throw new ParserException("Invalid phone number format");
+      throw new ParserException("Please enter a valid phone number in the format ###-###-####");
     }
     return true;
   }
@@ -33,7 +33,7 @@ public class Validator {
     try {
       Date date = dateFormat.parseStrict(dateToValidate);
     } catch (IllegalArgumentException e) {
-      throw new ParserException("Invalid date-time format");
+      throw new ParserException("Please enter a valid date in the format: \"1/1/2001 12:00 pm\"");
     }
     return true;
   }
