@@ -219,7 +219,8 @@ public class PhoneBillGwt implements EntryPoint {
 
       @Override
       public String getValue(PhoneCall phoneCall) {
-        return phoneCall.getStartTimeString();
+        DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
+        return dateFormat.format(phoneCall.getStartTime());
       }
     };
     table.addColumn(startTimeColumn, "Start Time:");
@@ -230,7 +231,8 @@ public class PhoneBillGwt implements EntryPoint {
 
       @Override
       public String getValue(PhoneCall phoneCall) {
-        return phoneCall.getEndTimeString();
+        DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
+        return dateFormat.format(phoneCall.getEndTime());
       }
     };
     table.addColumn(endTimeColumn, "End Time:");
@@ -320,7 +322,7 @@ public class PhoneBillGwt implements EntryPoint {
 
           public void onSuccess(AbstractPhoneBill phonebill) {
             PhoneBill bill = (PhoneBill) phonebill;
-            Window.alert("Added " + bill.toString());
+            Window.alert("Call was added to " + bill.getCustomer() + "'s phone bill");
           }
         });
       }
