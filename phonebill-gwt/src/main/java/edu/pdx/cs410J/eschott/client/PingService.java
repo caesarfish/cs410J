@@ -13,14 +13,21 @@ import java.util.Date;
 public interface PingService extends RemoteService {
 
   /**
-   * Returns a phone bill
+   * Adds a phone call to the given customer's bill
    * @param customerName who the phone bill belongs to
-   * @return
+   * @param call call to add to the phone bill
+   * @return returns phone bill
+   * @throws InvalidCustomerNameException
    */
-  public AbstractPhoneBill ping(String customerName, PhoneCall call);
+  AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException;
 
   /**
-   * Returns the a dummy Phone Bill
+   * Returns a phone bill with the given parameters
+   * @param customerName who the phone bill belongs to
+   * @param startTime beginning search time
+   * @param endTime end search time
+   * @return returns phone bill
+   * @throws InvalidCustomerNameException
    */
-  AbstractPhoneBill ping(String customerName, Date startTime, Date endTime);
+  AbstractPhoneBill ping(String customerName, Date startTime, Date endTime) throws InvalidCustomerNameException;
 }

@@ -276,7 +276,7 @@ public class PhoneBillGwt implements EntryPoint {
         async.ping(customerName, start, end, new AsyncCallback<AbstractPhoneBill>() {
 
           public void onFailure(Throwable ex) {
-            Window.alert(ex.toString());
+            Window.alert(ex.getMessage());
           }
 
           public void onSuccess(AbstractPhoneBill phonebill) {
@@ -314,7 +314,7 @@ public class PhoneBillGwt implements EntryPoint {
         async.ping(customerName, call, new AsyncCallback<AbstractPhoneBill>() {
 
           public void onFailure(Throwable ex) {
-            Window.alert(ex.toString());
+            Window.alert(ex.getMessage());
           }
 
           public void onSuccess(AbstractPhoneBill phonebill) {

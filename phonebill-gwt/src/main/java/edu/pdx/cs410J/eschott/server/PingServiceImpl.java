@@ -1,8 +1,8 @@
 package edu.pdx.cs410J.eschott.server;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.pdx.cs410J.AbstractPhoneBill;
+import edu.pdx.cs410J.eschott.client.InvalidCustomerNameException;
 import edu.pdx.cs410J.eschott.client.PhoneBill;
 import edu.pdx.cs410J.eschott.client.PhoneCall;
 import edu.pdx.cs410J.eschott.client.PingService;
@@ -26,9 +26,12 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
    * @return PhoneBill
    */
   @Override
-  public AbstractPhoneBill ping(String customerName, PhoneCall call) {
+  public AbstractPhoneBill ping(String customerName, PhoneCall call) throws InvalidCustomerNameException {
     //If phone bill exists, adds to it
     //otherwise creates new phone bill
+    if (customerName == null || "".equals(customerName)) {
+      throw new InvalidCustomerNameException("Customer name can not be blank");
+    }
     if (!this.data.containsKey(customerName)) {
       PhoneBill bill = new PhoneBill(customerName);
       bill.addPhoneCall(call);
@@ -38,23 +41,24 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
       bill.addPhoneCall(call);
       this.data.replace(customerName, bill);
     }
-    return (AbstractPhoneBill)this.data.get(customerName);
+    return this.data.get(customerName);
   }
 
   /**
    * Returns the the Phone Bill for the given customer   *
    * @param customerName who the phone bill belongs to
-   * @param startTime
-   * @param endTime
+   * @param startTime beginning of search range
+   * @param endTime end of search range
    */
   @Override
-  public AbstractPhoneBill ping(String customerName, Date startTime, Date endTime) {
+  public AbstractPhoneBill ping(String customerName, Date startTime, Date endTime) throws InvalidCustomerNameException {
+    if (customerName == null || "".equals(customerName)) {
+      throw new InvalidCustomerNameException("Customer name can not be blank");
+    }
     PhoneBill bill = this.data.get(customerName);
     PhoneBill newBill = new PhoneBill(customerName);
     if (bill == null) {
-      //todo: should be handled in client
-      Window.alert("Bill does not exist for this customer");
-      return null;
+      throw new InvalidCustomerNameException("No data exists for customer: " + customerName);
     }
     if (startTime != null && endTime != null) {
       for (Object o : bill.getPhoneCalls()) {
