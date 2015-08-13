@@ -1,13 +1,11 @@
 package edu.pdx.cs410J.eschott.client;
 
-import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -16,10 +14,9 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.ParserException;
 
 import java.util.Date;
-import java.util.List;
 
 /**
- * A basic GWT class that makes sure that we can send an Phone Bill back from the server
+ * A GWT class to create and retrieve phone bills from the server
  */
 public class PhoneBillGwt implements EntryPoint {
 
@@ -68,7 +65,7 @@ public class PhoneBillGwt implements EntryPoint {
         deck.showWidget(deck.getWidgetIndex(vertDisplayHelp));
       }
     };
-    helpMenu.addItem("View ReadMe", cmdShowHelp);
+    helpMenu.addItem("README", cmdShowHelp);
 
     //Add items to menu
     taskMenu.addItem("Add Call", cmdShowAddCall);
@@ -81,31 +78,11 @@ public class PhoneBillGwt implements EntryPoint {
     rootPanel.add(deck);
   }
 
-  private VerticalPanel createVertDisplayHelp() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("<h2>README file for PhoneBill v1.5</h2></br>");
-    sb.append("Author: Evan Schott</br>");
-    sb.append("Created for: CS410J</br>");
-    sb.append("</t>Summer 2015</br>");
-    sb.append("Project 5</br>");
-    sb.append("</br>");
-    sb.append("Project Description:</br>");
-    sb.append("<p>This project records phone call details entered in the web form. Support is provided</br>");
-    sb.append("for a phone bill server using Google Web Toolkit</p>");
-    sb.append("Instructions:</br>");
-    sb.append("<p>Create a new phone bill or add a call to an existing phone bill by selecting \"Add Call\"</br>");
-    sb.append("from the menu. Enter the customer name for the phone bill. If the customer already exists,</br>");
-    sb.append("the call will be added to the customer's phone bill. Otherwise, a new bill will be created</br>");
-    sb.append("with the customer name and call information provided.</p>");
-    sb.append("<p>To lookup a customer's phone bill records, select \"Display Calls\" from the menu. Enter</br>");
-    sb.append("the customer name and option search parameters to display the bill.</p></br>");
 
-    HTML readme = new HTML(sb.toString());
-    VerticalPanel vert = new VerticalPanel();
-    vert.add(readme);
-    return vert;
-  }
-
+  /**
+   * Creates a vertical panel for displaying calls
+   * @return VerticalPanel
+   */
   private VerticalPanel createVertDisplayCall() {
     customerLookupNameField = new TextBox();
     HorizontalPanel hCustName = new HorizontalPanel();
@@ -114,18 +91,22 @@ public class PhoneBillGwt implements EntryPoint {
     hCustName.add(new Label("Enter Customer Name:"));
     hCustName.add(customerLookupNameField);
 
+    HorizontalPanel hLabel = new HorizontalPanel();
+    hLabel.setSpacing(5);
+    hLabel.add(new Label("Select only calls that start between (optional):"));
+
     startTimeLookupField = new TextBox();
     HorizontalPanel hStartTime = new HorizontalPanel();
     hStartTime.setSpacing(5);
-    hStartTime.setWidth("400px");
-    hStartTime.add(new Label("Beginning Time Range(optional): "));
+    hStartTime.setWidth("300px");
+    hStartTime.add(new Label("Time range start: "));
     hStartTime.add(startTimeLookupField);
 
     endTimeLookupField = new TextBox();
     HorizontalPanel hEndTime = new HorizontalPanel();
     hEndTime.setSpacing(5);
-    hEndTime.setWidth("417px");
-    hEndTime.add(new Label("Ending Time Range(optional): "));
+    hEndTime.setWidth("312px");
+    hEndTime.add(new Label("Time range end: "));
     hEndTime.add(endTimeLookupField);
 
     Button button = new Button("Get Customer Call Records");
@@ -133,6 +114,7 @@ public class PhoneBillGwt implements EntryPoint {
 
     VerticalPanel vert = new VerticalPanel();
     vert.add(hCustName);
+    vert.add(hLabel);
     vert.add(hStartTime);
     vert.add(hEndTime);
     vert.add(button);
@@ -140,8 +122,10 @@ public class PhoneBillGwt implements EntryPoint {
 
   }
 
-
-
+  /**
+   * Creates a vertical panel for adding calls to phone bill
+   * @return VerticalPanel
+   */
   private VerticalPanel createVertCallAdd() {
     customerAddNameField = new TextBox();
     callFrom = new TextBox();
@@ -150,11 +134,11 @@ public class PhoneBillGwt implements EntryPoint {
     callEnd = new TextBox();
 
     //Set default values for testing
-    //Todo: remove default values
-    callFrom.setText("111-111-1111");
+    /*callFrom.setText("111-111-1111");
     callTo.setText("222-222-2222");
     callStart.setText("1/1/2015 1:00 pm");
     callEnd.setText("1/1/2015 2:00 pm");
+    */
 
     HorizontalPanel hCustName = new HorizontalPanel();
     hCustName.setSpacing(5);
@@ -200,78 +184,42 @@ public class PhoneBillGwt implements EntryPoint {
     return vert;
   }
 
-  public CellTable<PhoneCall> prettyPrint(final AbstractPhoneBill phoneBill) {
-    List<PhoneCall> calls = (List) phoneBill.getPhoneCalls();
+  /**
+   * Creates a vertical panel for help display
+   * @return VerticalPanel
+   */
+  private VerticalPanel createVertDisplayHelp() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<h2>README file for PhoneBill v1.5</h2></br>");
+    sb.append("Author: Evan Schott</br>");
+    sb.append("Created for: CS410J</br>");
+    sb.append("</t>Summer 2015</br>");
+    sb.append("Project 5</br>");
+    sb.append("</br>");
+    sb.append("Project Description:</br>");
+    sb.append("<p>This project records phone call details entered in the web form. Support is provided</br>");
+    sb.append("for a phone bill server using Google Web Toolkit</p>");
+    sb.append("Instructions:</br>");
+    sb.append("<p>Create a new phone bill or add a call to an existing phone bill by selecting \"Add Call\"</br>");
+    sb.append("from the menu. Enter the customer name for the phone bill. If the customer already exists,</br>");
+    sb.append("the call will be added to the customer's phone bill. Otherwise, a new bill will be created</br>");
+    sb.append("with the customer name and call information provided.</p>");
+    sb.append("<p>To lookup a customer's phone bill records, select \"Display Calls\" from the menu. Enter</br>");
+    sb.append("the customer name and optional search range to display the bill.</p>");
+    sb.append("<p>Phone numbers must be entered in the format: ###-###-####</p>");
+    sb.append("<p>Dates must be intered in the format: \"1/1/2001 12:00 pm\".</p>");
 
-    //Create CellTable
-    CellTable<PhoneCall> table = new CellTable<>();
-
-    //Add title row
-
-    //Add CallFrom column
-    TextColumn<PhoneCall> callFromColumn = new TextColumn<PhoneCall>() {
-      @Override
-      public String getValue(PhoneCall phoneCall) {
-        return phoneCall.getCaller();
-
-      }
-    };
-    table.addColumn(callFromColumn, "Call From:");
-
-    //Add Call TO column
-    TextColumn<PhoneCall> callToColumn = new TextColumn<PhoneCall>() {
-
-      @Override
-      public String getValue(PhoneCall phoneCall) {
-        return phoneCall.getCallee();
-      }
-    };
-    table.addColumn(callToColumn, "Call To:");
-
-    //Add Call Start column
-    TextColumn<PhoneCall> startTimeColumn = new TextColumn<PhoneCall>() {
-
-      @Override
-      public String getValue(PhoneCall phoneCall) {
-        DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
-        return dateFormat.format(phoneCall.getStartTime());
-      }
-    };
-    table.addColumn(startTimeColumn, "Start Time:");
-    startTimeColumn.setSortable(true);
-
-    //Add Call End column
-    TextColumn<PhoneCall> endTimeColumn = new TextColumn<PhoneCall>() {
-
-      @Override
-      public String getValue(PhoneCall phoneCall) {
-        DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
-        return dateFormat.format(phoneCall.getEndTime());
-      }
-    };
-    table.addColumn(endTimeColumn, "End Time:");
-
-    //Add Call Duration column
-    NumberCell numCell = new NumberCell();
-    TextColumn<PhoneCall> callDurationColumn = new TextColumn<PhoneCall>() {
-
-      @Override
-      public String getValue(PhoneCall phoneCall) {
-        Long l = (phoneCall.getEndTime().getTime() - phoneCall.getStartTime().getTime())/60000;
-        String s = l.toString();
-        s += " minutes";
-        return s;
-      }
-    };
-    table.addColumn(callDurationColumn, "Call Duration:");
-
-    table.setRowCount(calls.size(), true);
-    table.setRowData(0, calls);
-
-    return table;
-
+    HTML readme = new HTML(sb.toString());
+    VerticalPanel vert = new VerticalPanel();
+    vert.add(readme);
+    return vert;
   }
 
+
+  /**
+   * ClickHandler for retrieving phone calls from the server
+   * @return
+   */
   private ClickHandler getPhoneCallsFromServer() {
     return new ClickHandler() {
       public void onClick( ClickEvent clickEvent) {
@@ -299,7 +247,7 @@ public class PhoneBillGwt implements EntryPoint {
 
           public void onSuccess(AbstractPhoneBill phonebill) {
             PhoneBill bill = (PhoneBill) phonebill;
-            CellTable<PhoneCall> table = prettyPrint(phonebill);
+            CellTable<PhoneCall> table = bill.prettyPrint();
 
             //create panel to hold title and table
             Label label = new Label("Displaying calls for: " + bill.getCustomer());
@@ -316,6 +264,10 @@ public class PhoneBillGwt implements EntryPoint {
     };
   }
 
+  /**
+   * ClickHandler to create phone calls on the server
+   * @return
+   */
   private ClickHandler createPhoneCallOnServer() {
     return new ClickHandler() {
       public void onClick( ClickEvent clickEvent )

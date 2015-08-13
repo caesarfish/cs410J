@@ -53,6 +53,10 @@ public class PhoneBill extends AbstractPhoneBill
     return this.calls;
   }
 
+  /**
+   * Pretty prints the phone bill in a CellTable
+   * @return CellTable
+   */
   public CellTable<PhoneCall> prettyPrint() {
     List<PhoneCall> calls = (List) this.getPhoneCalls();
 
