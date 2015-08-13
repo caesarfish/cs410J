@@ -264,15 +264,17 @@ public class PhoneBillGwt implements EntryPoint {
         String customerName = customerLookupNameField.getText();
         String startTime = startTimeLookupField.getText();
         String endTime = endTimeLookupField.getText();
-        Date start;
-        Date end;
+        Date start = null;
+        Date end = null;
         if (!"".equals(startTime) && !"".equals(endTime)) {
           DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yy hh:mm a");
-          start = dateFormat.parse(startTime);
-          end = dateFormat.parse(endTime);
-        } else {
-          start = null;
-          end = null;
+          try {
+            start = dateFormat.parse(startTime);
+            end = dateFormat.parse(endTime);
+          } catch (IllegalArgumentException e) {
+            Window.alert("Please enter a valid date in the format: \"1/1/2001 12:00 pm\"");
+            return;
+          }
         }
         PingServiceAsync async = GWT.create(PingService.class);
         async.ping(customerName, start, end, new AsyncCallback<AbstractPhoneBill>() {

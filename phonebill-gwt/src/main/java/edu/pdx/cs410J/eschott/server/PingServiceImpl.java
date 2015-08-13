@@ -28,6 +28,8 @@ public class PingServiceImpl extends RemoteServiceServlet implements PingService
     //otherwise creates new phone bill
     if (customerName == null || "".equals(customerName)) {
       throw new InvalidCustomerNameException("Customer name can not be blank");
+    } else if (customerName.length() < 3) {
+      throw new InvalidCustomerNameException("Customer name should be at least 3 letters");
     }
     if (!this.data.containsKey(customerName)) {
       PhoneBill bill = new PhoneBill(customerName);
