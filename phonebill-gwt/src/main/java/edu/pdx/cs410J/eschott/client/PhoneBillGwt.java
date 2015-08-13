@@ -109,20 +109,24 @@ public class PhoneBillGwt implements EntryPoint {
   private VerticalPanel createVertDisplayCall() {
     customerLookupNameField = new TextBox();
     HorizontalPanel hCustName = new HorizontalPanel();
-    hCustName.add(new Label("Enter Customer Name: "));
+    hCustName.setSpacing(5);
+    hCustName.setWidth("480px");
+    hCustName.add(new Label("Enter Customer Name:"));
     hCustName.add(customerLookupNameField);
 
     startTimeLookupField = new TextBox();
     HorizontalPanel hStartTime = new HorizontalPanel();
-    hStartTime.add(new Label("Enter Beginning Time Range: "));
+    hStartTime.setSpacing(5);
+    hStartTime.setWidth("400px");
+    hStartTime.add(new Label("Beginning Time Range(optional): "));
     hStartTime.add(startTimeLookupField);
-    hStartTime.add(new Label("(optional)"));
 
     endTimeLookupField = new TextBox();
     HorizontalPanel hEndTime = new HorizontalPanel();
-    hEndTime.add(new Label("Enter Ending Time Range: "));
+    hEndTime.setSpacing(5);
+    hEndTime.setWidth("417px");
+    hEndTime.add(new Label("Ending Time Range(optional): "));
     hEndTime.add(endTimeLookupField);
-    hEndTime.add(new Label("(optional)"));
 
     Button button = new Button("Get Customer Call Records");
     button.addClickHandler(getPhoneCallsFromServer());
@@ -153,22 +157,32 @@ public class PhoneBillGwt implements EntryPoint {
     callEnd.setText("1/1/2015 2:00 pm");
 
     HorizontalPanel hCustName = new HorizontalPanel();
+    hCustName.setSpacing(5);
+    hCustName.setWidth("400px");
     hCustName.add(new Label("Enter Customer Name: "));
     hCustName.add(customerAddNameField);
 
     HorizontalPanel hCallFrom = new HorizontalPanel();
+    hCallFrom.setSpacing(5);
+    hCallFrom.setWidth("700px");
     hCallFrom.add(new Label("Call from: "));
     hCallFrom.add(callFrom);
 
     HorizontalPanel hCallTo = new HorizontalPanel();
+    hCallTo.setSpacing(5);
+    hCallTo.setWidth("890px");
     hCallTo.add(new Label("Call to: "));
     hCallTo.add(callTo);
 
     HorizontalPanel hCallStart = new HorizontalPanel();
+    hCallStart.setSpacing(5);
+    hCallStart.setWidth("710px");
     hCallStart.add(new Label("Call start: "));
     hCallStart.add(callStart);
 
     HorizontalPanel hCallEnd = new HorizontalPanel();
+    hCallEnd.setSpacing(5);
+    hCallEnd.setWidth("740px");
     hCallEnd.add(new Label("Call end: "));
     hCallEnd.add(callEnd);
 
